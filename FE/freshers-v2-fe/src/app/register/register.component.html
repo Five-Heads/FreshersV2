@@ -1,0 +1,71 @@
+<body class="align">
+<div class="grid">
+  <div class="row mb-3">
+    <h2 class="login__title ">
+      Register
+    </h2>
+  </div>
+  <form *ngIf="!!formGroup"
+        class="form login"
+        [formGroup]="formGroup"
+        (ngSubmit)="submitForm()">
+    <div class="form__field form-group">
+      <label for="login__username">
+        <fa-icon [icon]="faUser"></fa-icon>
+        <span class="hidden">Username</span></label>
+      <input
+        id="login__username"
+        type="text"
+        name="username"
+        class="form__input"
+        placeholder="Username"
+        formControlName="username">
+    </div>
+    <div class="form__field form-group">
+      <label for="login__fn">
+        <fa-icon [icon]="faGraduationCap"></fa-icon>
+        <span class="hidden">FN:</span></label>
+      <input
+        id="login__fn"
+        type="text"
+        name="fn"
+        class="form__input"
+        placeholder="FN"
+        formControlName="fn">
+    </div>
+    <div class="form__field form-group">
+      <label for="login__email">
+        <fa-icon [icon]="faEnvelope"></fa-icon>
+        <span class="hidden">FN:</span></label>
+      <input
+        id="login__email"
+        type="text"
+        name="email"
+        class="form__input"
+        placeholder="Email"
+        formControlName="email">
+    </div>
+    <div class="form__field form-group">
+      <label for="login__password">
+        <fa-icon [icon]="faLock"></fa-icon>
+        <span class="hidden">Password</span></label>
+      <input
+        id="login__password"
+        type="password"
+        name="password"
+        class="form__input"
+        placeholder="Password"
+        formControlName="password"
+        required>
+    </div>
+    <div class="form__field">
+      <input type="submit" class="btn" value="Register">
+    </div>
+  </form>
+  <p class="text--center">Not a member? <a href="/login">Sign up now</a>
+    <svg class="icon">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/images/icons.svg#arrow-right"></use>
+    </svg>
+  </p>
+</div>
+</body>
