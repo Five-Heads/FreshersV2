@@ -25,7 +25,7 @@ namespace FreshersV2.Services.Identity
                 return false;
             }
 
-            return await this.userManager.CheckPasswordAsync(user, model.Password); ;
+            return await this.userManager.CheckPasswordAsync(user, model.Password);
         }
 
         public async Task<bool> Register(RegisterRequestModel model)
@@ -38,7 +38,6 @@ namespace FreshersV2.Services.Identity
             };
 
             var identityResult = await userManager.CreateAsync(user, model.Password);
-
             return identityResult.Succeeded;
         }
 
