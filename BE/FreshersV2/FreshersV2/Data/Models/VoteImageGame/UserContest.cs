@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace FreshersV2.Data.Models.VoteImageGame
 {
     public class UserContest
@@ -13,8 +11,6 @@ namespace FreshersV2.Data.Models.VoteImageGame
         public int ContestId { get; set; }
 
         public VoteImageContest Contest { get; set; }
-
-        public bool IsDrawing { get; set; }
 
         public List<VoteImage> Images { get; set; } = new List<VoteImage>();
         public List<RoundDrawingUser> RoundsDrawing { get; set; } = new List<RoundDrawingUser>();
