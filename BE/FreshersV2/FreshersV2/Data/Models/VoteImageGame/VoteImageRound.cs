@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FreshersV2.Data.Models.VoteImageGame
+﻿namespace FreshersV2.Data.Models.VoteImageGame
 {
     public class VoteImageRound
     {

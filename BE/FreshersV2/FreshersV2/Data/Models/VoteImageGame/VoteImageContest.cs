@@ -15,6 +15,9 @@ namespace FreshersV2.Data.Models.VoteImageGame
 
         public int DrawTime { get; set; }
 
+        //Comma separated
+        public string Words { get; set; }
+
         public List<User> Participants { get; set; } = new List<User>();
         public List<Round> Rounds { get; set; } = new List<Round>();
         public List<VoteImage> Images { get; set; } = new List<VoteImage>();

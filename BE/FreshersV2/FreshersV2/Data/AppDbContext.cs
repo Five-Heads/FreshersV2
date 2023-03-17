@@ -42,17 +42,17 @@ namespace FreshersV2.Data
 
         #region VoteImage
 
-        //public DbSet<VoteImage> Images { get; set; }
+        public DbSet<VoteImage> Images { get; set; }
 
-        //public DbSet<VoteImageContest> Contests { get; set; }
+        public DbSet<VoteImageContest> Contests { get; set; }
 
-        //public DbSet<UserContest> UserContests { get; set; }
+        public DbSet<UserContest> UserContests { get; set; }
 
-        //public DbSet<Round> Rounds { get; set; }
+        public DbSet<Round> Rounds { get; set; }
 
-        //public DbSet<RoundVote> RoundVotes { get; set; }
+        public DbSet<RoundVote> RoundVotes { get; set; }
 
-        //public DbSet<RoundDrawingUser> RoundDrawingUsers { get; set; }
+        public DbSet<RoundDrawingUser> RoundDrawingUsers { get; set; }
         #endregion
 
 
@@ -75,12 +75,12 @@ namespace FreshersV2.Data
             builder.ApplyConfiguration(new BlurredImageContestConfiguration());
             builder.ApplyConfiguration(new UserBlurredImageContestConfiguration());
 
-            //builder.ApplyConfiguration(new VoteImageConfiguration());
-            //builder.ApplyConfiguration(new VoteImageContestConfiguration());
-            //builder.ApplyConfiguration(new UserContestConfiguration());
-            //builder.ApplyConfiguration(new RoundVoteConfiguration());
-            //builder.ApplyConfiguration(new RoundConfiguration());
-            //builder.ApplyConfiguration(new RoundDrawingUserConfiguration());
+            builder.ApplyConfiguration(new VoteImageConfiguration());
+            builder.ApplyConfiguration(new VoteImageContestConfiguration());
+            builder.ApplyConfiguration(new UserContestConfiguration());
+            builder.ApplyConfiguration(new RoundVoteConfiguration());
+            builder.ApplyConfiguration(new RoundConfiguration());
+            builder.ApplyConfiguration(new RoundDrawingUserConfiguration());
 
             base.OnModelCreating(builder);
         }

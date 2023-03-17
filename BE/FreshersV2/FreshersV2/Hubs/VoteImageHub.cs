@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FreshersV2.Infrastructure.Extensions;
+using FreshersV2.Jobs;
 using FreshersV2.Services.ImageVote;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -13,12 +11,9 @@ namespace FreshersV2.Hubs
     [Authorize]
     public class VoteImageHub : Hub
     {
-        private const string JoinContestRequest = "JoinContest";
-        private const string StartRoundRequest = "StartRound";
-
         private readonly IImageVoteService imageVoteService;
 
-        public VoteImageHub(IImageVoteService imageVoteService)
+        public VoteImageHub(IImageVoteService imageVoteService, VoteRoundJob voteRoundJob)
         {
             this.imageVoteService = imageVoteService;
         }
@@ -41,7 +36,6 @@ namespace FreshersV2.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-
         public async Task JoinContest(string contestId)
         {
             await Groups.AddToGroupAsync(this.Context.ConnectionId, contestId);
@@ -63,44 +57,13 @@ namespace FreshersV2.Hubs
             });
         }
 
-        [HubMethodName(StartRoundRequest)]
-        public async Task SendStartRound(string contestId, string roundId)
-        {
-            // TODO: create ROUND
-            // TODO: send specific WillDraw info
-            await Clients.Group(contestId).SendAsync(StartRoundRequest, roundId);
-        }
-
-        public async Task SendEndRound(string contestId, string roundId)
-        => await Clients.Group(contestId).SendAsync("EndRound", roundId);
-
-        public async Task StartVote(string contestId, string roundId)
-        => await Clients.Group(contestId).SendAsync("StartVOte", roundId);
-
-
-        public async Task VoteForImage()
-        {
-            await Clients.Group("contestId").SendAsync("VoteForImage", "roundId", "IM1", "IM2");
-        }
-
-        public async Task CastVote(string contestId, int roundId, string imageId)
+        public async Task CastVote(int contestId, int roundId, int imageId)
         {
             var userId = this.Context.User.GetUserId();
-            await this.imageVoteService.CastVote(contestId, roundId, imageId, userId);
+            await this.imageVoteService.CastVote(contestId, roundId, userId, imageId);
         }
 
-        public async Task EndVote(string contestId, string roundId)
-        {
-            // TODO: Show vote results
-            await Clients.Group(contestId).SendAsync("EndVote", roundId);
-        }
-
-        public async Task EndContest(string contestId)
-        {
-            await Clients.Group(contestId).SendAsync("EndContest", contestId);
-        }
-
-        public async Task SendImage(string contestId, int roundId, string imageBase64)
+        public async Task SendImage(int contestId, int roundId, string imageBase64)
         {
             var userId = this.Context.User.GetUserId();
             await this.imageVoteService.SaveImage(contestId, roundId, userId, imageBase64);

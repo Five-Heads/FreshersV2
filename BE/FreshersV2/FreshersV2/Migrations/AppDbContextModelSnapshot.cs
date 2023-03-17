@@ -40,7 +40,7 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BaseImages");
+                    b.ToTable("BaseImages", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.BlurredImage", b =>
@@ -65,7 +65,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("BaseImageId");
 
-                    b.ToTable("BlurredImages");
+                    b.ToTable("BlurredImages", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.BlurredImageContest", b =>
@@ -94,7 +94,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("WinnerId");
 
-                    b.ToTable("BlurredImageContests");
+                    b.ToTable("BlurredImageContests", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.UserBlurredImageContest", b =>
@@ -115,7 +115,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("BlurredImageContestId");
 
-                    b.ToTable("UserBlurredImageContests");
+                    b.ToTable("UserBlurredImageContests", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.Checkpoint", b =>
@@ -161,7 +161,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("TreasureHuntId");
 
-                    b.ToTable("Checkpoints");
+                    b.ToTable("Checkpoints", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.Group", b =>
@@ -178,7 +178,7 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.GroupTreasureHunt", b =>
@@ -211,7 +211,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("NextId");
 
-                    b.ToTable("GroupTreasureHunts");
+                    b.ToTable("GroupTreasureHunts", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.TreasureHunt", b =>
@@ -228,7 +228,7 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TreasureHunts");
+                    b.ToTable("TreasureHunts", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
@@ -319,7 +319,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("UserGroups");
+                    b.ToTable("UserGroups", (string)null);
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.UserTreasureHunt", b =>
@@ -343,7 +343,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("TreasureHuntId");
 
-                    b.ToTable("UserTreasureHunts");
+                    b.ToTable("UserTreasureHunts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FreshersV2.Data.Models.VoteImageGame
@@ -7,6 +6,8 @@ namespace FreshersV2.Data.Models.VoteImageGame
     {
         [Key]
         public int Id { get; set; }
+
+        public string Word { get; set; }
 
         public int RoundNumber { get; set; }
 
