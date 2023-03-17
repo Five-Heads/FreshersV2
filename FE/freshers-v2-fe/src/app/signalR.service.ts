@@ -53,6 +53,8 @@ export class SignalRService implements IDisposable {
     private initEvents() {
         this.connection.on("NewMessage", (data: any) => {
             // work with global state
+
+            
         })
     }
 }

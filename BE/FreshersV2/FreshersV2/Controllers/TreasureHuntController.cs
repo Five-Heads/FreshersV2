@@ -18,16 +18,26 @@ namespace FreshersV2.Controllers
         }
 
         [HttpGet("my")]
-        public async Task My()
+        public async Task<List<TreasureHunt>> My()
         {
-            var role = this.ExtractClaim<string>(ClaimTypes.Role);
-            if (role != Enum.GetName(typeof(Role), Role.Admin))
+            var userId = this.ExtractClaim<string>(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
             {
-                return;
+                return new List<TreasureHunt>();
             }
 
-            var userId = this.ExtractClaim<string>(ClaimTypes.NameIdentifier);
-            var a = 5;
+            return await this.treasureHuntService.GetUserTreasureHunts(userId);
+        }
+
+        [HttpPost("Start/{id}")]
+        public async Task Start([FromRoute]int id)
+        {
+
+        }
+
+        [HttpPost("Continue/{id}")]
+        public async Task Continue([FromRoute] int id)
+        {
 
         }
     }

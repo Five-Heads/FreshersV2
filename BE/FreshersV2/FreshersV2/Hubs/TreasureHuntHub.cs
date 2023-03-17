@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FreshersV2.Hubs
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class TestHub : Hub
+    public class TreasureHuntHub : Hub
     {
         // userId: connectionId
         public static readonly ConcurrentDictionary<string, string> ConnectionsMap
