@@ -143,7 +143,7 @@ namespace FreshersV2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number")
+                    b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("QRCode")
@@ -222,9 +222,15 @@ namespace FreshersV2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -254,15 +260,15 @@ namespace FreshersV2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GroupId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -296,6 +302,8 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -305,21 +313,6 @@ namespace FreshersV2.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("FreshersV2.Data.Models.UserGroup", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.UserTreasureHunt", b =>
@@ -565,23 +558,15 @@ namespace FreshersV2.Migrations
                     b.Navigation("TreasureHunt");
                 });
 
-            modelBuilder.Entity("FreshersV2.Data.Models.UserGroup", b =>
+            modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
                 {
                     b.HasOne("FreshersV2.Data.Models.Group", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FreshersV2.Data.Models.User", "User")
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.UserTreasureHunt", b =>
@@ -679,11 +664,6 @@ namespace FreshersV2.Migrations
             modelBuilder.Entity("FreshersV2.Data.Models.TreasureHunt", b =>
                 {
                     b.Navigation("Checkpoints");
-                });
-
-            modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
-                {
-                    b.Navigation("Groups");
                 });
 #pragma warning restore 612, 618
         }

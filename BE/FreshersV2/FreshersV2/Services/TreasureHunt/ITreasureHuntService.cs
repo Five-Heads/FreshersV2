@@ -1,4 +1,4 @@
-﻿using FreshersV2.Models.TreasureHunt.Continue;
+﻿using FreshersV2.Models.TreasureHunt.Start;
 
 namespace FreshersV2.Services.TreasureHunt
 {
@@ -6,6 +6,6 @@ namespace FreshersV2.Services.TreasureHunt
     {
         Task<List<Data.Models.TreasureHunt>> GetUserTreasureHunts(string userId);
 
-        Task<ContinueTreasureHuntResponseModel> GetContinueTreasureHuntModel(int treasureHuntId);
+        Task<StartTreasureHuntResponseModel> StartTreasureHunt(int treasureHuntId, string userId);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using FreshersV2.Models.Group;
 using FreshersV2.Models.TreasureHunt.NextCheckpoint;
 
-namespace FreshersV2.Models.TreasureHunt.Continue
+namespace FreshersV2.Models.TreasureHunt.Start
 {
-    public class ContinueTreasureHuntResponseModel
+    public class StartTreasureHuntResponseModel
     {
         public int Id { get; set; }
 

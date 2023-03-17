@@ -10,7 +10,8 @@ namespace FreshersV2.Data.Models
 
         public string FacultyNumber { get; set; } = null;
 
+        public int? GroupId { get; set; }
 
-        public List<UserGroup> Groups = new List<UserGroup>();
+        public Group Group { get; set; }
     }
 }
