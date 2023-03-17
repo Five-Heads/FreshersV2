@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace FreshersV2.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class TreasureHuntController : BaseApiController
     {
         private readonly ITreasureHuntService treasureHuntService;
@@ -15,11 +15,11 @@ namespace FreshersV2.Controllers
             this.treasureHuntService = treasureHuntService;
         }
 
-        [HttpGet]
+        [HttpGet("my")]
         public async Task My()
         {
-            var userId = this.ExtractClaim<int>(ClaimTypes.NameIdentifier);
-            
+            var userId = this.ExtractClaim<string>(ClaimTypes.NameIdentifier);
+            var a = 5;
 
         }
     }
