@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FreshersV2.Data.Models.VoteImageGame
@@ -18,6 +19,8 @@ namespace FreshersV2.Data.Models.VoteImageGame
         public List<RoundVote> Votes { get; set; } = new List<RoundVote>();
 
         public List<RoundDrawingUser> DrawingUsers { get; set; } = new List<RoundDrawingUser>();
+
+        public List<VoteImageRound> ImageRounds { get; set; } = new List<VoteImageRound>();
 
     }
 }

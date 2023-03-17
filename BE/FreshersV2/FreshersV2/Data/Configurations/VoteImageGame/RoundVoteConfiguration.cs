@@ -19,17 +19,14 @@ namespace FreshersV2.Data.Configurations.VoteImageGame
             builder
                 .HasOne(x => x.Round)
                 .WithMany(x => x.Votes)
-                .HasForeignKey(x => x.RoundId);
+                .HasForeignKey(x => x.RoundId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(x => x.Image1)
-                .WithOne(x => x.Vote)
-                .HasForeignKey<RoundVote>(x => x.Image1Id);
-
-            builder
-                .HasOne(x=>x.Image2)
-                .WithOne(x=>x.Vote)
-                .HasForeignKey<RoundVote>(x=>x.Image2Id);
+                .HasOne(x => x.VoteImageRound)
+                .WithOne(x => x.RoundVote)
+                .HasForeignKey<RoundVote>(x => x.VoteImageRoundId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

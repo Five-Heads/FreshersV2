@@ -8,9 +8,9 @@ namespace FreshersV2.Data.Models.VoteImageGame
 
         public UserContest User { get; set; }
 
-        public int RoundId { get; set; }
+        public int VoteImageRoundId { get; set; }
 
-        public Round Round { get; set; }
+        public VoteImageRound VoteImageRound { get; set; }
 
         public int ContestId { get; set; }
 

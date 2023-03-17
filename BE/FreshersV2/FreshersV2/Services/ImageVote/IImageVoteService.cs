@@ -1,4 +1,6 @@
 using FreshersV2.Data.Models.VoteImageGame;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FreshersV2.Services.ImageVote
 {
@@ -11,6 +13,7 @@ namespace FreshersV2.Services.ImageVote
 
         Task<List<VoteImage>> GetRoundImages(string contestId, int roundId);
         Task<VoteImageContest> GetContest(string contestId);
-
+        Task<int> GetNextRoundId(string contestId);
+        Task<List<UserContest>> GetDrawingUsers(string contestId);
     }
 }

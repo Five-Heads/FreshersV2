@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FreshersV2.Data.Models.VoteImageGame
 {
     public class UserContest
@@ -5,6 +7,8 @@ namespace FreshersV2.Data.Models.VoteImageGame
         public string UserId { get; set; }
 
         public User User { get; set; }
+
+        public string UserHubId { get; set; }
 
         public int ContestId { get; set; }
 
