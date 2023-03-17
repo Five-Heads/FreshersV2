@@ -19,7 +19,11 @@ namespace FreshersV2.Services.Group
                 Name = group.Name,
             };
 
-            // TODO: add relations
+            // TODO: check if it works
+            foreach (var userId in group.UserIds)
+            {
+                toSave.Users.Add(new Data.Models.UserGroup { UserId = userId });
+            }
             
             await this.appDbContext.Groups.AddAsync(toSave);
             await this.appDbContext.SaveChangesAsync();
@@ -27,7 +31,7 @@ namespace FreshersV2.Services.Group
 
         public async Task DeleteGroup(int id)
         {
-            // TODO: delete all relations
+            // TODO: will this delete all the groups
             this.appDbContext.Groups.Remove(new Data.Models.Group
             {
                 Id = id

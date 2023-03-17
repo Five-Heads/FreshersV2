@@ -1,26 +1,32 @@
 ﻿using FreshersV2.Models.Authentication;
 using FreshersV2.Models.Group.Create;
+using FreshersV2.Services.Group;
 using FreshersV2.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     [Authorize(Roles = "Admin")]
-    public class GroupsController : ControllerBase
+    public class GroupsController : BaseApiController
     {
-        [HttpPost("create")]
-        public void Create([FromBody] CreateGroupRequestModel model)
-        {
+        private readonly IGroupService groupService;
 
+        public GroupsController(IGroupService groupService)
+        {
+            this.groupService = groupService;
+        }
+
+        [HttpPost("create")]
+        public async Task Create([FromBody] CreateGroupRequestModel model)
+        {
+            await this.groupService.CreateGroup(model);
         }
 
         [HttpDelete("delete/{id}")]
-        public void Delete([FromRoute] int id)
+        public async Task Delete([FromRoute] int id)
         {
-
+            await this.groupService.DeleteGroup(id);
         }
     }
 }

@@ -5,9 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace FreshersV2.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseApiController
     {
         private readonly IIdentityService identityService;
         private readonly ApplicationSettings applicationSettings;
