@@ -32,14 +32,15 @@ export class AuthService {
         return true;
     }
 
-    register(userName: string, password: string) {
+    register(userName: string, password: string, facultyNumber: string) {
         return this.http.post<AuthResponseModel>(`${this.apiUrl}/auth/register`, {
             userName: userName,
-            password: password
+            password: password,
+            facultyNumber: facultyNumber
         })
             .pipe(
                 tap(model => {
-                    this.handleAuthSuccess(new User('1', userName, model.token));
+                    this.handleAuthSuccess(new User('1', userName, model.token, facultyNumber));
                 })
             )
     }
@@ -51,7 +52,7 @@ export class AuthService {
         })
             .pipe(
                 tap(model => {
-                    this.handleAuthSuccess(new User('1', userName, model.token));
+                    this.handleAuthSuccess(new User('1', userName, model.token, "nz"));
                 })
             )
     }

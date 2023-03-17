@@ -27,7 +27,7 @@ export class SignalRService implements IDisposable {
 
     initConnection() {
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${this.apiUrl}/hubs/test`, {
+            .withUrl(`${this.apiUrl}/hubs/TreasureHunt`, {
                 accessTokenFactory: () => this.authService.user.value!.token
             })
             .build();
