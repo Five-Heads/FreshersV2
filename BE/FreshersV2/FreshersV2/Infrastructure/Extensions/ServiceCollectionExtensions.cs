@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FreshersV2.Jobs;
 using FreshersV2.Services.ImageVote;
 
 namespace FreshersV2.Infrastructure.Extensions
@@ -23,7 +24,8 @@ namespace FreshersV2.Infrastructure.Extensions
                 .AddTransient<ITreasureHuntService, TreasureHuntService>()
                 .AddTransient<IBaseImageService, BaseImageService>()
                 .AddTransient<IBlurredImageService, BlurredImageService>()
-                .AddTransient<IImageVoteService,ImageVoteService>();
+                .AddTransient<IImageVoteService,ImageVoteService>()
+                .AddTransient<VoteRoundJob,VoteRoundJob>();
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString)
             => services.AddDbContext<AppDbContext>(options =>

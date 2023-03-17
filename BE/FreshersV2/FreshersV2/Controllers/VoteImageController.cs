@@ -2,12 +2,14 @@
 using FreshersV2.Jobs;
 using FreshersV2.Services.ImageVote;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    //  [Authorize]
+
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class VoteImageController : BaseApiController
     {
         private readonly IImageVoteService imageVoteService;
@@ -19,19 +21,19 @@ namespace FreshersV2.Controllers
             this.voteRoundJob = voteRoundJob;
         }
 
-        [HttpPost]
+        [HttpPost("createContest")]
         public async Task CreateContest(string name, int maxParticipants, int voteTime, int drawTime, List<string> words)
         {
             await imageVoteService.CreateContest(name, maxParticipants, voteTime, drawTime, words);
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public object All()
         {
             return new { contest = imageVoteService.AllContests() };
         }
 
-        [HttpPost]
+        [HttpPost("startContest")]
         public void StartContest(int id)
         {
             if (IsInRole("admin"))

@@ -40,7 +40,7 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BaseImages", (string)null);
+                    b.ToTable("BaseImages");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.BlurredImage", b =>
@@ -65,7 +65,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("BaseImageId");
 
-                    b.ToTable("BlurredImages", (string)null);
+                    b.ToTable("BlurredImages");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.BlurredImageContest", b =>
@@ -94,7 +94,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("WinnerId");
 
-                    b.ToTable("BlurredImageContests", (string)null);
+                    b.ToTable("BlurredImageContests");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.UserBlurredImageContest", b =>
@@ -115,7 +115,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("BlurredImageContestId");
 
-                    b.ToTable("UserBlurredImageContests", (string)null);
+                    b.ToTable("UserBlurredImageContests");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.Checkpoint", b =>
@@ -161,7 +161,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("TreasureHuntId");
 
-                    b.ToTable("Checkpoints", (string)null);
+                    b.ToTable("Checkpoints");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.Group", b =>
@@ -178,7 +178,7 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups", (string)null);
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.GroupTreasureHunt", b =>
@@ -211,7 +211,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("NextId");
 
-                    b.ToTable("GroupTreasureHunts", (string)null);
+                    b.ToTable("GroupTreasureHunts");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.TreasureHunt", b =>
@@ -228,7 +228,7 @@ namespace FreshersV2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TreasureHunts", (string)null);
+                    b.ToTable("TreasureHunts");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
@@ -294,6 +294,9 @@ namespace FreshersV2.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int?>("VoteImageContestId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -303,6 +306,8 @@ namespace FreshersV2.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("VoteImageContestId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -319,7 +324,7 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("UserGroups", (string)null);
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.UserTreasureHunt", b =>
@@ -343,7 +348,204 @@ namespace FreshersV2.Migrations
 
                     b.HasIndex("TreasureHuntId");
 
-                    b.ToTable("UserTreasureHunts", (string)null);
+                    b.ToTable("UserTreasureHunts");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.Round", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoundNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Word")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
+
+                    b.ToTable("Rounds");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.RoundDrawingUser", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RoundId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoundId");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("RoundId");
+
+                    b.HasIndex("UserId", "ContestId");
+
+                    b.ToTable("RoundDrawingUsers");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.RoundVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Image1Votes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Image2Votes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoundId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoteImageRoundId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoundId");
+
+                    b.HasIndex("VoteImageRoundId")
+                        .IsUnique();
+
+                    b.ToTable("RoundVotes");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.UserContest", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserHubId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("VoteImageContestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ContestId");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("VoteImageContestId");
+
+                    b.ToTable("UserContests");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Base64Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ContestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContestId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoundId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoundVoteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("VoteImageRoundId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("ContestId1");
+
+                    b.HasIndex("RoundId");
+
+                    b.HasIndex("RoundVoteId");
+
+                    b.HasIndex("VoteImageRoundId");
+
+                    b.HasIndex("UserId", "ContestId");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("DrawTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VoteTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Words")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contests");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImageRound", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("RoundId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoundId");
+
+                    b.ToTable("VoteImageRound");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -565,6 +767,14 @@ namespace FreshersV2.Migrations
                     b.Navigation("TreasureHunt");
                 });
 
+            modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", null)
+                        .WithMany("Participants")
+                        .HasForeignKey("VoteImageContestId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("FreshersV2.Data.Models.UserGroup", b =>
                 {
                     b.HasOne("FreshersV2.Data.Models.Group", "Group")
@@ -609,6 +819,138 @@ namespace FreshersV2.Migrations
                     b.Navigation("TreasureHunt");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.Round", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", "Contest")
+                        .WithMany("Rounds")
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.RoundDrawingUser", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.Round", "Round")
+                        .WithMany("DrawingUsers")
+                        .HasForeignKey("RoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.UserContest", "User")
+                        .WithMany("RoundsDrawing")
+                        .HasForeignKey("UserId", "ContestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("Round");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.RoundVote", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.Round", "Round")
+                        .WithMany("Votes")
+                        .HasForeignKey("RoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageRound", "VoteImageRound")
+                        .WithOne("RoundVote")
+                        .HasForeignKey("FreshersV2.Data.Models.VoteImageGame.RoundVote", "VoteImageRoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Round");
+
+                    b.Navigation("VoteImageRound");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.UserContest", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", null)
+                        .WithMany("UserContests")
+                        .HasForeignKey("VoteImageContestId");
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImage", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ContestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.Round", null)
+                        .WithMany("Images")
+                        .HasForeignKey("RoundId");
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.RoundVote", "Vote")
+                        .WithMany()
+                        .HasForeignKey("RoundVoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.VoteImageRound", "VoteImageRound")
+                        .WithMany("Images")
+                        .HasForeignKey("VoteImageRoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.UserContest", "User")
+                        .WithMany("Images")
+                        .HasForeignKey("UserId", "ContestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Contest");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Vote");
+
+                    b.Navigation("VoteImageRound");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImageRound", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.VoteImageGame.Round", null)
+                        .WithMany("ImageRounds")
+                        .HasForeignKey("RoundId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -684,6 +1026,43 @@ namespace FreshersV2.Migrations
             modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
                 {
                     b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.Round", b =>
+                {
+                    b.Navigation("DrawingUsers");
+
+                    b.Navigation("ImageRounds");
+
+                    b.Navigation("Images");
+
+                    b.Navigation("Votes");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.UserContest", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("RoundsDrawing");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImageContest", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("Participants");
+
+                    b.Navigation("Rounds");
+
+                    b.Navigation("UserContests");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.VoteImageGame.VoteImageRound", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("RoundVote")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

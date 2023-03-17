@@ -15,7 +15,7 @@ namespace FreshersV2.Jobs
         private int currentRoundId;
         private int contestId;
 
-        public VoteRoundJob(IImageVoteService service, IHubContext<VoteImageHub> context, string contestId)
+        public VoteRoundJob(IImageVoteService service, IHubContext<VoteImageHub> context)
         {
             this.context = context;
             this.service = service;
