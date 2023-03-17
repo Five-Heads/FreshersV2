@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Models.Authentication;
+using FreshersV2.Models.Group;
 using FreshersV2.Models.Group.Create;
 using FreshersV2.Services.Group;
 using FreshersV2.Services.Identity;
@@ -16,6 +17,18 @@ namespace FreshersV2.Controllers
         public GroupsController(IGroupService groupService)
         {
             this.groupService = groupService;
+        }
+
+        [HttpGet("my")]
+        public async Task<GroupInfoResponseModel> My()
+        {
+            var userId = this.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+
+            return await this.groupService.GetUserGroup(userId);
         }
 
         [HttpPost("create")]

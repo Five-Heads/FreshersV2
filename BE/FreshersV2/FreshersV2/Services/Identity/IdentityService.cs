@@ -37,8 +37,7 @@ namespace FreshersV2.Services.Identity
             var user = new Data.Models.User
             {
                 UserName = model.UserName,
-                Name = "",
-                FacultyNumber = "" // TODO: fix
+                FacultyNumber = model.FacultyNumber
             };
 
             return (await userManager.CreateAsync(user, model.Password)).Succeeded ? user : null;

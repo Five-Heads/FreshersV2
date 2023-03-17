@@ -14,6 +14,11 @@ namespace FreshersV2.Data.Configurations
             builder
                 .Property(x => x.Id)
                 .ValueGeneratedOnAdd();
+
+            builder
+                .HasMany(x => x.Users)
+                .WithOne(x => x.Group)
+                .HasForeignKey(x => x.GroupId);
         }
     }
 }

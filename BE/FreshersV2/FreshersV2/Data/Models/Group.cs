@@ -7,7 +7,7 @@
         public string Name { get; set; }
 
 
-        public List<UserGroup> Users = new List<UserGroup>();
+        public List<User> Users = new List<User>();
 
 
         public List<GroupTreasureHunt> TreasureHunts = new List<GroupTreasureHunt>();
