@@ -12,6 +12,6 @@ namespace FreshersV2.Data.Models
 
         public int? GroupId { get; set; }
 
-        public Group Group { get; set; }
+        public Group? Group { get; set; }
     }
 }
