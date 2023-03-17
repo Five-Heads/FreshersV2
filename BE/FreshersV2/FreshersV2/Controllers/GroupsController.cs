@@ -2,12 +2,13 @@
 using FreshersV2.Models.Group.Create;
 using FreshersV2.Services.Group;
 using FreshersV2.Services.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public class GroupsController : BaseApiController
     {
         private readonly IGroupService groupService;
