@@ -8,10 +8,8 @@ using System.Drawing;
 
 namespace FreshersV2.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     // [Authorize(Roles = "Admin")]
-    public class BaseImageController : ControllerBase
+    public class BaseImageController : BaseApiController
     {
         private readonly IBaseImageService baseImageService;
         private readonly IBlurredImageService blurredImageService;

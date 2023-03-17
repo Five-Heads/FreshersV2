@@ -7,14 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {RouterModule} from "@angular/router";
+import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { TreasureHuntComponent } from './treasure-hunt/treasure-hunt.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { QrReaderComponent } from './treasure-hunt/qr-reader/qr-reader.component';
-import {NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
+import { NgxScannerQrcodeModule } from "ngx-scanner-qrcode";
 import { SafePipe } from './treasure-hunt/qr-reader/safe.pipe';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SafePipe } from './treasure-hunt/qr-reader/safe.pipe';
     TreasureHuntComponent,
     QrReaderComponent,
     SafePipe,
-      ],
+    FooterComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,

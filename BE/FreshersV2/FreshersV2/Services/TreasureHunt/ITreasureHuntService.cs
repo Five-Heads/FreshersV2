@@ -2,5 +2,6 @@
 {
     public interface ITreasureHuntService
     {
+        Task<List<Data.Models.TreasureHunt>> GetUserTreasureHunts(string userId);
     }
 }
