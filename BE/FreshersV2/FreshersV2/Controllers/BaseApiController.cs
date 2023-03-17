@@ -4,7 +4,7 @@ namespace FreshersV2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BaseApiController : ControllerBase
+    public abstract class BaseApiController : ControllerBase
     {
         protected T ExtractClaim<T>(string claim)
         {

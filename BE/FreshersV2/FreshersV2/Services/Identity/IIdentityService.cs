@@ -4,10 +4,10 @@ namespace FreshersV2.Services.Identity
 {
     public interface IIdentityService
     {
-        Task<bool> Register(RegisterRequestModel model);
+        Task<Data.Models.User> Register(RegisterRequestModel model);
 
-        Task<bool> Login(LoginRequestModel model);
+        Task<Data.Models.User> Login(LoginRequestModel model);
 
-        string GenerateJwtToken(string userId, string userName, string secret);
+        string GenerateJwtToken(string userId, string userName, string role, string secret);
     }
 }
