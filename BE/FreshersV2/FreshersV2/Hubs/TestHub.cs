@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FreshersV2.Hubs
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TestHub : Hub
     {
         // userId: connectionId

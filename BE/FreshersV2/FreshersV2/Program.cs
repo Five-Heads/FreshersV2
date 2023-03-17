@@ -38,6 +38,7 @@ services
 
 services
     .AddIdentity<User, IdentityRole>()
+    .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 services.AddHangfire(configuration =>
