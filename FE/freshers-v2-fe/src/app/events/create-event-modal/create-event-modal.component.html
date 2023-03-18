@@ -91,6 +91,7 @@
             </div>
             <div class="col flex-grow-1 pr-1">
               <input type="text" class="form-control" formControlName="StartTimeDate" placeholder="Изберете начална дата"
+                     [(ngModel)]="startDate"
                      ngbDatepicker #dp="ngbDatepicker">
             </div>
 
@@ -123,6 +124,7 @@
             </div>
             <div class="col flex-grow-1 pr-1">
               <input type="text" class="form-control" placeholder="Изберете крайна дата" formControlName="EndTimeDate"
+                     [(ngModel)]="endDate"
                      ngbDatepicker #dp2="ngbDatepicker">
             </div>
 

@@ -33,6 +33,9 @@ export class CreateEventModalComponent implements OnInit, OnDestroy{
   subs: Subscription;
   selectedDate: NgbDateStruct;
 
+  startDate: NgbDateStruct;
+  endDate: NgbDateStruct;
+
   constructor(private activeModal: NgbActiveModal,
               private treasureHuntService: TreasureHuntService,
               private modalService: NgbModal) {
@@ -82,9 +85,12 @@ export class CreateEventModalComponent implements OnInit, OnDestroy{
       const data = this.formGroup.getRawValue();
 
       data['Checkpoints'] = this.crrCheckpointsForEvent;
-      data['StartTime'] = data['StartTimeDate'] + 'T' + data['StartTimeHour'] + ":00";
-      data['EndTime'] = data['EndTimeDate'] + 'T' + data['EndTimeHour'] + ":00";
+      data['StartTime'] = this.startDate.day +'-' +this.startDate.month+'-' + this.startDate.year + 'T' + (!!data['StartTimeHour'] ? data['StartTimeHour']: '00:00') + ":00";
+      data['EndTime'] = this.endDate.day +'-' +this.endDate.month+'-' + this.endDate.year + 'T' + (!!data['EndTimeHour'] ? data['EndTimeHour']: '00:00')  + ":00";
 
+      console.log(data);
+      console.log(this.startDate);
+      console.log(this.endDate);
       //TODO connwct
       this.treasureHuntService.createTreasureHunt(data).subscribe();
     }
