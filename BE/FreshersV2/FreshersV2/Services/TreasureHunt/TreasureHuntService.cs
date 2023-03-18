@@ -5,24 +5,9 @@ using FreshersV2.Models.TreasureHunt.Start;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Reflection.Emit;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace FreshersV2.Services.TreasureHunt
 {
-    //Extension method to convert Bitmap to Byte Array
-    public static class BitmapExtension
-    {
-        public static byte[] BitmapToByteArray(this Bitmap bitmap)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bitmap.Save(ms, ImageFormat.Png);
-                return ms.ToArray();
-            }
-        }
-    }
     public class TreasureHuntService : ITreasureHuntService
     {
         private readonly AppDbContext appDbContext;
@@ -62,23 +47,22 @@ namespace FreshersV2.Services.TreasureHunt
                 {
                     QRCodeGenerator qrGenerator = new QRCodeGenerator();
                     QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{x.Id}/{result.Entity.Id}", QRCodeGenerator.ECCLevel.Q);
-                    BitmapByteQRCode QrCode = new BitmapByteQRCode(qrCodeData);
-                    //Bitmap QrBitmap = QrCode.GetGraphic(60);
-                    byte[] BitmapArray = QrCode.GetGraphic(60);
-                    string QrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(BitmapArray));
-                    x.QRCode = QrUri;
+                    QRCode qrCode = new QRCode(qrCodeData);
+                    Bitmap qrCodeImage = qrCode.GetGraphic(20);
+
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var bitmap = new Bitmap(qrCodeImage))
+                        {
+                            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            var SigBase64 = Convert.ToBase64String(ms.GetBuffer()); //Get Base64
+                            x.QRCode = SigBase64;
+                        }
+                    }
                 });
 
-            try
-            {
 
-                await appDbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            await appDbContext.SaveChangesAsync();
         }
 
         public async Task<StartTreasureHuntResponseModel> StartTreasureHunt(int treasureHuntId, string userId)
