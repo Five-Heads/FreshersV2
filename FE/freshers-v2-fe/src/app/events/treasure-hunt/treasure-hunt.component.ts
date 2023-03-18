@@ -37,7 +37,7 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
 
   startEvent() {
     this.subs.add(
-      this.treasureHuntService.getTreasureHuntStart().subscribe(res=>{
+      this.treasureHuntService.getTreasureHuntStart(1).subscribe(res=>{
         this.treasureHuntDataService.setSelectedCheckpoint(res.Next);
         this.treasureHuntDataService.setSelectedTreasureHunt(res);
 

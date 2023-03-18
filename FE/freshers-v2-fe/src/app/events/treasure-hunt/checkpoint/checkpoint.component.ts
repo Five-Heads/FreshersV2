@@ -83,6 +83,7 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   }
 
   showData(data: any) {
+    debugger;
     if (data.data._value.length > 0) {
       this.currentUrl = data.data._value[0].value;
     }

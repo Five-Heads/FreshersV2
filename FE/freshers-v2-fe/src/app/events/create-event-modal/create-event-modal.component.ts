@@ -85,8 +85,8 @@ export class CreateEventModalComponent implements OnInit, OnDestroy{
       data['StartTime'] = data['StartTimeDate'] + 'T' + data['StartTimeHour'] + ":00";
       data['EndTime'] = data['EndTimeDate'] + 'T' + data['EndTimeHour'] + ":00";
 
-      console.log(data);
       //TODO connwct
+      this.treasureHuntService.createTreasureHunt(data).subscribe();
     }
   }
   addCheckpoint() {
