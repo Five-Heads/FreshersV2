@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, tap } from "rxjs";
+import { BehaviorSubject, take, tap } from "rxjs";
 import { User } from "./models/user.model";
 import { environment } from "src/environment/environment";
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -62,7 +62,8 @@ export class AuthService {
             .pipe(
                 tap(model => {
                     this.handleAuthSuccess(new User('1', userName, "nz", model.token));
-                })
+                }),
+                take(1)
             )
     }
 

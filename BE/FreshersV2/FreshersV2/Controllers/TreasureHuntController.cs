@@ -30,6 +30,25 @@ namespace FreshersV2.Controllers
             this.userService = userService;
         }
 
+        [HttpGet("test")]
+        public async Task Test()
+        {
+            var userId = this.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return;
+            }
+
+            var groupId = await this.userService.GetUserGroup(userId);
+            // TODO: ????
+            await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
+
+            //TreasureHuntHub.ActiveGroupsMap[groupId].ForEach(async (userId) =>
+            //{
+            //    await this.treasureHuntHubContext.Clients.Client(TreasureHuntHub.ConnectionsMap[userId]).SendAsync("CheckpointReached", null);
+            //});
+        }
+
         [HttpPost("create")]
         public async Task Create([FromBody] CreateTreasureHuntRequestModel model)
         {
@@ -83,7 +102,16 @@ namespace FreshersV2.Controllers
             var groupId = await this.userService.GetUserGroup(userId);
 
             // notify all other
-            await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
+            try
+            {
+                await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
             if (groupId != 0)
             {
@@ -93,6 +121,7 @@ namespace FreshersV2.Controllers
                 if (newNext != null)
                 {
                     await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("NextCheckpoint", newNext);
+                    
                 }
             }
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { SignalRService } from './signalR.service';
 import { User } from './auth/models/user.model';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +22,11 @@ export class AppComponent {
   title = 'freshers-v2-fe';
 
   ngOnInit() {
-    debugger;
     //this.authService.checkIsUserAuthenticatedOnStart();
     this.authService.login("tswetti", "tswetti")
-      .pipe(tap(()=>{
-        debugger;
+      .pipe(take(1))
+      .subscribe(() => {
         this.signalRService.initConnection();
-      }))
-      .subscribe()
+      })
   }
 }

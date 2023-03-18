@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
-import { CheckpointInputModel } from './events/models/TreasureHuntStartInputModel';
 
 @Injectable({
     providedIn: 'root'
@@ -12,14 +10,13 @@ import { CheckpointInputModel } from './events/models/TreasureHuntStartInputMode
 export class SignalRService implements IDisposable {
     private connection!: signalR.HubConnection;
     private apiUrl = environment.apiUrl;
-    private userSubscription: Subscription;
 
     constructor(
         private authService: AuthService
     ) {
-        this.userSubscription = authService.user.subscribe(user => {
-            user ? this.initConnection() : this.closeConnection();
-        });
+        // this.userSubscription = authService.user.subscribe(user => {
+        //     user ? this.initConnection() : this.closeConnection();
+        // });
     }
 
     send(eventName: string, data: any) {
@@ -27,10 +24,13 @@ export class SignalRService implements IDisposable {
     }
 
     initConnection() {
+        debugger;
+        
         this.connection = new signalR.HubConnectionBuilder()
             .withUrl(`${this.apiUrl}/hubs/TreasureHunt`, {
                 accessTokenFactory: () => this.authService.user.value!.token
             })
+            .withAutomaticReconnect()
             .build();
 
         this.connection.start()
@@ -47,17 +47,16 @@ export class SignalRService implements IDisposable {
     }
 
     dispose() {
-        this.userSubscription.unsubscribe();
         this.closeConnection();
     }
 
     private initEvents() {
-        this.connection.on("CheckpointReached", (userId: string) => {
+        this.connection.on("CheckpointReached", (userId: any) => {
             // update
             debugger;
         })
 
-        this.connection.on("NextCheckpoint", (newNext: CheckpointInputModel) => {
+        this.connection.on("NextCheckpoint", (newNext: any) => {
             // update
             debugger;
         })
