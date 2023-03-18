@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { BehaviorSubject, tap } from "rxjs";
 import { User } from "./models/user.model";
 import { environment } from "src/environment/environment";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export class AuthResponseModel {
     constructor(public token: string) { }
@@ -18,25 +19,33 @@ export class AuthService {
 
     constructor(
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private jwtHelper: JwtHelperService
     ) { }
 
     checkIsUserAuthenticatedOnStart(): boolean {
-        // TODO: logic
         const userData = localStorage.getItem('userData');
+
         if (!userData) {
             return false;
         }
 
-        this.user.next(JSON.parse(userData));
+        const user = JSON.parse(userData);
+
+        if (this.jwtHelper.isTokenExpired()) {
+            return false;
+        }
+
+        this.user.next(user);
         return true;
     }
 
-    register(userName: string, password: string, facultyNumber: string) {
+    register(userName: string, facultyNumber: string, email: string, password: string) {
         return this.http.post<AuthResponseModel>(`${this.apiUrl}/auth/register`, {
             userName: userName,
-            password: password,
-            facultyNumber: facultyNumber
+            facultyNumber: facultyNumber,
+            email: email,
+            password: password
         })
             .pipe(
                 tap(model => {
@@ -59,7 +68,7 @@ export class AuthService {
 
     logOut() {
         this.user.next(null);
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/']);
         localStorage.removeItem('userData');
     }
 

@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: "https://localhost:7253"
+    apiUrl: "http://localhost:5055",
+    secret: "UNIQUE SECRET WITH ATLEAST 128 BITS"
 };
