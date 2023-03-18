@@ -103,12 +103,6 @@ namespace FreshersV2.Migrations
                     b.Property<int>("BlurredImageContestId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Ranking")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "BlurredImageContestId");
 
                     b.HasIndex("BlurredImageContestId");
@@ -719,7 +713,7 @@ namespace FreshersV2.Migrations
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.UserBlurredImageContest", b =>
                 {
                     b.HasOne("FreshersV2.Data.Models.BlurredImageGame.BlurredImageContest", "BlurredImageContest")
-                        .WithMany()
+                        .WithMany("UserBlurredImageContests")
                         .HasForeignKey("BlurredImageContestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1013,6 +1007,11 @@ namespace FreshersV2.Migrations
                     b.Navigation("BlurredImages");
 
                     b.Navigation("Contests");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.BlurredImageContest", b =>
+                {
+                    b.Navigation("UserBlurredImageContests");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.Group", b =>

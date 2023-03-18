@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Data.Models.VoteImageGame;
+using FreshersV2.Hubs;
 using FreshersV2.Jobs;
 using FreshersV2.Models.VoteImage;
 using FreshersV2.Services.ImageVote;
@@ -6,6 +7,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FreshersV2.Controllers
 {
@@ -31,7 +33,10 @@ namespace FreshersV2.Controllers
         [HttpGet("all")]
         public object All()
         {
-            return new { contest = imageVoteService.AllContests() };
+            return new
+            {
+                contest = imageVoteService.AllContests()
+            };
         }
 
         [HttpPost("startContest")]

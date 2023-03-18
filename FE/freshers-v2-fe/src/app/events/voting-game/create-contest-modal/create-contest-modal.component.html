@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+      Create Contest
+    </h4>
+    <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+      <h2 aria-hidden="true">&times;</h2>
+    </button>
+</div>
+<div class="modal-body" >
+    <form *ngIf="!!formGroup"
+          [formGroup]="formGroup"
+          novalidate
+          (ngSubmit)="submitForm()">
+  
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <div class="position-relative has-icon-right mt-1">
+                        <input 
+                            type="text"
+                            id="name"
+                            class="form-control"
+                            formControlName="name"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row mt-3">
+            <div class="col-12">
+                <label for="maxParticipants">Max Participants</label>
+                <div class="position-relative has-icon-right mt-1">
+                    <input 
+                        type="number"
+                        id="maxParticipants"
+                        class="form-control"
+                        formControlName="maxParticipants"
+                    >
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <label for="voteTime">Vote Time</label>
+                <div class="position-relative has-icon-right mt-1">
+                    <input 
+                        type="number"
+                        id="voteTime"
+                        class="form-control"
+                        formControlName="voteTime"
+                    >
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <label for="drawTime">Draw Time</label>
+                <div class="position-relative has-icon-right mt-1">
+                    <input 
+                        type="number"
+                        id="drawTime"
+                        class="form-control"
+                        formControlName="drawTime"
+                    >
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <label for="words">Words</label>
+                <div class="position-relative has-icon-right mt-1">
+                    <textarea 
+                        ng-model="textarea"
+                        id="words"
+                        class="form-control"
+                        formControlName="words"
+                    >
+                    </textarea>
+                </div>
+            </div>
+        </div>  
+    </form>
+</div>
+  
+<div class="modal-footer">
+    <button class="btn btn-outline-primary" (click)="submitForm()">
+        Save
+    </button>
+</div>
+  
+  

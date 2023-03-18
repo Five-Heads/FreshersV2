@@ -8,5 +8,11 @@ namespace FreshersV2.Services.BaseImageContest
         Task CreateContest(CreateBlurredImageContestRequestModel model);
 
         Task<BlurredImageContest?> GetUpcomingContest();
+
+        Task AddUserToUpcomingContest(string userId);
+
+        Task<List<string>> GetUpcomingContestUsers();
+
+        Task AddUsersPointsToLeaderboard(List<BlurredImageContestResultsRequestModel> results);
     }
 }

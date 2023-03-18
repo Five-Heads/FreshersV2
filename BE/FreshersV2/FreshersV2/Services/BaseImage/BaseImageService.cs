@@ -44,14 +44,24 @@ namespace FreshersV2.Services.BaseImage
 
         public async Task<Data.Models.BlurredImageGame.BaseImage?> GetRandomBaseImage()
         {
-            var baseImagesCount = await this.appDbContext.BaseImages.CountAsync();
+            try
+            {
+                var baseImagesCount = await this.appDbContext.BaseImages.CountAsync();
 
-            Random rnd = new Random();
-            int number = rnd.Next(1, baseImagesCount);
+                Random rnd = new Random();
+                int number = rnd.Next(1, baseImagesCount);
 
-            var baseImage = await this.appDbContext.BaseImages.Include(x=>x.BlurredImages).FirstOrDefaultAsync(x => x.Id == number);
+                var baseImage = await this.appDbContext.BaseImages.Include(x => x.BlurredImages).FirstOrDefaultAsync(x => x.Id == number);
 
-            return baseImage;
+                return baseImage;
+            }
+            catch (Exception ex)
+            {
+                return null;
+
+                throw;
+            }
+
         }
     }
 }

@@ -20,6 +20,12 @@ namespace FreshersV2.Services.Leaderboard
         public async Task AddPoints(string userId, int score)
         {
             var leader = await context.Leaderboard.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (leader == null)
+            {
+                var leaderboard = new Data.Models.Leaderboard { Score = score, UserId = userId };
+                await this.context.Leaderboard.AddAsync(leaderboard);
+            }
+            else
             leader.Score += score;
 
             await context.SaveChangesAsync();

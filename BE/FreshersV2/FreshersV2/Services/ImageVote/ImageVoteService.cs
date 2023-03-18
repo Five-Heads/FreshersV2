@@ -1,6 +1,8 @@
 using FreshersV2.Data;
 using FreshersV2.Data.Models.VoteImageGame;
+using FreshersV2.Hubs;
 using FreshersV2.Models.VoteImage;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.ImageVote
@@ -98,10 +100,11 @@ namespace FreshersV2.Services.ImageVote
             {
                 MaxParticipants = x.MaxParticipants,
                 DrawTime = x.DrawTime,
-                Id = x.Id,
+                ContestId = x.Id,
                 Name = x.Name,
                 VoteTime = x.VoteTime,
                 Words = x.Words.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                UsersCount = VoteImageHub.ContestConnectionsMap.GetOrAdd(x.Id.ToString(),new List<string>()).Count,
             }).ToList();
         }
 

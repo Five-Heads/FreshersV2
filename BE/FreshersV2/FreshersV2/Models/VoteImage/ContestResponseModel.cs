@@ -2,11 +2,13 @@
 {
     public class ContestResponseModel
     {
-        public int Id { get; set; }
+        public int ContestId { get; set; }
 
         public string Name { get; set; }
 
         public int MaxParticipants { get; set; }
+
+        public int UsersCount { get; set; }
 
         public int VoteTime { get; set; }
 
