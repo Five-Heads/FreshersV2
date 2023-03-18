@@ -4,6 +4,6 @@ namespace FreshersV2.Services.BaseImage
 {
     public interface IBaseImageService
     {
-        Task Add(string base64image); // for test
+        Task Add(string base64image, string objectName);
     }
 }
