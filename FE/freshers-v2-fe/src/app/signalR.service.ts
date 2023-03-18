@@ -4,33 +4,24 @@ import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
 
-
-
 @Injectable({
     providedIn: 'root'
 })
 export class SignalRService implements IDisposable {
-    contestData = new BehaviorSubject<ContestsUpdateResponseModel[] | null>(null);
     private connection!: signalR.HubConnection;
     private apiUrl = environment.apiUrl;
 
     constructor(
         private authService: AuthService
-    ) {
-        // this.userSubscription = authService.user.subscribe(user => {
-        //     user ? this.initConnection() : this.closeConnection();
-        // });
-    }
+    ) {  }
 
     send(eventName: string, data: any) {
         this.connection.send(eventName, data);
     }
 
     initConnection() {
-        debugger;
-        
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${this.apiUrl}/hubs/VoteImage`, {
+            .withUrl(`${this.apiUrl}/hubs/TreasureHunt`, {
                 accessTokenFactory: () => this.authService.user.value!.token,
             })
             .withAutomaticReconnect()

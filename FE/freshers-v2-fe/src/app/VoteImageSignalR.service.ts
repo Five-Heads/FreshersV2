@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
 import { CheckpointInputModel } from './events/models/TreasureHuntStartInputModel';
+import { ContestsUpdateResponseModel } from './events/models/ContestsUpdateResponseModel';
 
 @Injectable({
     providedIn: 'root'
 })
 export class VoteImageSignalRService implements IDisposable {
+    contestData = new BehaviorSubject<ContestsUpdateResponseModel[] | null>(null);
     private connection!: signalR.HubConnection;
     private apiUrl = environment.apiUrl;
     private userSubscription: Subscription;
