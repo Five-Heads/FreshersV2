@@ -189,6 +189,7 @@ namespace FreshersV2.Services.TreasureHunt
         {
             var current = await this.appDbContext
                 .UserTreasureHunts
+                .Include(x => x.Next)
                 .Where(x => x.TreasureHuntId == treasureHuntId && x.UserId == userId)
                 .FirstOrDefaultAsync();
 

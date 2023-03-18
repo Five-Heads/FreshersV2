@@ -4,6 +4,7 @@ using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.Start;
 using FreshersV2.Models.TreasureHunt.Validate;
 using FreshersV2.Services.TreasureHunt;
+using FreshersV2.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,36 @@ namespace FreshersV2.Controllers
     {
         private readonly ITreasureHuntService treasureHuntService;
         private readonly IHubContext<TreasureHuntHub> treasureHuntHubContext;
+        private readonly IUserService userService;
 
         public TreasureHuntController(
             ITreasureHuntService treasureHuntService,
-            IHubContext<TreasureHuntHub> treasureHuntHubContext
+            IHubContext<TreasureHuntHub> treasureHuntHubContext,
+            IUserService userService
             )
         {
             this.treasureHuntService = treasureHuntService;
             this.treasureHuntHubContext = treasureHuntHubContext;
+            this.userService = userService;
+        }
+
+        [HttpGet("test")]
+        public async Task Test()
+        {
+            var userId = this.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return;
+            }
+
+            var groupId = await this.userService.GetUserGroup(userId);
+            // TODO: ????
+            await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
+
+            //TreasureHuntHub.ActiveGroupsMap[groupId].ForEach(async (userId) =>
+            //{
+            //    await this.treasureHuntHubContext.Clients.Client(TreasureHuntHub.ConnectionsMap[userId]).SendAsync("CheckpointReached", null);
+            //});
         }
 
         [HttpPost("create")]
@@ -76,15 +99,30 @@ namespace FreshersV2.Controllers
             // update the next for user
             await this.treasureHuntService.UpdateNextCheckpointForUser(model.TreasureHuntId, userId);
 
+            var groupId = await this.userService.GetUserGroup(userId);
+
             // notify all other
-            await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("CheckpointReached", userId);
-
-            // if all have reached send next info
-            var newNext = await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(model.GroupId, model.CheckpointId);
-
-            if (newNext != null)
+            try
             {
-                await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("NextCheckpoint", newNext);
+                await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            if (groupId != 0)
+            {
+                // if all have reached send next info
+                var newNext = await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(groupId, model.TreasureHuntId);
+
+                if (newNext != null)
+                {
+                    await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("NextCheckpoint", newNext);
+                    
+                }
             }
 
             return true;

@@ -7,6 +7,7 @@ import { TreasureHuntStartInputModel} from "../models/TreasureHuntStartInputMode
 import { environment } from 'src/environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { EventCreateOutput } from '../models/EventCreateOutput';
+import { ValidateCheckpointModel } from '../models/ValidateCheckpointModel';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,11 @@ export class TreasureHuntService {
 
   getTreasureHuntStart(treasureHuntId: number): Observable<TreasureHuntStartInputModel> {
     return this.http.post<TreasureHuntStartInputModel>(`${this.apiUrl}/treasureHunt/start/${treasureHuntId}`, {})
+      .pipe(take(1));
+  }
+
+  validate(model: ValidateCheckpointModel) {
+    return this.http.post<boolean>(`${this.apiUrl}/treasureHunt/validate/`, model)
       .pipe(take(1));
   }
 

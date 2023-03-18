@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { SignalRService } from './signalR.service';
 import { User } from './auth/models/user.model';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',

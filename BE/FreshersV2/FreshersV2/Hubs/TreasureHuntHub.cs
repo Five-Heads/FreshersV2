@@ -24,13 +24,16 @@ namespace FreshersV2.Hubs
         public TreasureHuntHub(IGroupService groupService)
         {
             this.groupService = groupService;
+            a++;
         }
+
+        public static int a = 1;
 
         public override async Task OnConnectedAsync()
         {
+            await base.OnConnectedAsync();
             // add user to connection map
             await this.UserConnected();
-            await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
@@ -47,7 +50,14 @@ namespace FreshersV2.Hubs
             var userId = this.Context.User.GetUserId();
             var connectionId = this.Context.ConnectionId;
 
-            ConnectionsMap.TryAdd(userId, connectionId);
+            if (ConnectionsMap.ContainsKey(userId))
+            {
+                ConnectionsMap[userId] = connectionId;
+            }
+            else
+            {
+                ConnectionsMap.TryAdd(userId, connectionId);
+            }
 
             var group = await groupService.GetUserGroup(userId);
             if (group == null)
@@ -58,7 +68,10 @@ namespace FreshersV2.Hubs
             await this.Groups.AddToGroupAsync(connectionId, group.Id.ToString());
             if (ActiveGroupsMap.TryGetValue(group.Id, out var users))
             {
-                users.Add(userId);
+                if (!users.Contains(userId))
+                {
+                    users.Add(userId);
+                }
             }
             else
             {

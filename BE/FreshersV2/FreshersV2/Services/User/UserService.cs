@@ -13,6 +13,13 @@ namespace FreshersV2.Services.User
             this.appDbContext = appDbContext;
         }
 
+        public async Task<int> GetUserGroup(string userId)
+        {
+            return (await this.appDbContext
+                .Users
+                .FindAsync(userId))?.GroupId ?? 0;
+        }
+
         public async Task<List<UserResponseModel>> GetUsersWithoutGroup()
         {
             return await this.appDbContext
