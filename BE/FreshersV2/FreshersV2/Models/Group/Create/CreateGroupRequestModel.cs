@@ -6,6 +6,6 @@
 
         public List<string> UserIds { get; set; }
 
-        public List<string> TreasureHuntIds { get; set; }
+        public int TreasureHuntId { get; set; }
     }
 }

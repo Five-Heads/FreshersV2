@@ -34,17 +34,23 @@ namespace FreshersV2.Services.Group
                 .FirstOrDefaultAsync();
         }
 
-        public async Task CreateGroup(CreateGroupRequestModel group)
+        public async Task<int> CreateGroup(CreateGroupRequestModel group)
         {
             var toSave = new Data.Models.Group
             {
                 Name = group.Name,
+                Users = group.UserIds.Select(x => new Data.Models.User
+                {
+                    Id = x
+                }).ToList(),
             };
 
             // Todo: relations
 
             await this.appDbContext.Groups.AddAsync(toSave);
             await this.appDbContext.SaveChangesAsync();
+
+            return toSave.Id;
         }
 
         public async Task DeleteGroup(int id)
