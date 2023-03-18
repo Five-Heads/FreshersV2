@@ -11,6 +11,8 @@ namespace FreshersV2.Services.BaseImageContest
 
         Task AddUserToUpcomingContest(string userId);
 
+        Task ChangeStatus(int status);
+
         Task<List<string>> GetUpcomingContestUsers();
 
         Task AddUsersPointsToLeaderboard(List<BlurredImageContestResultsRequestModel> results);

@@ -63,6 +63,15 @@ namespace FreshersV2.Services.BaseImageContest
             }
         }
 
+        public async Task ChangeStatus(int status)
+        {
+            var contest = await this.appDbContext.BlurredImageContests
+                .FirstOrDefaultAsync(x => x.Status == (int)ContestStatus.Upcoming);
+            contest.Status=status;
+            this.appDbContext.BlurredImageContests.Update(contest);
+            await this.appDbContext.SaveChangesAsync();
+        }
+
         public async Task<BlurredImageContest?> GetUpcomingContest()
         {
             try

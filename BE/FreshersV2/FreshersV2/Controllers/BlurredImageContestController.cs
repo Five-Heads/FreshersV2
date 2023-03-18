@@ -48,5 +48,11 @@ namespace FreshersV2.Controllers
         {
             await this.blurredImageContestService.AddUsersPointsToLeaderboard(results);
         }
+
+        [HttpPost("change-status")]
+        public async Task AddUserPoints(ChangeStatusRequestModel model)
+        {
+            await this.blurredImageContestService.ChangeStatus(model.Status);
+        }
     }
 }
