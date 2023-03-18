@@ -80,8 +80,12 @@ namespace FreshersV2.Controllers
             await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("CheckpointReached", userId);
 
             // if all have reached send next info
-            await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(model.GroupId, model.CheckpointId);
-            await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("NextCheckpoint", null);
+            var newNext = await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(model.GroupId, model.CheckpointId);
+
+            if (newNext != null)
+            {
+                await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("NextCheckpoint", newNext);
+            }
 
             return true;
         }

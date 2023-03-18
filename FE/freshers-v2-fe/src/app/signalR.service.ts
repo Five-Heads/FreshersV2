@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
+import { CheckpointInputModel } from './events/models/TreasureHuntStartInputModel';
 
 @Injectable({
     providedIn: 'root'
@@ -38,7 +39,7 @@ export class SignalRService implements IDisposable {
     }
 
     closeConnection() {
-        if(this.connection){
+        if (this.connection) {
             this.connection.stop()
                 .then(console.log)
                 .catch(console.log);
@@ -51,8 +52,12 @@ export class SignalRService implements IDisposable {
     }
 
     private initEvents() {
-        this.connection.on("NewMessage", (data: any) => {
-            // work with global state
+        this.connection.on("CheckpointReached", (userId: string) => {
+            // update
+        })
+
+        this.connection.on("NextCheckpoint", (newNext: CheckpointInputModel) => {
+            // update
         })
     }
 }

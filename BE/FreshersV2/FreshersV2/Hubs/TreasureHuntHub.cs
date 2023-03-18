@@ -50,6 +50,11 @@ namespace FreshersV2.Hubs
             ConnectionsMap.TryAdd(userId, connectionId);
 
             var group = await groupService.GetUserGroup(userId);
+            if (group == null)
+            {
+                return;
+            }
+
             await this.Groups.AddToGroupAsync(connectionId, group.Id.ToString());
             if (ActiveGroupsMap.TryGetValue(group.Id, out var users))
             {
@@ -71,6 +76,11 @@ namespace FreshersV2.Hubs
             if (ConnectionsMap.TryRemove(userId, out var connectionId))
             {
                 var group = await groupService.GetUserGroup(userId);
+                if (group == null)
+                {
+                    return;
+                }
+
                 await this.Groups.RemoveFromGroupAsync(connectionId, group.Id.ToString());
                 if (ActiveGroupsMap.TryGetValue(group.Id, out var users))
                 {

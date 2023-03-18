@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Models.TreasureHunt.Create;
+using FreshersV2.Models.TreasureHunt.NextCheckpoint;
 using FreshersV2.Models.TreasureHunt.Start;
 
 namespace FreshersV2.Services.TreasureHunt
@@ -17,6 +18,6 @@ namespace FreshersV2.Services.TreasureHunt
 
         Task UpdateNextCheckpointForUser(int treasureHuntId, string userId);
 
-        Task<bool> CheckIfAllHaveReachedCheckpoint(int groupId,  int checkpointId);
+        Task<NextCheckpointResponseModel> CheckIfAllHaveReachedCheckpoint(int groupId,  int checkpointId);
     }
 }
