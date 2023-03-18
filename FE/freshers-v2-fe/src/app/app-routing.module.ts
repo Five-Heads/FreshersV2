@@ -6,6 +6,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { EventsComponent } from "./events/events.component";
 import { TreasureHuntComponent } from "./events/treasure-hunt/treasure-hunt.component";
 import { CheckpointComponent } from "./events/treasure-hunt/checkpoint/checkpoint.component";
+import { VotingGameComponent } from './events/voting-game/voting-game.component';
+import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,14 @@ const routes: Routes = [
     path: 'events/treasure-hunt/:id',
     component: CheckpointComponent,
   },
+  {
+    path: 'events/voting-game',
+    component: VotingGameComponent,
+  },
+  {
+    path: 'events/voting-game/:id',
+    component: VotingGameLobbyComponent
+  }
 ];
 
 @NgModule({

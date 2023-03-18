@@ -33,6 +33,7 @@ export class AuthService {
         const user = JSON.parse(userData);
 
         if (this.jwtHelper.isTokenExpired()) {
+            localStorage.removeItem('userData');
             return false;
         }
 

@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, of, BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
 import { CheckpointInputModel } from './events/models/TreasureHuntStartInputModel';
+import { ContestsUpdateResponseModel } from './events/models/ContestsUpdateResponseModel';
+
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class SignalRService implements IDisposable {
+    contestData = new BehaviorSubject<ContestsUpdateResponseModel[] | null>(null);
     private connection!: signalR.HubConnection;
     private apiUrl = environment.apiUrl;
     private userSubscription: Subscription;
@@ -28,8 +32,8 @@ export class SignalRService implements IDisposable {
 
     initConnection() {
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${this.apiUrl}/hubs/TreasureHunt`, {
-                accessTokenFactory: () => this.authService.user.value!.token
+            .withUrl(`${this.apiUrl}/hubs/VoteImage`, {
+                accessTokenFactory: () => this.authService.user.value!.token,
             })
             .build();
 
@@ -52,12 +56,27 @@ export class SignalRService implements IDisposable {
     }
 
     private initEvents() {
-        this.connection.on("CheckpointReached", (userId: string) => {
-            // update
+        this.connection.on("StartRound", (obj: any) => {
+            console.log(obj);
+            this.connection.send("SendImage", { contestId: 1, roundId: 1, imageBase64: "test" });
         })
 
-        this.connection.on("NextCheckpoint", (newNext: CheckpointInputModel) => {
-            // update
+        this.connection.on("StartVote", (obj:any) => {
+            console.log(obj);
+            this.connection.send("CastVote", {contestId: 1, roundId: 1, imageId: 1});
+        })
+
+        this.connection.on("EndRound", (obj:any) => {
+            console.log(obj)
+        })
+
+        this.connection.on("Finish", (obj:any) => {
+            console.log(obj)
+        })
+
+        this.connection.on("ContestsUpdateData", (obj: ContestsUpdateResponseModel[]) => {
+            this.contestData.next(obj);
+            console.log(obj);
         })
     }
 }

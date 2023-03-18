@@ -22,8 +22,11 @@ import { SafePipe } from './events/treasure-hunt/checkpoint/safe.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { CreateEventModalComponent } from './events/create-event-modal/create-event-modal.component';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CreateCheckpointModalComponent } from './events/create-event-modal/create-checkpoint-modal/create-checkpoint-modal.component';
+import { VotingGameComponent } from './events/voting-game/voting-game.component';
+import { CreateContestModalComponent } from './events/voting-game/create-contest-modal/create-contest-modal.component';
+import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +42,10 @@ import { CreateCheckpointModalComponent } from './events/create-event-modal/crea
     FooterComponent,
     CreateEventModalComponent,
     CreateCheckpointModalComponent,
-    ]
-  ,
+    VotingGameComponent,
+    CreateContestModalComponent,
+    VotingGameLobbyComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
