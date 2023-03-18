@@ -47,7 +47,7 @@
           <ng-select [items]="users"
                      [clearable]="true"
                      [multiple]="true"
-                     bindLabel="fn"
+                     bindLabel="facultyNumber"
                      bindValue="id"
                      id="UsersIds"
                      class="mt-1"
@@ -55,8 +55,8 @@
                      placeholder="Изберете потребители">
             <ng-template ng-option-tmp let-item="item">
               <div>
-                <span class="font-weight-500">{{item.fn}}</span><br>
-                <span class="small">{{item.name}}</span>
+                <span class="font-weight-500">{{item.facultyNumber}}</span><br>
+                <span class="small">{{item.userName}}</span>
               </div>
             </ng-template>
           </ng-select>

@@ -2,7 +2,8 @@
 {
     public class AddBaseImageRequestModel
     {
-        // TODO: add properties
+        public string Object { get; set; }
+
         public string Base64Image { get; set; }
     }
 }

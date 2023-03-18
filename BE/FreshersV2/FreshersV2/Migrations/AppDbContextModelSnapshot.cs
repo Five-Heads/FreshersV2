@@ -85,14 +85,12 @@ namespace FreshersV2.Migrations
                     b.Property<int>("SecondsPerRound")
                         .HasColumnType("int");
 
-                    b.Property<string>("WinnerId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BaseImageId");
-
-                    b.HasIndex("WinnerId");
 
                     b.ToTable("BlurredImageContests");
                 });
@@ -715,14 +713,7 @@ namespace FreshersV2.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FreshersV2.Data.Models.User", "Winner")
-                        .WithMany()
-                        .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("BaseImage");
-
-                    b.Navigation("Winner");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.BlurredImageGame.UserBlurredImageContest", b =>
