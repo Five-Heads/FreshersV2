@@ -85,13 +85,17 @@ export class CreateEventModalComponent implements OnInit, OnDestroy{
       const data = this.formGroup.getRawValue();
 
       data['Checkpoints'] = this.crrCheckpointsForEvent;
-      data['StartTime'] = this.startDate.day +'-' +this.startDate.month+'-' + this.startDate.year + 'T' + (!!data['StartTimeHour'] ? data['StartTimeHour']: '00:00') + ":00";
-      data['EndTime'] = this.endDate.day +'-' +this.endDate.month+'-' + this.endDate.year + 'T' + (!!data['EndTimeHour'] ? data['EndTimeHour']: '00:00')  + ":00";
+      //data['StartTime'] =(this.startDate.day<10 ? '0':'')+this.startDate.day +'-' +(this.startDate.month<10 ? '0':'') + this.startDate.month
+      //    + '-' + this.startDate.year + 'T' + (!!data['StartTimeHour'] ? data['StartTimeHour']: '00:00') + ":00";
+      //data['EndTime'] = (this.endDate.day<10 ? '0':'')+this.endDate.day +'-' +(this.endDate.month<10 ? '0':'') + this.endDate.month+'-' + this.endDate.year + 'T' + (!!data['EndTimeHour'] ? data['EndTimeHour']: '00:00')  + ":00";
+      data['StartTime'] = new Date().toISOString();
+      data['EndTime'] = new Date().toISOString();
 
       console.log(data);
       console.log(this.startDate);
       console.log(this.endDate);
       //TODO connwct
+      this.treasureHuntService.createTreasureHunt(data).subscribe();
     }
   }
   addCheckpoint() {

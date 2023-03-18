@@ -27,6 +27,7 @@ export class CheckpointComponent implements OnInit, OnDestroy {
     resize: false,
     text: {font: '25px serif'}, // Hiden { font: '0px' },
     frame: {lineWidth: 8},
+    isBeep: false,
     medias: {
       audio: false,
       video: {

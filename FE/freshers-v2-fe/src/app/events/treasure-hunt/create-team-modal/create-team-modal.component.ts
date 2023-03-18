@@ -45,7 +45,7 @@ export class CreateTeamModalComponent implements OnInit, OnDestroy {
         disabled: false
       }, [Validators.required]),
       treasureHuntId: new FormControl({
-        value: 1,
+        value: 18,
         disabled: false
       }, [Validators.required]),
     })

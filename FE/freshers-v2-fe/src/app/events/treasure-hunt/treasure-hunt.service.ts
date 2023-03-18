@@ -6,6 +6,7 @@ import {TreasureHuntCreateInputModel} from "../models/TreasureHuntCreateInputMod
 import { TreasureHuntStartInputModel} from "../models/TreasureHuntStartInputModel";
 import { environment } from 'src/environment/environment';
 import { HttpClient } from '@angular/common/http';
+import { EventCreateOutput } from '../models/EventCreateOutput';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,11 @@ export class TreasureHuntService {
   constructor(
       private http: HttpClient,
   ) { }
+
+  createTreasureHunt(data: EventCreateOutput) {
+    return this.http.post(`${this.apiUrl}/treasureHunt/create`, data)
+      .pipe(take(1));
+  }
 
   createGroup(data: any) {
     return this.http.post(`${this.apiUrl}/groups/create`, data)
@@ -38,21 +44,26 @@ export class TreasureHuntService {
     return of(model);
   }
 
-  getTreasureHuntStart(): Observable<TreasureHuntStartInputModel> {
-    const url = '';
-    const model: TreasureHuntStartInputModel= {
-       Id: 1,
-       TotalCheckpoints: 3,
-       GroupId: 1,
-       GroupMembers: [1, 2],
-       Next: {
-         Id: 23,
-         Question: 'Затъен в обръза на безличието?',
-         IsFinal: false,
-         AssignPerson: "Иван Иванов",
-         OrderNumber: 1,
-         NextReachedBy: [1, 2],
-       },}
-    return of(model);
+  getTreasureHuntStart(treasureHuntId: number): Observable<TreasureHuntStartInputModel> {
+    return this.http.post<TreasureHuntStartInputModel>(`${this.apiUrl}/treasureHunt/start/${treasureHuntId}`, {})
+      .pipe(take(1));
   }
+
+  // getTreasureHuntStart(trId: number): Observable<TreasureHuntStartInputModel> {
+  //   const url = '';
+  //   const model: TreasureHuntStartInputModel= {
+  //      Id: 1,
+  //      TotalCheckpoints: 3,
+  //      GroupId: 1,
+  //      GroupMembers: [1, 2],
+  //      Next: {
+  //        Id: 23,
+  //        Question: 'Затъен в обръза на безличието?',
+  //        IsFinal: false,
+  //        AssignPerson: "Иван Иванов",
+  //        OrderNumber: 1,
+  //        NextReachedBy: [1, 2],
+  //      },}
+  //   return of(model);
+  // }
 }

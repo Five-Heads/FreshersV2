@@ -6,4 +6,6 @@ export class TreasureHuntData {
   public GroupId: number = 0
 
   public GroupMembers: number[] = []
+
+  public nextReachedBy: string[] = []
 }

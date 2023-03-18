@@ -9,9 +9,5 @@
         public int BlurredImageContestId { get; set; }
 
         public BlurredImageContest BlurredImageContest { get; set; }
-
-        public int Ranking { get; set; }
-
-        public int Points { get; set; }
     }
 }

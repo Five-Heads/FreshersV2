@@ -16,6 +16,8 @@ namespace FreshersV2.Data.Models.BlurredImageGame
 
         public BaseImage BaseImage { get; set; }
 
-        public int Status { get; set; }     
+        public int Status { get; set; }
+
+        public List<UserBlurredImageContest> UserBlurredImageContests { get; set; }         
     }
 }

@@ -8,17 +8,19 @@ export class TreasureHuntStartInputModel {
 
     public GroupMembers: number[],
 
-    public Next: CheckpointInputModel,
+    public next: CheckpointInputModel,
+
+    public nextReachedBy: string[] = []
   ) {
   }
 }
 export class CheckpointInputModel {
 
-    public Id: number = 0
-    public Question: string = ''
-    public IsFinal: boolean = false
-    public AssignPerson: string = ''
-    public OrderNumber: number = 0
-    public NextReachedBy: number[] =[]
+    public id: number = 0
+    public question: string = ''
+    public isFinal: boolean = false
+    public assignPerson: string = ''
+    public orderNumber: number = 0
+    public nextReachedBy: string[] = []
 
 }
