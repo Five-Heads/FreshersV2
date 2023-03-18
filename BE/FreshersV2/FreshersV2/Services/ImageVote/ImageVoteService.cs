@@ -101,18 +101,27 @@ namespace FreshersV2.Services.ImageVote
                 Id = x.Id,
                 Name = x.Name,
                 VoteTime = x.VoteTime,
-                Words = x.Words,
+                Words = x.Words.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
             }).ToList();
         }
 
-        public Task<List<VoteImage>> GetRoundImages(int contestId, int roundId)
+        public async Task<List<VoteImage>> GetRoundImages(int contestId, int roundId)
         {
-            throw new System.NotImplementedException();
+            return await context.Images.Where(x => x.ContestId == contestId && x.RoundVoteId == roundId)
+                .Include(x => x.User).ToListAsync();
         }
 
-        public Task SaveImage(int contestId, int roundId, string userId, string imageBase64)
+        public async Task SaveImage(int contestId, int roundId, string userId, string imageBase64)
         {
-            throw new System.NotImplementedException();
+            await context.Images.AddAsync(new VoteImage()
+            {
+                ContestId = contestId,
+                Base64Image = imageBase64,
+                UserId = userId,
+                RoundVoteId = roundId
+            });
+
+            await context.SaveChangesAsync();
         }
     }
 }

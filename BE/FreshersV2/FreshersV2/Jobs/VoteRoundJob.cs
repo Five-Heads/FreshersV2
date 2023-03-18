@@ -49,7 +49,16 @@ namespace FreshersV2.Jobs
                 foreach (var user in participant)
                 {
                     bool isDrawing = drawingUsersHubIds.Contains(user.UserHubId);
-                    await this.context.Clients.User(user.UserHubId).SendAsync("StartRound", contestId, currentRoundId, word, contest.DrawTime, isDrawing);
+                    await this.context.Clients.User(user.UserHubId).SendAsync("StartRound",
+                        new DrawSocketModel
+                        {
+                            ContestId = contestId,
+                            CurrendRoundId = currentRoundId,
+                            Word = word,
+                            DrawTime = contest.DrawTime,
+                            IsDrawing = isDrawing,
+                        }
+                    );
                 }
 
                 await Task.Delay((contest.DrawTime * 1000) + waitTimeExtraDelay);
@@ -104,7 +113,7 @@ namespace FreshersV2.Jobs
                     drawingUsersHubIds.Add(shuffledImages.Last().User.UserHubId);
                 }
 
-                await this.context.Clients.Group(contestId.ToString()).SendAsync("EndRound", scores.OrderBy(x => x.Value).ToList());
+                await this.context.Clients.Group(contestId.ToString()).SendAsync("EndRound", new { leaderboard = scores.OrderBy(x => x.Value).ToList() });
 
                 await Task.Delay(viewResultsTimeDelay + waitTimeExtraDelay);
             }
@@ -114,7 +123,7 @@ namespace FreshersV2.Jobs
                 await leaderboardService.AddPoints(score.Key, score.Value);
             }
 
-            await context.Clients.Groups(contestId.ToString()).SendAsync("Finish", scores.OrderBy(x => x.Value).ToList());
+            await context.Clients.Groups(contestId.ToString()).SendAsync("Finish", new { leaderboard = scores.OrderBy(x => x.Value).ToList() });
         }
     }
 }

@@ -12,6 +12,6 @@
 
         public int DrawTime { get; set; }
 
-        public string Words { get; set; }
+        public List<string> Words { get; set; }
     }
 }
