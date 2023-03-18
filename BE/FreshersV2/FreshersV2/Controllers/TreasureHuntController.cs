@@ -1,9 +1,9 @@
 ﻿using FreshersV2.Data.Models;
+using FreshersV2.Models.TreasureHunt.Start;
 using FreshersV2.Services.TreasureHunt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace FreshersV2.Controllers
 {
@@ -18,17 +18,28 @@ namespace FreshersV2.Controllers
         }
 
         [HttpGet("my")]
-        public async Task My()
+        public async Task<List<TreasureHunt>> My()
         {
-            var role = this.ExtractClaim<string>(ClaimTypes.Role);
-            if (role != Enum.GetName(typeof(Role), Role.Admin))
+            var userId = this.GetUserId();
+            if (string.IsNullOrEmpty(userId))
             {
-                return;
+                return new List<TreasureHunt>();
             }
 
-            var userId = this.ExtractClaim<string>(ClaimTypes.NameIdentifier);
-            var a = 5;
+            return await this.treasureHuntService.GetUserTreasureHunts(userId);
+        }
 
+
+        [HttpPost("Start/{id}")]
+        public async Task<StartTreasureHuntResponseModel> Start([FromRoute] int id)
+        {
+            var userId = this.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+            
+            return await this.treasureHuntService.StartTreasureHunt(id, userId);
         }
     }
 }

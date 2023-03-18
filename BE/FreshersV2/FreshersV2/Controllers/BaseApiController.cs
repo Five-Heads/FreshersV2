@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FreshersV2.Controllers
 {
@@ -29,6 +30,11 @@ namespace FreshersV2.Controllers
                 return user.IsInRole(role);
             }
             return false;
+        }
+
+        protected string GetUserId()
+        {
+            return this.ExtractClaim<string>(ClaimTypes.NameIdentifier);
         }
     }
 }

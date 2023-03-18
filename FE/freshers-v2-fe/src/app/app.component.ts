@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { SignalRService } from './signalR.service';
+import { User } from './auth/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -8,19 +9,18 @@ import { SignalRService } from './signalR.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  user?: User | null;
+
   constructor(
     private authService: AuthService,
     private signalRService: SignalRService
   ) {
-
+    this.authService.user.subscribe(user => this.user = user)
   }
 
   title = 'freshers-v2-fe';
   
   ngOnInit() {
-    this.authService.login("a", "a").subscribe((data)=>{
-      this.signalRService.initConnection();
-    })
-
+    this.authService.checkIsUserAuthenticatedOnStart();
   }
 }

@@ -18,7 +18,7 @@
 
         public string QRCode { get; set; }
 
-        public int Number { get; set; }
+        public int OrderNumber { get; set; }
 
         public int TreasureHuntId { get; set; }
 

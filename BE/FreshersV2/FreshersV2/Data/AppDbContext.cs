@@ -22,8 +22,6 @@ namespace FreshersV2.Data
 
         public DbSet<TreasureHunt> TreasureHunts { get; set; }
 
-        public DbSet<UserGroup> UserGroups { get; set; }
-
         public DbSet<UserTreasureHunt> UserTreasureHunts { get; set; }
 
         #endregion
@@ -67,8 +65,6 @@ namespace FreshersV2.Data
             builder.ApplyConfiguration(new GroupConfiguration());
             builder.ApplyConfiguration(new GroupTreasureHuntConfiguration());
             builder.ApplyConfiguration(new TreasureHuntConfiguration());
-            //builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new UserGroupConfiguration());
             builder.ApplyConfiguration(new UserTreasureHuntConfiguration());
 
             builder.ApplyConfiguration(new BaseImageConfiguration());

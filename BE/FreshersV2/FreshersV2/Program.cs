@@ -77,7 +77,7 @@ app.UseRouting()
    .UseAuthorization()
    .UseEndpoints(endpoints =>
    {
-       endpoints.MapHub<TestHub>("/hubs/test");
+       endpoints.MapHub<TreasureHuntHub>("/hubs/TreasureHunt");
        endpoints.MapHub<VoteImageHub>("/hubs/VoteImage");
        endpoints.MapControllers();
        endpoints.MapHangfireDashboard();
