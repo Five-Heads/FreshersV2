@@ -37,5 +37,7 @@ export class VotingGameComponent {
 
     this.signalRService.contestData
         .subscribe(x => this.contestData = x)
+
+    this.signalRService.initConnection();
   }
 }

@@ -9,7 +9,7 @@ import { CheckpointInputModel } from './events/models/TreasureHuntStartInputMode
 @Injectable({
     providedIn: 'root'
 })
-export class VoteImageSignalRService implements IDisposable {
+export class VSoteImageSignalRService implements IDisposable {
     private connection!: signalR.HubConnection;
     private apiUrl = environment.apiUrl;
     private userSubscription: Subscription;
@@ -17,9 +17,6 @@ export class VoteImageSignalRService implements IDisposable {
     constructor(
         private authService: AuthService
     ) {
-        this.userSubscription = authService.user.subscribe(user => {
-            user ? this.initConnection() : this.closeConnection();
-        });
     }
 
     send(eventName: string, data: any) {
@@ -55,6 +52,10 @@ export class VoteImageSignalRService implements IDisposable {
  
         
         console.log("Logged")
+        this.connection.on("ContestsUpdateData", (obj: any) => {
+            console.log(obj);
+        })
+
         this.connection.on("StartRound", (obj: any) => {
             console.log(obj);
             this.connection.send("SendImage", { contestId: 1, roundId: 1, imageBase64: "test" });

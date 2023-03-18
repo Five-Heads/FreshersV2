@@ -13,6 +13,7 @@ export class VotingGameLobbyComponent {
   }
 
   ngOnInit(): void {
-    this.signalRService.send("JoinContest", {});
+    console.log(this.signalRService);
+    this.signalRService.send("JoinContest", []);
   }
 }
