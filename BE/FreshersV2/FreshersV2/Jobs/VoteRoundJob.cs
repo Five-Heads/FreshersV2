@@ -76,19 +76,19 @@ namespace FreshersV2.Jobs
                         drawingUsersHubIds.Add(image1.User.UserHubId);
                         if (!scores.ContainsKey(image1.User.UserHubId))
                         {
-                            scores.Add(image1.User.User.Name, 0);
+                            scores.Add(image1.User.User.UserName, 0);
                         }
 
-                        scores[image1.User.User.Name] += scoreForWin;
+                        scores[image1.User.User.UserName] += scoreForWin;
                     }
                     else
                     {
                         drawingUsersHubIds.Add(image2.User.UserHubId);
                         if (!scores.ContainsKey(image1.User.UserHubId))
                         {
-                            scores.Add(image2.User.User.Name, 0);
+                            scores.Add(image2.User.User.UserName, 0);
                         }
-                        scores[image2.User.User.Name] += scoreForWin;
+                        scores[image2.User.User.UserName] += scoreForWin;
                     }
                 }
 
