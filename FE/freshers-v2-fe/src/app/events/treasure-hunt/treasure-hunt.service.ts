@@ -44,26 +44,26 @@ export class TreasureHuntService {
     return of(model);
   }
 
-  // getTreasureHuntStart(treasureHuntId: number): Observable<TreasureHuntStartInputModel> {
-  //   return this.http.post<TreasureHuntStartInputModel>(`${this.apiUrl}/treasureHunt/start/${treasureHuntId}`, {})
-  //     .pipe(take(1));
-  // }
-
-  getTreasureHuntStart(trId: number): Observable<TreasureHuntStartInputModel> {
-    const url = '';
-    const model: TreasureHuntStartInputModel= {
-       Id: 1,
-       TotalCheckpoints: 3,
-       GroupId: 1,
-       GroupMembers: [1, 2],
-       Next: {
-         Id: 23,
-         Question: 'Затъен в обръза на безличието?',
-         IsFinal: false,
-         AssignPerson: "Иван Иванов",
-         OrderNumber: 1,
-         NextReachedBy: [1, 2],
-       },}
-    return of(model);
+  getTreasureHuntStart(treasureHuntId: number): Observable<TreasureHuntStartInputModel> {
+    return this.http.post<TreasureHuntStartInputModel>(`${this.apiUrl}/treasureHunt/start/${treasureHuntId}`, {})
+      .pipe(take(1));
   }
+
+  // getTreasureHuntStart(trId: number): Observable<TreasureHuntStartInputModel> {
+  //   const url = '';
+  //   const model: TreasureHuntStartInputModel= {
+  //      Id: 1,
+  //      TotalCheckpoints: 3,
+  //      GroupId: 1,
+  //      GroupMembers: [1, 2],
+  //      Next: {
+  //        Id: 23,
+  //        Question: 'Затъен в обръза на безличието?',
+  //        IsFinal: false,
+  //        AssignPerson: "Иван Иванов",
+  //        OrderNumber: 1,
+  //        NextReachedBy: [1, 2],
+  //      },}
+  //   return of(model);
+  // }
 }

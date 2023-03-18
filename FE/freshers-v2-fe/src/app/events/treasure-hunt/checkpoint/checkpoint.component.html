@@ -1,12 +1,11 @@
 <!--<div class="container">-->
 <div class="row text-center ">
   <div class="horizontal-div bg-primary">
-    <h2 class="mt-2">Question: {{selectedCheckPoint.OrderNumber}}:</h2>
+    <h2 class="mt-2">Question: {{selectedCheckPoint.orderNumber}}:</h2>
     <hr>
-    <h1 class="mb-3"> {{selectedCheckPoint.Question}}</h1>
+    <h1 class="mb-3"> {{selectedCheckPoint.question}}</h1>
   </div>
 </div>
-
 
 <div class="row">
   <div class="col custom">
@@ -47,7 +46,7 @@
         </div>
         <div class="col px-0 mr-5">
           <h5 class="text-uppercase">Completed checkpoints</h5>
-          <h1 class="display-5 mb-0" data-toggle="counter-up">{{selectedCheckPoint.OrderNumber-1}} / {{selectedTreasureHust.TotalCheckpoints}}</h1>
+          <h1 class="display-5 mb-0" data-toggle="counter-up">{{selectedCheckPoint.orderNumber-1}} / {{selectedTreasureHust.TotalCheckpoints}}</h1>
         </div>
       </div>
       <div class="row mt-2">
@@ -61,7 +60,7 @@
         </div>
         <div class="col px-0">
           <h5 class="text-uppercase">Person checkpoint completion</h5>
-          <h1 class="display-5 mb-0" data-toggle="counter-up">0 / {{selectedCheckPoint.NextReachedBy.length}}</h1>
+          <h1 class="display-5 mb-0" data-toggle="counter-up">0 / {{selectedTreasureHust.nextReachedBy.length}}</h1>
         </div>
       </div>
       <div class="row mt-2">

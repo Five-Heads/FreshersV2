@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Data;
+using FreshersV2.Data.Models;
 using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.NextCheckpoint;
 using FreshersV2.Models.TreasureHunt.Start;
@@ -67,8 +68,12 @@ namespace FreshersV2.Services.TreasureHunt
 
         public async Task<StartTreasureHuntResponseModel> StartTreasureHunt(int treasureHuntId, string userId)
         {
+
             var result = await this.appDbContext
                 .UserTreasureHunts
+                .Include(x=>x.Next)
+                .Include(x => x.TreasureHunt)
+                .ThenInclude(x => x.Checkpoints)
                 .Where(x => x.UserId == userId && x.TreasureHuntId == treasureHuntId)
                 .Select(x => new StartTreasureHuntResponseModel()
                 {
@@ -115,12 +120,17 @@ namespace FreshersV2.Services.TreasureHunt
             var treasureHunt = await
                 this.appDbContext
                 .TreasureHunts
-                .FindAsync(treasureHuntId);
+                .Include(x => x.Checkpoints)
+                .FirstOrDefaultAsync(x => x.Id == treasureHuntId);
 
             if (treasureHunt == null)
             {
                 return;
             }
+
+            var firstCheckpoint = treasureHunt.Checkpoints
+                .OrderBy(x => x.OrderNumber)
+                .FirstOrDefault();
 
             await this.appDbContext
                 .GroupTreasureHunts
@@ -129,11 +139,37 @@ namespace FreshersV2.Services.TreasureHunt
                     TreasureHuntId = treasureHuntId,
                     GroupId = groupId,
                     Started = false,
-                    Done = null,
+                    Done = "",
                     StartTime = DateTime.UtcNow,
                     EndTime = DateTime.UtcNow,
-                    NextId = treasureHunt.Checkpoints.Min(x => x.OrderNumber)
+                    NextId = firstCheckpoint.Id
                 });
+
+
+            var users = await this.appDbContext
+                .Users
+                .Where(x => x.GroupId == groupId)
+                .ToListAsync();
+
+            if (users.Count > 0)
+            {
+                List<UserTreasureHunt> userTreasureHunts = new List<UserTreasureHunt>();
+
+                foreach (var user in users)
+                {
+                    userTreasureHunts.Add(new UserTreasureHunt
+                    {
+                        TreasureHuntId = treasureHuntId,
+                        UserId = user.Id,
+                        NextId = firstCheckpoint.Id,
+                        Done = ""
+                    });
+                }
+
+                await this.appDbContext
+                    .UserTreasureHunts
+                    .AddRangeAsync(userTreasureHunts);
+            }
 
             await this.appDbContext.SaveChangesAsync();
         }
@@ -207,7 +243,8 @@ namespace FreshersV2.Services.TreasureHunt
             this.appDbContext.Update(groupTreasureHunt);
             await this.appDbContext.SaveChangesAsync();
 
-            return new NextCheckpointResponseModel {
+            return new NextCheckpointResponseModel
+            {
                 Id = newNext.Id,
                 IsFinal = newNext.IsFinal,
                 AssignedPerson = newNext.AssignedPersonName,

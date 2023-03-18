@@ -51,6 +51,7 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    debugger;
     this.subs.add(
       this.treasureHuntDataService.getSelectedCheckpoint().subscribe(res => {
         this.selectedCheckPoint = res;
