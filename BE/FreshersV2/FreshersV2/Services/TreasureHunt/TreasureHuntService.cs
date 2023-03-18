@@ -3,7 +3,6 @@ using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.Start;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
-using System.Drawing;
 
 namespace FreshersV2.Services.TreasureHunt
 {
