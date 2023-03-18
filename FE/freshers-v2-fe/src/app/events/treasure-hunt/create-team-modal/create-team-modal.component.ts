@@ -32,16 +32,15 @@ export class CreateTeamModalComponent implements OnInit, OnDestroy {
                     users,
                     treasureHunts
                   ]) => {
-                    debugger;
       this.users = users;
     })
 
     this.formGroup = new FormGroup({
-      teamName: new FormControl({
+      name: new FormControl({
         value: null,
         disabled: false
       }, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-      userId: new FormControl({
+      userIds: new FormControl({
         value: null,
         disabled: false
       }, [Validators.required]),
@@ -62,6 +61,7 @@ export class CreateTeamModalComponent implements OnInit, OnDestroy {
       const data = this.formGroup.getRawValue();
       console.log(data);
       //TODO create a team with members
+      this.treasureHuntService.createGroup(data).subscribe();
       }
 
   }

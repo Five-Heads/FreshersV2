@@ -7,7 +7,7 @@ namespace FreshersV2.Services.Group
     {
         Task<GroupInfoResponseModel> GetUserGroup(string userId);
 
-        Task CreateGroup(CreateGroupRequestModel group);
+        Task<int> CreateGroup(CreateGroupRequestModel group);
 
         Task DeleteGroup(int id);
     }
