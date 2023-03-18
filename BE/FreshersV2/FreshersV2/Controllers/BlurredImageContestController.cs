@@ -44,9 +44,10 @@ namespace FreshersV2.Controllers
         }
 
         [HttpPost("user-rankings")]
-        public async Task AddUserPoints(List<BlurredImageContestResultsRequestModel> results)
+        public async Task AddUserPoints(BlurredImageContestResultsRequestModel model)
         {
-            await this.blurredImageContestService.AddUsersPointsToLeaderboard(results);
+            var userId=this.GetUserId();
+            await this.blurredImageContestService.AddUsersPointsToLeaderboard(model.Round,userId);
         }
 
         [HttpPost("change-status")]

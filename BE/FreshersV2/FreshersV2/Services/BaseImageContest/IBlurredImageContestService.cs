@@ -15,6 +15,6 @@ namespace FreshersV2.Services.BaseImageContest
 
         Task<List<string>> GetUpcomingContestUsers();
 
-        Task AddUsersPointsToLeaderboard(List<BlurredImageContestResultsRequestModel> results);
+        Task AddUsersPointsToLeaderboard(int round, string userId);
     }
 }
