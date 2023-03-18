@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {LoginComponent} from "./login/login.component";
-import {RegisterComponent} from "./register/register.component";
-import {EventsComponent} from "./events/events.component";
-import {CreateTeamModalComponent} from "./events/treasure-hunt/create-team-modal/create-team-modal.component";
-import {TreasureHuntComponent} from "./events/treasure-hunt/treasure-hunt.component";
-import {CheckpointComponent} from "./events/treasure-hunt/checkpoint/checkpoint.component";
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
+import { JwtModule } from '@auth0/angular-jwt';
+import { EventsComponent } from "./events/events.component";
+import { TreasureHuntComponent } from "./events/treasure-hunt/treasure-hunt.component";
+import { CheckpointComponent } from "./events/treasure-hunt/checkpoint/checkpoint.component";
 
 const routes: Routes = [
   {
@@ -31,7 +31,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          const data = JSON.parse(localStorage.getItem("userData") || '{}');
+          return data.token;
+        }
+      },
+    }),
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

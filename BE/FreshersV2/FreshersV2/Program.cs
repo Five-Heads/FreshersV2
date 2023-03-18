@@ -3,7 +3,6 @@ using FreshersV2.Data.Models;
 using FreshersV2.Hubs;
 using FreshersV2.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Hangfire;
 using Hangfire.SqlServer;
 
@@ -38,6 +37,7 @@ services
 
 services
     .AddIdentity<User, IdentityRole>()
+    .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 services.AddHangfire(configuration =>
@@ -77,8 +77,8 @@ app.UseRouting()
    .UseAuthorization()
    .UseEndpoints(endpoints =>
    {
-       endpoints.MapHub<TestHub>("/hubs/test");
-       endpoints.MapHub<VoteImageHub>("/hubs/voteimage");
+       endpoints.MapHub<TreasureHuntHub>("/hubs/TreasureHunt");
+       endpoints.MapHub<VoteImageHub>("/hubs/VoteImage");
        endpoints.MapControllers();
        endpoints.MapHangfireDashboard();
    });

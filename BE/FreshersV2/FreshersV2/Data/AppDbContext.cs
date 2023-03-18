@@ -22,8 +22,6 @@ namespace FreshersV2.Data
 
         public DbSet<TreasureHunt> TreasureHunts { get; set; }
 
-        public DbSet<UserGroup> UserGroups { get; set; }
-
         public DbSet<UserTreasureHunt> UserTreasureHunts { get; set; }
 
         #endregion
@@ -55,6 +53,7 @@ namespace FreshersV2.Data
         public DbSet<RoundDrawingUser> RoundDrawingUsers { get; set; }
         #endregion
 
+        public DbSet<Leaderboard> Leaderboard { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -66,8 +65,6 @@ namespace FreshersV2.Data
             builder.ApplyConfiguration(new GroupConfiguration());
             builder.ApplyConfiguration(new GroupTreasureHuntConfiguration());
             builder.ApplyConfiguration(new TreasureHuntConfiguration());
-            //builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new UserGroupConfiguration());
             builder.ApplyConfiguration(new UserTreasureHuntConfiguration());
 
             builder.ApplyConfiguration(new BaseImageConfiguration());
@@ -81,6 +78,8 @@ namespace FreshersV2.Data
             builder.ApplyConfiguration(new RoundVoteConfiguration());
             builder.ApplyConfiguration(new RoundConfiguration());
             builder.ApplyConfiguration(new RoundDrawingUserConfiguration());
+
+            builder.ApplyConfiguration(new LeaderboardConfiguration());
 
             base.OnModelCreating(builder);
         }

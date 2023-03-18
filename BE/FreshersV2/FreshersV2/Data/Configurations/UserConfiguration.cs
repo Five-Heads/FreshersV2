@@ -12,6 +12,10 @@ namespace FreshersV2.Data.Configurations
             builder
                 .HasIndex(x => x.FacultyNumber)
                 .IsUnique();
+
+            builder
+                .Property(x => x.GroupId)
+                .IsRequired(false);
         }
     }
 }

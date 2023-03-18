@@ -7,6 +7,8 @@ namespace FreshersV2.Data.Models.VoteImageGame
         [Key]
         public int Id { get; set; }
 
+        public string Word { get; set; }
+
         public int RoundNumber { get; set; }
 
         public int ContestId { get; set; }
@@ -18,6 +20,8 @@ namespace FreshersV2.Data.Models.VoteImageGame
         public List<RoundVote> Votes { get; set; } = new List<RoundVote>();
 
         public List<RoundDrawingUser> DrawingUsers { get; set; } = new List<RoundDrawingUser>();
+
+        public List<VoteImageRound> ImageRounds { get; set; } = new List<VoteImageRound>();
 
     }
 }

@@ -230,3 +230,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 /src/WebApi/logs
+/BE/FreshersV2/FreshersV2/Migrations

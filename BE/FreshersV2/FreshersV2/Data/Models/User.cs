@@ -6,13 +6,12 @@ namespace FreshersV2.Data.Models
     {
         // TODO: not the correct way to have roles
         // for the purpose of the hackaton we will use enum
-        public Role Role { get; set; }
-
-        public string Name { get; set; }
+        public Role Role { get; set; } = Role.User;
 
         public string FacultyNumber { get; set; } = null;
 
+        public int? GroupId { get; set; }
 
-        public List<UserGroup> Groups = new List<UserGroup>();
+        public Group? Group { get; set; }
     }
 }

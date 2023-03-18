@@ -1,6 +1,7 @@
 ﻿using FreshersV2.Models.BlurredImage;
 using FreshersV2.Services.BaseImage;
 using FreshersV2.Services.BlurredImage;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,8 @@ using System.Drawing;
 
 namespace FreshersV2.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    // [Authorize(Roles = "Admin")]
-    public class BaseImageController : ControllerBase
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class BaseImageController : BaseApiController
     {
         private readonly IBaseImageService baseImageService;
         private readonly IBlurredImageService blurredImageService;

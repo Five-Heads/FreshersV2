@@ -1,12 +1,13 @@
 ﻿using FreshersV2.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 
 namespace FreshersV2.Hubs
 {
-    [Authorize]
-    public class TestHub : Hub
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class TreasureHuntHub : Hub
     {
         // userId: connectionId
         public static readonly ConcurrentDictionary<string, string> ConnectionsMap

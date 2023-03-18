@@ -14,7 +14,7 @@ namespace FreshersV2.Data.Configurations.VoteImageGame
             builder
                 .HasOne(x => x.User)
                 .WithMany(x => x.RoundsDrawing)
-                .HasForeignKey(x => x.UserId)
+                .HasForeignKey(x => new { x.UserId, x.ContestId })
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder

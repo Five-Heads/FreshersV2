@@ -1,5 +1,7 @@
 ﻿using FreshersV2.Data;
+using FreshersV2.Models.Group;
 using FreshersV2.Models.Group.Create;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.Group
 {
@@ -12,6 +14,26 @@ namespace FreshersV2.Services.Group
             this.appDbContext = appDbContext;
         }
 
+        public async Task<GroupInfoResponseModel> GetUserGroup(string userId)
+        {
+            return await this.appDbContext
+                .Users
+                .Where(x => x.GroupId.HasValue && x.Id == userId)
+                .Include(x => x.Group)
+                .Select(x => new GroupInfoResponseModel
+                {
+                    Id = x.GroupId.Value,
+                    Name = x.Group.Name,
+                    Users = x.Group.Users.Select(u => new Models.UserResponseModel
+                    {
+                        Id = u.Id,
+                        FacultyNumber = u.FacultyNumber,
+                        UserName = u.UserName
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task CreateGroup(CreateGroupRequestModel group)
         {
             var toSave = new Data.Models.Group
@@ -19,15 +41,15 @@ namespace FreshersV2.Services.Group
                 Name = group.Name,
             };
 
-            // TODO: add relations
-            
+            // Todo: relations
+
             await this.appDbContext.Groups.AddAsync(toSave);
             await this.appDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteGroup(int id)
         {
-            // TODO: delete all relations
+            // TODO: will this delete all the groups
             this.appDbContext.Groups.Remove(new Data.Models.Group
             {
                 Id = id

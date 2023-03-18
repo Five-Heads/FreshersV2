@@ -11,13 +11,9 @@ namespace FreshersV2.Data.Models.VoteImageGame
 
         public Round Round { get; set; }
 
-        public int Image1Id { get; set; }
+        public int VoteImageRoundId { get; set; }
 
-        public VoteImage Image1 { get; set; }
-
-        public int Image2Id { get; set; }
-
-        public VoteImage Image2 { get; set; }
+        public VoteImageRound VoteImageRound { get; set; }
 
         public int Image1Votes { get; set; }
 
