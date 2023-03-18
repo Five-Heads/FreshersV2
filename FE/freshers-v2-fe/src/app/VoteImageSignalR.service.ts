@@ -33,6 +33,7 @@ export class VoteImageSignalRService implements IDisposable {
             .withUrl(`${this.apiUrl}/hubs/VoteImage`, {
                 accessTokenFactory: () => this.authService.user.value!.token
             })
+            .withAutomaticReconnect()
             .build();
 
         this.connection.start()
@@ -54,9 +55,6 @@ export class VoteImageSignalRService implements IDisposable {
     }
 
     private initEvents() {
- 
-        
-        console.log("Logged")
         this.connection.on("StartRound", (obj: any) => {
             console.log(obj);
             this.connection.send("SendImage", { contestId: 1, roundId: 1, imageBase64: "test" });
@@ -73,6 +71,10 @@ export class VoteImageSignalRService implements IDisposable {
 
         this.connection.on("Finish", (obj:any) => {
             console.log(obj)
+        })
+
+        this.connection.on("ContestsUpdateData", (obj: any) => {
+            console.log(obj);
         })
     }
 }

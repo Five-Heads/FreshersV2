@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SignalRService } from 'src/app/signalR.service';
+import { VoteImageSignalRService } from 'src/app/VoteImageSignalR.service';
 
 @Component({
   selector: 'app-voting-game-lobby',
@@ -8,7 +8,7 @@ import { SignalRService } from 'src/app/signalR.service';
 })
 export class VotingGameLobbyComponent {
   constructor(
-    private signalRService: SignalRService
+    private signalRService: VoteImageSignalRService
   ) {
   }
 

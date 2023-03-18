@@ -3,12 +3,13 @@ using FreshersV2.Infrastructure.Extensions;
 using FreshersV2.Jobs;
 using FreshersV2.Services.ImageVote;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace FreshersV2.Hubs
 {
-    [Authorize]
+    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class VoteImageHub : Hub
     {
         private readonly IImageVoteService imageVoteService;

@@ -104,7 +104,7 @@ namespace FreshersV2.Services.ImageVote
                 Name = x.Name,
                 VoteTime = x.VoteTime,
                 Words = x.Words.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
-                UsersCount = VoteImageHub.ContestConnectionsMap.GetOrAdd(x.Id.ToString(),new List<string>()).Count,
+                // UsersCount = VoteImageHub.ContestConnectionsMap.GetOrAdd(x.Id.ToString(),new List<string>()).Count,
             }).ToList();
         }
 
