@@ -49,7 +49,7 @@ export class AuthService {
         })
             .pipe(
                 tap(model => {
-                    this.handleAuthSuccess(new User('1', userName, model.token, facultyNumber));
+                    this.handleAuthSuccess(new User('1', userName, facultyNumber, model.token));
                 })
             )
     }
@@ -61,7 +61,7 @@ export class AuthService {
         })
             .pipe(
                 tap(model => {
-                    this.handleAuthSuccess(new User('1', userName, model.token, "nz"));
+                    this.handleAuthSuccess(new User('1', userName, "nz", model.token));
                 })
             )
     }

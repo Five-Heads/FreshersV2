@@ -1,37 +1,26 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from "rxjs";
+import {Observable, of, take, tap} from "rxjs";
 
 import {UserCreateInputModel} from "../models/UserCreateInputModel";
 import {TreasureHuntCreateInputModel} from "../models/TreasureHuntCreateInputModel";
 import {CheckpointInputModel, TreasureHuntStartInputModel} from "../models/TreasureHuntStartInputModel";
+import { environment } from 'src/environment/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TreasureHuntService {
+  private apiUrl = environment.apiUrl;
 
-  constructor() { }
+  constructor(
+      private http: HttpClient,
+  ) { }
 
   getAllUsers(): Observable<UserCreateInputModel[]> {
-    const url = ``;
-    // return this.httpClient.get<UserCreateInputModel[]>(url);
-    const model: UserCreateInputModel[]= [
-      {
-        id: 1,
-        name: 'Pesho',
-        fn: "2MI0600001"
-      },
-      {
-        id: 2,
-        name: 'Ivan',
-        fn: "2MI0600002"
-      },
-      {
-        id: 3,
-        name: 'Gosho',
-        fn: "2MI0600003"
-      }];
-    return of(model);
+    return this.http.get<UserCreateInputModel[]>(`${this.apiUrl}/users/withoutGroup`)
+      .pipe(take(1), tap(console.log));
+
   }
 
   getAllTreasureHunts(): Observable<TreasureHuntCreateInputModel[]> {

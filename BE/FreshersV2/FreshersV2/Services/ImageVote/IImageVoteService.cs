@@ -1,4 +1,5 @@
 using FreshersV2.Data.Models.VoteImageGame;
+using FreshersV2.Models.VoteImage;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace FreshersV2.Services.ImageVote
         Task<List<VoteImage>> GetRoundImages(int contestId, int roundId);
         Task<VoteImageContest> GetContest(int contestId);
         Task<List<UserContest>> GetInitialDrawingUsers(int contestId, int currentRoundId);
-        List<VoteImageContest> AllContests();
+        List<ContestResponseModel> AllContests();
         Task<RoundVote> GetRoundVote(int voteRoundId);
     }
 }

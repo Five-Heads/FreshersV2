@@ -1,5 +1,10 @@
 ﻿using FreshersV2.Data;
 using FreshersV2.Services.BlurredImage;
+using System.Drawing.Imaging;
+using System.Drawing;
+using System.Buffers.Text;
+using FreshersV2.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.BaseImage
 {
@@ -14,19 +19,39 @@ namespace FreshersV2.Services.BaseImage
             this.appDbContext = appDbContext;
         }
 
-        public async Task Add(string base64image)
+        public async Task Add(string base64image, string objectName)
         {
-            var image = new FreshersV2.Data.Models.BlurredImageGame.BaseImage
+            try
             {
-                Base64Image = base64image,
-                Object = "test",
-            };
+                string compressedBase64 = ImageHelper.GetCompressedBase64Image(base64image);
 
-            appDbContext.Add(image);
+                var image = new FreshersV2.Data.Models.BlurredImageGame.BaseImage
+                {
+                    Base64Image = compressedBase64,
+                    Object = objectName,
+                };
 
-            await appDbContext.SaveChangesAsync();
+                appDbContext.Add(image);
 
-            await this.blurredImageService.CreateBlurredImages(base64image, image.Id);
+                await appDbContext.SaveChangesAsync();
+
+                await this.blurredImageService.CreateBlurredImages(base64image, image.Id);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public async Task<Data.Models.BlurredImageGame.BaseImage?> GetRandomBaseImage()
+        {
+            var baseImagesCount = await this.appDbContext.BaseImages.CountAsync();
+
+            Random rnd = new Random();
+            int number = rnd.Next(1, baseImagesCount);
+
+            var baseImage = await this.appDbContext.BaseImages.Include(x=>x.BlurredImages).FirstOrDefaultAsync(x => x.Id == number);
+
+            return baseImage;
         }
     }
 }

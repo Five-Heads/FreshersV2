@@ -12,6 +12,7 @@ using System.Text;
 using FreshersV2.Jobs;
 using FreshersV2.Services.ImageVote;
 using FreshersV2.Services.Leaderboard;
+using FreshersV2.Services.BaseImageContest;
 
 namespace FreshersV2.Infrastructure.Extensions
 {
@@ -27,7 +28,8 @@ namespace FreshersV2.Infrastructure.Extensions
                 .AddTransient<IBlurredImageService, BlurredImageService>()
                 .AddTransient<IImageVoteService,ImageVoteService>()
                 .AddTransient<VoteRoundJob,VoteRoundJob>()
-                .AddTransient<ILeaderboardService,LeaderboardService>();
+                .AddTransient<ILeaderboardService,LeaderboardService>()
+                .AddTransient<IBlurredImageContestService, BlurredImageContestService>();
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString)
             => services.AddDbContext<AppDbContext>(options =>

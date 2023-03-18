@@ -1,5 +1,6 @@
 using FreshersV2.Data;
 using FreshersV2.Data.Models.VoteImageGame;
+using FreshersV2.Models.VoteImage;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.ImageVote
@@ -91,19 +92,36 @@ namespace FreshersV2.Services.ImageVote
             return context.UserContests.Where(x => x.ContestId == contestId).ToListAsync();
         }
 
-        public List<VoteImageContest> AllContests()
+        public List<ContestResponseModel> AllContests()
         {
-            return context.Contests.AsNoTracking().ToList();
+            return context.Contests.Select(x => new ContestResponseModel
+            {
+                MaxParticipants = x.MaxParticipants,
+                DrawTime = x.DrawTime,
+                Id = x.Id,
+                Name = x.Name,
+                VoteTime = x.VoteTime,
+                Words = x.Words.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+            }).ToList();
         }
 
-        public Task<List<VoteImage>> GetRoundImages(int contestId, int roundId)
+        public async Task<List<VoteImage>> GetRoundImages(int contestId, int roundId)
         {
-            throw new System.NotImplementedException();
+            return await context.Images.Where(x => x.ContestId == contestId && x.RoundVoteId == roundId)
+                .Include(x => x.User).ToListAsync();
         }
 
-        public Task SaveImage(int contestId, int roundId, string userId, string imageBase64)
+        public async Task SaveImage(int contestId, int roundId, string userId, string imageBase64)
         {
-            throw new System.NotImplementedException();
+            await context.Images.AddAsync(new VoteImage()
+            {
+                ContestId = contestId,
+                Base64Image = imageBase64,
+                UserId = userId,
+                RoundVoteId = roundId
+            });
+
+            await context.SaveChangesAsync();
         }
     }
 }
