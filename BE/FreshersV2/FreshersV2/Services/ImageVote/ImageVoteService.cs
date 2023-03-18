@@ -16,7 +16,7 @@ namespace FreshersV2.Services.ImageVote
 
         public async Task CastVote(int contestId, int roundId, string userId, int imageId)
         {
-            var roundVotes = await context.RoundVotes.FirstOrDefaultAsync(x =>
+            var roundVotes = await context.RoundVotes.Include(x=>x.VoteImageRound.Images).FirstOrDefaultAsync(x =>
                 x.RoundId == roundId && x.VoteImageRound.Images.Any(a => a.Id == imageId));
 
             var index = roundVotes.VoteImageRound.Images.FindIndex(x => x.Id == imageId);
@@ -29,7 +29,7 @@ namespace FreshersV2.Services.ImageVote
                 roundVotes.Image2Votes++;
             }
 
-            await context.AddRangeAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task CreateContest(string name, int maxParticipants, int voteTime, int drawTime, List<string> words)
