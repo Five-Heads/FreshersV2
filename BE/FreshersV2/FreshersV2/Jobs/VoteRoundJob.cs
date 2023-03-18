@@ -1,4 +1,5 @@
 using FreshersV2.Hubs;
+using FreshersV2.Models.VoteImage;
 using FreshersV2.Services.ImageVote;
 using FreshersV2.Services.Leaderboard;
 using Microsoft.AspNetCore.SignalR;
@@ -62,7 +63,13 @@ namespace FreshersV2.Jobs
                     var image1 = shuffledImages[i];
                     var image2 = shuffledImages[i + 1];
                     var voteRoundId = await imageService.CreateVoteRound(contestId, currentRoundId, image1, image2);
-                    await this.context.Clients.Group(contestId.ToString()).SendAsync("StartVote", image1, image2, word, contest.VoteTime);
+                    await this.context.Clients.Group(contestId.ToString()).SendAsync("StartVote", new VoteSocketModel
+                    {
+                        Image1Base64 = image1.Base64Image,
+                        Image2Base64 = image2.Base64Image,
+                        Word = word,
+                        VoteTime = contest.VoteTime,
+                    });
                     await Task.Delay((contest.VoteTime * 1000) + waitTimeExtraDelay);
 
                     var voteRound = await imageService.GetRoundVote(voteRoundId);

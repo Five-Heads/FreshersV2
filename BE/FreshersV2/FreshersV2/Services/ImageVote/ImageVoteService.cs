@@ -1,5 +1,6 @@
 using FreshersV2.Data;
 using FreshersV2.Data.Models.VoteImageGame;
+using FreshersV2.Models.VoteImage;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.ImageVote
@@ -91,9 +92,17 @@ namespace FreshersV2.Services.ImageVote
             return context.UserContests.Where(x => x.ContestId == contestId).ToListAsync();
         }
 
-        public List<VoteImageContest> AllContests()
+        public List<ContestResponseModel> AllContests()
         {
-            return context.Contests.AsNoTracking().ToList();
+            return context.Contests.Select(x => new ContestResponseModel
+            {
+                MaxParticipants = x.MaxParticipants,
+                DrawTime = x.DrawTime,
+                Id = x.Id,
+                Name = x.Name,
+                VoteTime = x.VoteTime,
+                Words = x.Words,
+            }).ToList();
         }
 
         public Task<List<VoteImage>> GetRoundImages(int contestId, int roundId)
