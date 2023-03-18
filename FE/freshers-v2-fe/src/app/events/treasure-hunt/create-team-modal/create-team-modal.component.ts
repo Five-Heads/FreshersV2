@@ -32,6 +32,7 @@ export class CreateTeamModalComponent implements OnInit, OnDestroy {
                     users,
                     treasureHunts
                   ]) => {
+                    debugger;
       this.users = users;
     })
 
