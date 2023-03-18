@@ -1,4 +1,5 @@
-﻿using FreshersV2.Models.BlurredImage;
+﻿using FreshersV2.Data.Models.BlurredImageGame;
+using FreshersV2.Models.BlurredImage;
 using FreshersV2.Services.BaseImage;
 using FreshersV2.Services.BaseImageContest;
 using FreshersV2.Services.BlurredImage;
@@ -25,15 +26,27 @@ namespace FreshersV2.Controllers
         }
 
         [HttpGet("upcoming")]
-        public async Task GetUpcomingContest()
+        public async Task<BlurredImageContest?> GetUpcomingContest()
         {
-            await this.blurredImageContestService.GetUpcomingContest();
+           return await this.blurredImageContestService.GetUpcomingContest();
         }
 
-        [HttpGet("add-user-to-contest")]
-        public async Task AddUserToContest()
+        [HttpPost("add-user-to-contest")]
+        public async Task AddUserToContest(AddUserToContestRequestModel model)
         {
-            await this.blurredImageContestService.GetUpcomingContest();
+           await this.blurredImageContestService.AddUserToUpcomingContest(model.UserId);
+        }
+
+        [HttpGet("contest-users")]
+        public async Task<List<string>> GetUpcomingContestUsers()
+        {
+            return await this.blurredImageContestService.GetUpcomingContestUsers();
+        }
+
+        [HttpPost("user-rankings")]
+        public async Task AddUserPoints(List<BlurredImageContestResultsRequestModel> results)
+        {
+            await this.blurredImageContestService.AddUsersPointsToLeaderboard(results);
         }
     }
 }

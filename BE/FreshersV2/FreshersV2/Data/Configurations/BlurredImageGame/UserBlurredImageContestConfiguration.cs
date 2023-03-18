@@ -19,7 +19,7 @@ namespace FreshersV2.Data.Configurations.BlurredImageGame
 
             builder
                 .HasOne(x => x.BlurredImageContest)
-                .WithMany()
+                .WithMany(x => x.UserBlurredImageContests)
                 .HasForeignKey(x => x.BlurredImageContestId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
