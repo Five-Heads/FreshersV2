@@ -38,17 +38,27 @@ namespace FreshersV2.Services.Group
         {
             var toSave = new Data.Models.Group
             {
-                Name = group.Name,
-                Users = group.UserIds.Select(x => new Data.Models.User
-                {
-                    Id = x
-                }).ToList(),
+                Name = group.Name
             };
-
-            // Todo: relations
-
             await this.appDbContext.Groups.AddAsync(toSave);
             await this.appDbContext.SaveChangesAsync();
+
+            await this.appDbContext
+                .Users
+                .Where(x => group.UserIds.Contains(x.Id))
+                .ForEachAsync(x =>
+                {
+                    x.GroupId = toSave.Id;
+                });
+            try
+            {
+                await this.appDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
             return toSave.Id;
         }

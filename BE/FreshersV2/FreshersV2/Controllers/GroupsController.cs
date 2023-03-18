@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupsController : BaseApiController
     {
         private readonly IGroupService groupService;
