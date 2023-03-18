@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QrReaderComponent } from './qr-reader.component';
+import { CheckpointComponent } from './checkpoint.component';
 
-describe('QrReaderComponent', () => {
-  let component: QrReaderComponent;
-  let fixture: ComponentFixture<QrReaderComponent>;
+describe('CheckpointComponent', () => {
+  let component: CheckpointComponent;
+  let fixture: ComponentFixture<CheckpointComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ QrReaderComponent ]
+      declarations: [ CheckpointComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(QrReaderComponent);
+    fixture = TestBed.createComponent(CheckpointComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
