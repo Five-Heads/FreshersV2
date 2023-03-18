@@ -1,0 +1,82 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    ДОБАВЯНЕ НА ДЕСТИНАЦИИ КЪМ НАСТОЯЩОТО СЪБИТИЕ
+  </h4>
+  <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+    <h2 aria-hidden="true">&times;</h2>
+  </button>
+</div>
+<div class="modal-body">
+  <form *ngIf="!!formGroup"
+        [formGroup]="formGroup"
+        novalidate
+        (ngSubmit)="submitForm()">
+
+    <div class="row mt-2">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="name">Име на дестиниацията</label>
+          <div class="position-relative has-icon-right mt-1">
+            <input type="text"
+                   id="name"
+                   class="form-control"
+                   placeholder="Въведете име на дестиниацията"
+                   formControlName="Name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="question">Име на загатката</label>
+          <div class="position-relative has-icon-right mt-1">
+            <input type="text"
+                   id="question"
+                   class="form-control"
+                   placeholder="Въведете име на дестиниацията"
+                   formControlName="Question">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="orderNumeber">Последователен номер</label>
+          <div class="position-relative has-icon-right mt-1">
+            <input type="number"
+                   id="orderNumeber"
+                   class="form-control"
+                   placeholder="Въведете последователен номер"
+                   formControlName="OrderNumber">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="assignPerson">Име на загатката</label>
+          <div class="position-relative has-icon-right mt-1">
+            <input type="text"
+                   id="assignPerson"
+                   class="form-control"
+                   placeholder="Въведете име на дестиниацията"
+                   formControlName="AssignPerson">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-primary  "
+          (click)="submitForm()">Запази
+  </button>
+</div>
+
