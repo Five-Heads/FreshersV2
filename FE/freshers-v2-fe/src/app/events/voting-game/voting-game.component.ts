@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SignalRService } from 'src/app/signalR.service';
 import { ContestsUpdateResponseModel } from '../models/ContestsUpdateResponseModel';
 import { VoteImageContestData } from '../models/VoteImageContestData';
 import { CreateContestModalComponent } from './create-contest-modal/create-contest-modal.component';
 import { VotingGameService } from './voting-game.service';
+import { VoteImageSignalRService } from 'src/app/VoteImageSignalR.service';
 
 @Component({
   selector: 'app-voting-game',
@@ -18,7 +18,7 @@ export class VotingGameComponent {
 
   constructor(
     private votingGameService: VotingGameService,
-    private signalRService: SignalRService,
+    private signalRService: VoteImageSignalRService,
     private modalService: NgbModal
   ) {
   }

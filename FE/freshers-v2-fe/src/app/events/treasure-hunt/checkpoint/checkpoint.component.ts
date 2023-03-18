@@ -88,7 +88,6 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   showData(data: any) {
     if (data.data._value.length > 0) {
       this.currentUrl = data.data._value[0].value;
-      debugger;
       const tokens = this.currentUrl.split('/');
       this.treasureHuntService.validate({
         treasureHuntId: Number(tokens[1]),

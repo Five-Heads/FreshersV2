@@ -22,6 +22,10 @@ export class AppComponent {
   title = 'freshers-v2-fe';
 
   ngOnInit() {
+    
     this.authService.checkIsUserAuthenticatedOnStart();
+    // this.authService.login("tswetti", "tswetti").subscribe(()=>{
+    //   this.signalRService.initConnection();
+    // })
   }
 }
