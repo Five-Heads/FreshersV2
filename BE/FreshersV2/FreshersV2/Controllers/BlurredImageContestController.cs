@@ -32,9 +32,9 @@ namespace FreshersV2.Controllers
         }
 
         [HttpPost("add-user-to-contest")]
-        public async Task AddUserToContest(string userId)
+        public async Task AddUserToContest(AddUserToContestRequestModel model)
         {
-           await this.blurredImageContestService.AddUserToUpcomingContest(userId);
+           await this.blurredImageContestService.AddUserToUpcomingContest(model.UserId);
         }
 
         [HttpGet("contest-users")]
@@ -47,7 +47,6 @@ namespace FreshersV2.Controllers
         public async Task AddUserPoints(List<BlurredImageContestResultsRequestModel> results)
         {
             await this.blurredImageContestService.AddUsersPointsToLeaderboard(results);
-           throw new NotImplementedException();
         }
     }
 }

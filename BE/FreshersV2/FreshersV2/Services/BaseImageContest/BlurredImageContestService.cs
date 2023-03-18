@@ -35,7 +35,6 @@ namespace FreshersV2.Services.BaseImageContest
                     MaxParticipants = model.MaxParticipants,
                     SecondsPerRound = model.SecondsPerRound,
                     BaseImageId = baseImage.Id,
-                    BaseImage = baseImage,
                     Status = (int)ContestStatus.Upcoming,
                 };
 
@@ -61,17 +60,36 @@ namespace FreshersV2.Services.BaseImageContest
         public async Task<BlurredImageContest?> GetUpcomingContest()
         {
             var contest = await this.appDbContext.BlurredImageContests
-                .AsNoTracking()
-                .Include(x => x.UserBlurredImageContests)
+                //.AsNoTracking()
+                //.Include(x => x.UserBlurredImageContests)
                 .Include(x => x.BaseImage)
-                .ThenInclude(x => x.BlurredImages)
+                // .ThenInclude(x => x.BlurredImages)
                 .FirstOrDefaultAsync(x => x.Status == (int)ContestStatus.Upcoming);
+
+            var blurredImages = await this.appDbContext.BlurredImages
+                    .Where(x => x.BaseImageId == contest.BaseImageId)
+                    .ToListAsync();
+            var userContests = await this.appDbContext.UserBlurredImageContests
+                    .Where(x => x.BlurredImageContestId == contest.Id)
+                    .ToListAsync();
+            contest.UserBlurredImageContests = userContests;
+            contest.BaseImage.BlurredImages = blurredImages;
+            contest.BaseImage.Contests = null;
 
             if (contest != null && contest.BaseImage != null && contest.BaseImage.BlurredImages != null)
             {
                 foreach (var blurredImage in contest.BaseImage.BlurredImages)
                 {
                     blurredImage.Base64Image = ImageHelper.GetDecompressedBase64Image(blurredImage.Base64Image);
+                    blurredImage.BaseImage = null;
+                }
+            }
+
+            if (contest != null && contest.UserBlurredImageContests != null)
+            {
+                foreach (var con in contest.UserBlurredImageContests)
+                {
+                    con.BlurredImageContest = null;
                 }
             }
 
@@ -82,19 +100,23 @@ namespace FreshersV2.Services.BaseImageContest
         {
             var contest = await this.appDbContext.BlurredImageContests
                 .AsNoTracking()
-                .Include(x=>x.UserBlurredImageContests)
+                .Include(x => x.UserBlurredImageContests)
                 .FirstOrDefaultAsync(x => x.Status == (int)ContestStatus.Upcoming);
 
-            if (contest != null && contest.UserBlurredImageContests != null && contest.MaxParticipants < contest.UserBlurredImageContests.Count)
+            if (contest != null)
             {
-                var userContest = new UserBlurredImageContest
+                if ((contest.UserBlurredImageContests != null && contest.MaxParticipants > contest.UserBlurredImageContests.Count)
+                    || contest.UserBlurredImageContests == null)
                 {
-                    UserId = userId,
-                    BlurredImageContestId = contest.Id,
-                };
+                    var userContest = new UserBlurredImageContest
+                    {
+                        UserId = userId,
+                        BlurredImageContestId = contest.Id,
+                    };
 
-                await this.appDbContext.UserBlurredImageContests.AddAsync(userContest);
-                await this.appDbContext.SaveChangesAsync();
+                    await this.appDbContext.UserBlurredImageContests.AddAsync(userContest);
+                    await this.appDbContext.SaveChangesAsync();
+                }
             }
         }
 
@@ -102,7 +124,8 @@ namespace FreshersV2.Services.BaseImageContest
         {
             return await this.appDbContext.UserBlurredImageContests
                 .AsNoTracking()
-                .Where(x => x.BlurredImageContest.Id == (int)ContestStatus.Upcoming)
+                .Include(x => x.BlurredImageContest)
+                .Where(x => x.BlurredImageContest.Status == (int)ContestStatus.Upcoming)
                 .Select(x => x.UserId)
                 .ToListAsync();
         }
@@ -114,17 +137,17 @@ namespace FreshersV2.Services.BaseImageContest
             {
                 for (int i = 1; i <= results.Count; i++)
                 {
-                    if (results[i].Completed != null)
+                    if (results[i-1].Completed != null)
                     {
                         var leaderboard = await this.appDbContext.Leaderboard
-                            .FirstOrDefaultAsync(x => x.UserId == results[i].UserId);
+                            .FirstOrDefaultAsync(x => x.UserId == results[i - 1].UserId);
 
                         bool isNew = leaderboard == null;
                         if (leaderboard == null)
                         {
                             leaderboard = new Data.Models.Leaderboard
                             {
-                                UserId = results[i].UserId,
+                                UserId = results[i-1].UserId,
                                 Score = 0
                             };
                         }
