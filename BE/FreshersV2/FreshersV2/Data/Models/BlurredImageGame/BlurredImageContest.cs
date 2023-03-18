@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FreshersV2.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace FreshersV2.Data.Models.BlurredImageGame
 {
@@ -15,8 +16,6 @@ namespace FreshersV2.Data.Models.BlurredImageGame
 
         public BaseImage BaseImage { get; set; }
 
-        public string? WinnerId { get; set; }
-
-        public User? Winner { get; set; }
+        public int Status { get; set; }     
     }
 }

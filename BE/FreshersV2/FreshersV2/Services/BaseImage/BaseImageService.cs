@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Buffers.Text;
 using FreshersV2.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.BaseImage
 {
@@ -39,6 +40,18 @@ namespace FreshersV2.Services.BaseImage
             catch (Exception ex)
             {
             }
+        }
+
+        public async Task<Data.Models.BlurredImageGame.BaseImage?> GetRandomBaseImage()
+        {
+            var baseImagesCount = await this.appDbContext.BaseImages.CountAsync();
+
+            Random rnd = new Random();
+            int number = rnd.Next(1, baseImagesCount);
+
+            var baseImage = await this.appDbContext.BaseImages.Include(x=>x.BlurredImages).FirstOrDefaultAsync(x => x.Id == number);
+
+            return baseImage;
         }
     }
 }

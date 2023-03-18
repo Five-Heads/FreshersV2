@@ -16,12 +16,6 @@ namespace FreshersV2.Data.Configurations.BlurredImageGame
                .ValueGeneratedOnAdd();
 
             builder
-               .HasOne(x => x.Winner)
-               .WithMany()
-               .HasForeignKey(x => x.WinnerId)
-               .OnDelete(DeleteBehavior.Restrict);
-
-            builder
                .HasOne(x => x.BaseImage)
                .WithMany(y => y.Contests)
                .HasForeignKey(x => x.BaseImageId)
