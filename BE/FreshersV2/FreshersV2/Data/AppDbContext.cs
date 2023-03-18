@@ -55,6 +55,7 @@ namespace FreshersV2.Data
         public DbSet<RoundDrawingUser> RoundDrawingUsers { get; set; }
         #endregion
 
+        public DbSet<Leaderboard> Leaderboard { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -81,6 +82,8 @@ namespace FreshersV2.Data
             builder.ApplyConfiguration(new RoundVoteConfiguration());
             builder.ApplyConfiguration(new RoundConfiguration());
             builder.ApplyConfiguration(new RoundDrawingUserConfiguration());
+
+            builder.ApplyConfiguration(new LeaderboardConfiguration());
 
             base.OnModelCreating(builder);
         }

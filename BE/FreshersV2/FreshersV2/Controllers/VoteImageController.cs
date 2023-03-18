@@ -1,5 +1,6 @@
 ﻿using FreshersV2.Data.Models.VoteImageGame;
 using FreshersV2.Jobs;
+using FreshersV2.Models.VoteImage;
 using FreshersV2.Services.ImageVote;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FreshersV2.Controllers
 {
 
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class VoteImageController : BaseApiController
     {
         private readonly IImageVoteService imageVoteService;
@@ -22,9 +23,9 @@ namespace FreshersV2.Controllers
         }
 
         [HttpPost("createContest")]
-        public async Task CreateContest(string name, int maxParticipants, int voteTime, int drawTime, List<string> words)
+        public async Task CreateContest([FromBody] CreateContestModel model)
         {
-            await imageVoteService.CreateContest(name, maxParticipants, voteTime, drawTime, words);
+            await imageVoteService.CreateContest(model.Name, model.MaxParticipants, model.VoteTime, model.DrawTime, model.Words);
         }
 
         [HttpGet("all")]
@@ -34,11 +35,11 @@ namespace FreshersV2.Controllers
         }
 
         [HttpPost("startContest")]
-        public void StartContest(int id)
+        public void StartContest([FromBody] StartContestModel model)
         {
-            if (IsInRole("admin"))
+            // if (IsInRole("admin"))
             {
-                BackgroundJob.Enqueue(() => voteRoundJob.Execute(id));
+                BackgroundJob.Enqueue(() => voteRoundJob.Execute(model.Id));
             }
         }
 

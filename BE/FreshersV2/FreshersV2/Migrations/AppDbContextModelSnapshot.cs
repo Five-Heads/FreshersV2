@@ -214,6 +214,29 @@ namespace FreshersV2.Migrations
                     b.ToTable("GroupTreasureHunts");
                 });
 
+            modelBuilder.Entity("FreshersV2.Data.Models.Leaderboard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Leaderboard");
+                });
+
             modelBuilder.Entity("FreshersV2.Data.Models.TreasureHunt", b =>
                 {
                     b.Property<int>("Id")
@@ -765,6 +788,17 @@ namespace FreshersV2.Migrations
                     b.Navigation("Next");
 
                     b.Navigation("TreasureHunt");
+                });
+
+            modelBuilder.Entity("FreshersV2.Data.Models.Leaderboard", b =>
+                {
+                    b.HasOne("FreshersV2.Data.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("FreshersV2.Data.Models.Leaderboard", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FreshersV2.Data.Models.User", b =>
