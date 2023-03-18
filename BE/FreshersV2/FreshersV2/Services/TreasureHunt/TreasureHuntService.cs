@@ -4,9 +4,25 @@ using FreshersV2.Models.TreasureHunt.NextCheckpoint;
 using FreshersV2.Models.TreasureHunt.Start;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Reflection.Emit;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace FreshersV2.Services.TreasureHunt
 {
+    //Extension method to convert Bitmap to Byte Array
+    public static class BitmapExtension
+    {
+        public static byte[] BitmapToByteArray(this Bitmap bitmap)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bitmap.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+    }
     public class TreasureHuntService : ITreasureHuntService
     {
         private readonly AppDbContext appDbContext;
@@ -33,23 +49,36 @@ namespace FreshersV2.Services.TreasureHunt
                     OrderNumber = x.OrderNumber,
                     AssignedPersonName = x.AssignedPersonName,
                     IsFinal = x.OrderNumber == finalOrderNumber,
+                    QRCode = ""
                 }).ToList()
             });
 
-            await
-                this.appDbContext
+            await appDbContext.SaveChangesAsync();
+
+            await this.appDbContext
                 .Checkpoints
                 .Where(x => x.TreasureHuntId == result.Entity.Id)
                 .ForEachAsync(x =>
                 {
                     QRCodeGenerator qrGenerator = new QRCodeGenerator();
                     QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{x.Id}/{result.Entity.Id}", QRCodeGenerator.ECCLevel.Q);
-                    PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
-                    x.QRCode = System.Text.Encoding.UTF8.GetString(qrCode.GetGraphic(20));
+                    BitmapByteQRCode QrCode = new BitmapByteQRCode(qrCodeData);
+                    //Bitmap QrBitmap = QrCode.GetGraphic(60);
+                    byte[] BitmapArray = QrCode.GetGraphic(60);
+                    string QrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(BitmapArray));
+                    x.QRCode = QrUri;
                 });
 
+            try
+            {
 
-            await appDbContext.SaveChangesAsync();
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<StartTreasureHuntResponseModel> StartTreasureHunt(int treasureHuntId, string userId)

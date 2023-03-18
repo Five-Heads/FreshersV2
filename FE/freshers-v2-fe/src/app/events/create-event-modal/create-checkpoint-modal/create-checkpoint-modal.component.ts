@@ -34,6 +34,10 @@ export class CreateCheckpointModalComponent implements OnInit{
         value: null,
         disabled: false
       }, [Validators.required]),
+      AssignedPersonName: new FormControl({
+        value: 'Kalata',
+        disabled: false
+      }, [Validators.required])
     })
   }
 
