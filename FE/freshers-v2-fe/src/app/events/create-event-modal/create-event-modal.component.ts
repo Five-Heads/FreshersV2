@@ -68,10 +68,6 @@ export class CreateEventModalComponent implements OnInit, OnDestroy{
         value: null,
         disabled: false
       }, [Validators.required]),
-      AssignedPersonName: new FormControl({
-        value: 'Kalata',
-        disabled: false
-      }, [Validators.required]),
     })
   }
 
