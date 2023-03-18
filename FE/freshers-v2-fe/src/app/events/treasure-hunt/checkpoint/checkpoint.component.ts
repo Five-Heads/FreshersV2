@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TreasureHuntService} from "../treasure-hunt.service";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, debounce} from "rxjs";
 import {CheckpointInputModel, TreasureHuntStartInputModel} from "../../models/TreasureHuntStartInputModel";
 import {ScannerQRCodeSelectedFiles} from "ngx-scanner-qrcode/lib/ngx-scanner-qrcode.options";
 import {NgxScannerQrcodeService} from "ngx-scanner-qrcode";
@@ -47,7 +47,8 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   subs: Subscription;
 
   constructor(private qrcode: NgxScannerQrcodeService,
-              private treasureHuntDataService: TreasureHuntDataService) {
+              private treasureHuntDataService: TreasureHuntDataService,
+              private treasureHuntService: TreasureHuntService) {
     this.subs = new Subscription();
   }
 
@@ -83,9 +84,16 @@ export class CheckpointComponent implements OnInit, OnDestroy {
     }
   }
 
+  private waitingForOther = false;
   showData(data: any) {
     if (data.data._value.length > 0) {
       this.currentUrl = data.data._value[0].value;
+      debugger;
+      const tokens = this.currentUrl.split('/');
+      this.treasureHuntService.validate({
+        treasureHuntId: Number(tokens[1]),
+        checkpointId: Number(tokens[0])
+      }).subscribe();
     }
   }
 

@@ -22,9 +22,11 @@ export class AppComponent {
   title = 'freshers-v2-fe';
 
   ngOnInit() {
+    debugger;
     //this.authService.checkIsUserAuthenticatedOnStart();
     this.authService.login("tswetti", "tswetti")
       .pipe(tap(()=>{
+        debugger;
         this.signalRService.initConnection();
       }))
       .subscribe()

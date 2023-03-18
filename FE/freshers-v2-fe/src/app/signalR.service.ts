@@ -54,10 +54,12 @@ export class SignalRService implements IDisposable {
     private initEvents() {
         this.connection.on("CheckpointReached", (userId: string) => {
             // update
+            debugger;
         })
 
         this.connection.on("NextCheckpoint", (newNext: CheckpointInputModel) => {
             // update
+            debugger;
         })
     }
 }

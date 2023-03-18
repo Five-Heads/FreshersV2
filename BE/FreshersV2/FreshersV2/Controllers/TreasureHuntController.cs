@@ -4,6 +4,7 @@ using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.Start;
 using FreshersV2.Models.TreasureHunt.Validate;
 using FreshersV2.Services.TreasureHunt;
+using FreshersV2.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,17 @@ namespace FreshersV2.Controllers
     {
         private readonly ITreasureHuntService treasureHuntService;
         private readonly IHubContext<TreasureHuntHub> treasureHuntHubContext;
+        private readonly IUserService userService;
 
         public TreasureHuntController(
             ITreasureHuntService treasureHuntService,
-            IHubContext<TreasureHuntHub> treasureHuntHubContext
+            IHubContext<TreasureHuntHub> treasureHuntHubContext,
+            IUserService userService
             )
         {
             this.treasureHuntService = treasureHuntService;
             this.treasureHuntHubContext = treasureHuntHubContext;
+            this.userService = userService;
         }
 
         [HttpPost("create")]
@@ -76,15 +80,20 @@ namespace FreshersV2.Controllers
             // update the next for user
             await this.treasureHuntService.UpdateNextCheckpointForUser(model.TreasureHuntId, userId);
 
+            var groupId = await this.userService.GetUserGroup(userId);
+
             // notify all other
-            await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("CheckpointReached", userId);
+            await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
 
-            // if all have reached send next info
-            var newNext = await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(model.GroupId, model.CheckpointId);
-
-            if (newNext != null)
+            if (groupId != 0)
             {
-                await this.treasureHuntHubContext.Clients.Group(model.GroupId.ToString()).SendAsync("NextCheckpoint", newNext);
+                // if all have reached send next info
+                var newNext = await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(groupId, model.TreasureHuntId);
+
+                if (newNext != null)
+                {
+                    await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("NextCheckpoint", newNext);
+                }
             }
 
             return true;
