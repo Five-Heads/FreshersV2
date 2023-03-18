@@ -1,5 +1,6 @@
 ﻿using FreshersV2.Data;
 using FreshersV2.Models.TreasureHunt.Create;
+using FreshersV2.Models.TreasureHunt.NextCheckpoint;
 using FreshersV2.Models.TreasureHunt.Start;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
@@ -162,7 +163,7 @@ namespace FreshersV2.Services.TreasureHunt
             await this.appDbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckIfAllHaveReachedCheckpoint(int groupId, int treasureHuntId)
+        public async Task<NextCheckpointResponseModel> CheckIfAllHaveReachedCheckpoint(int groupId, int treasureHuntId)
         {
             var groupTreasureHunt = await this.appDbContext
                 .GroupTreasureHunts
@@ -176,7 +177,7 @@ namespace FreshersV2.Services.TreasureHunt
 
             if (haveReached > 0)
             {
-                return false;
+                return null;
             }
 
             var newNext = await this.appDbContext
@@ -186,14 +187,21 @@ namespace FreshersV2.Services.TreasureHunt
             // TODO: distinct
             if (newNext == null)
             {
-                return false;
+                return null;
             }
 
             groupTreasureHunt.NextId = newNext.Id;
             this.appDbContext.Update(groupTreasureHunt);
             await this.appDbContext.SaveChangesAsync();
 
-            return true;
+            return new NextCheckpointResponseModel {
+                Id = newNext.Id,
+                IsFinal = newNext.IsFinal,
+                AssignedPerson = newNext.AssignedPersonName,
+                Name = newNext.Name,
+                OrderNumber = newNext.OrderNumber,
+                Question = newNext.Question
+            };
         }
     }
 }
