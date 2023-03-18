@@ -24,6 +24,11 @@ namespace FreshersV2.Hubs
         // contestId: userIds  
         public static readonly ConcurrentDictionary<string, List<string>> ContestConnectionsMap = new();
 
+        private async Task UpdateContestsData()
+        {
+            await Clients.All.SendAsync("ContestsUpdateData",
+                ContestConnectionsMap.Select(x => new { x.Key, x.Value.Count }).ToList());
+        }
         public override async Task OnConnectedAsync()
         {
             this.UserConnected();
@@ -36,25 +41,36 @@ namespace FreshersV2.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task JoinContest(string contestId)
+        public async Task JoinContest(int contestId)
         {
-            await Groups.AddToGroupAsync(this.Context.ConnectionId, contestId);
-            ContestConnectionsMap.AddOrUpdate(contestId, new List<string> { this.Context.User.GetUserId() }, (key, value) =>
+            var contest = await imageVoteService.GetContest(contestId);
+            if (ContestConnectionsMap.GetOrAdd(contestId.ToString(), new List<string>()).Count>=contest.MaxParticipants)
+            {
+                return;
+            }
+
+            await Groups.AddToGroupAsync(this.Context.ConnectionId, contestId.ToString());
+            ContestConnectionsMap.AddOrUpdate(contestId.ToString(), new List<string> { this.Context.User.GetUserId() }, (key, value) =>
             {
                 value.Add(this.Context.User.GetUserId());
                 return value;
             });
+
+            await UpdateContestsData();
         }
 
-        public async Task LeaveContest()
+        public async Task LeaveContest(int contestId)
         {
-            var contestId = ContestConnectionsMap.FirstOrDefault(x => x.Value.Contains(this.Context.User.GetUserId())).Key;
-            await Groups.RemoveFromGroupAsync(this.Context.ConnectionId, contestId);
-            ContestConnectionsMap.AddOrUpdate(contestId, new List<string> { this.Context.User.GetUserId() }, (key, value) =>
+            await Groups.RemoveFromGroupAsync(this.Context.ConnectionId, contestId.ToString());
+            ContestConnectionsMap.AddOrUpdate(contestId.ToString(), new List<string> { this.Context.User.GetUserId() }, (key, value) =>
             {
                 value.Remove(this.Context.User.GetUserId());
                 return value;
             });
+
+            await Clients.All.SendAsync("ContestsUpdateData",
+                ContestConnectionsMap.Select(x => new { x.Key, x.Value.Count }).ToList());
+
         }
 
         public async Task CastVote(int contestId, int roundId, int imageId)
