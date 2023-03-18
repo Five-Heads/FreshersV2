@@ -3,20 +3,23 @@ using FreshersV2.Models.Group;
 using FreshersV2.Models.Group.Create;
 using FreshersV2.Services.Group;
 using FreshersV2.Services.Identity;
+using FreshersV2.Services.TreasureHunt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupsController : BaseApiController
     {
         private readonly IGroupService groupService;
+        private readonly ITreasureHuntService treasureHuntService;
 
-        public GroupsController(IGroupService groupService)
+        public GroupsController(IGroupService groupService, ITreasureHuntService treasureHuntService)
         {
             this.groupService = groupService;
+            this.treasureHuntService = treasureHuntService;
         }
 
         [HttpGet("my")]
@@ -34,7 +37,11 @@ namespace FreshersV2.Controllers
         [HttpPost("create")]
         public async Task Create([FromBody] CreateGroupRequestModel model)
         {
-            await this.groupService.CreateGroup(model);
+            var groupId = await this.groupService.CreateGroup(model);
+            if (groupId != 0)
+            {
+                await this.treasureHuntService.AssignGroupToTreasureHunt(model.TreasureHuntId, groupId);
+            }
         }
 
         [HttpDelete("delete/{id}")]

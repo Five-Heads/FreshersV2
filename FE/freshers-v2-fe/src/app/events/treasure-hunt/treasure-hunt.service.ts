@@ -3,7 +3,7 @@ import {Observable, of, take, tap} from "rxjs";
 
 import {UserCreateInputModel} from "../models/UserCreateInputModel";
 import {TreasureHuntCreateInputModel} from "../models/TreasureHuntCreateInputModel";
-import {CheckpointInputModel, TreasureHuntStartInputModel} from "../models/TreasureHuntStartInputModel";
+import { TreasureHuntStartInputModel} from "../models/TreasureHuntStartInputModel";
 import { environment } from 'src/environment/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,9 +17,14 @@ export class TreasureHuntService {
       private http: HttpClient,
   ) { }
 
+  createGroup(data: any) {
+    return this.http.post(`${this.apiUrl}/groups/create`, data)
+      .pipe(take(1));
+  }
+
   getAllUsers(): Observable<UserCreateInputModel[]> {
     return this.http.get<UserCreateInputModel[]>(`${this.apiUrl}/users/withoutGroup`)
-      .pipe(take(1), tap(console.log));
+      .pipe(take(1));
 
   }
 

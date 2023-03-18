@@ -21,6 +21,9 @@ import { NgxScannerQrcodeModule } from "ngx-scanner-qrcode";
 import { SafePipe } from './events/treasure-hunt/checkpoint/safe.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { CreateEventModalComponent } from './events/create-event-modal/create-event-modal.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { CreateCheckpointModalComponent } from './events/create-event-modal/create-checkpoint-modal/create-checkpoint-modal.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +37,10 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     CreateTeamModalComponent,
     CheckpointComponent,
     FooterComponent,
-
-  ],
+    CreateEventModalComponent,
+    CreateCheckpointModalComponent,
+    ]
+  ,
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -48,8 +53,9 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     NgxScannerQrcodeModule,
     NgbModule,
     CommonModule,
-    NgSelectModule
-  ],
+    NgSelectModule,
+    NgxMaterialTimepickerModule,
+    NgbModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

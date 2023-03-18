@@ -27,6 +27,8 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
   }
   ngOnInit(): void {
 
+
+
   }
 
   createTeam() {
