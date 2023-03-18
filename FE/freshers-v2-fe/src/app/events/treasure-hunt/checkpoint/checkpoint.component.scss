@@ -1,0 +1,51 @@
+label, button {
+  margin: 5px;
+}
+
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.horizontal-div {
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  border-radius: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.center-container ngx-scanner-qrcode {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+.custom {
+
+}
+
+@media (min-width: 576px) {
+  .custom {
+    margin-left: 20%;
+    /* styles that apply only when the screen is above sm resolution */
+  }
+}
+
+.custom2 {
+  padding-right: 20px;
+}
+
+@media (min-width: 576px) {
+  .custom2 {
+    margin-right: 20%; text-align: right;
+    /* styles that apply only when the screen is above sm resolution */
+  }
+}
+
+
+

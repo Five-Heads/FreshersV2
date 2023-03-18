@@ -1,5 +1,6 @@
 using FreshersV2.Hubs;
 using FreshersV2.Services.ImageVote;
+using FreshersV2.Services.Leaderboard;
 using Microsoft.AspNetCore.SignalR;
 
 namespace FreshersV2.Jobs
@@ -7,18 +8,22 @@ namespace FreshersV2.Jobs
     public class VoteRoundJob
     {
         private readonly IHubContext<VoteImageHub> context;
-        private readonly IImageVoteService service;
-        private readonly Random random;
+        private readonly IImageVoteService imageService;
+        private readonly ILeaderboardService leaderboardService;
+
         private readonly int waitTimeExtraDelay = 1000;
         private readonly int viewResultsTimeDelay = 5000;
+        private readonly int scoreForWin = 10;
 
+        private readonly Random random;
         private int currentRoundId;
         private int contestId;
 
-        public VoteRoundJob(IImageVoteService service, IHubContext<VoteImageHub> context)
+        public VoteRoundJob(IImageVoteService imageService, ILeaderboardService leaderboardService, IHubContext<VoteImageHub> context)
         {
             this.context = context;
-            this.service = service;
+            this.imageService = imageService;
+            this.leaderboardService = leaderboardService;
 
             this.random = new Random();
             this.currentRoundId = 0;
@@ -26,28 +31,29 @@ namespace FreshersV2.Jobs
 
         public async Task Execute(int contestId)
         {
-            var contest = await this.service.GetContest(contestId);
+            var contest = await this.imageService.GetContest(contestId);
             var participant = contest.UserContests;
             var words = contest.Words.Split(',', StringSplitOptions.RemoveEmptyEntries).OrderBy(_ => random.Next()).ToList();
-            var drawingUsersHubIds = (await this.service.GetInitialDrawingUsers(this.contestId, currentRoundId)).Select(x => x.UserHubId).ToList();
+            var drawingUsersHubIds = (await this.imageService.GetInitialDrawingUsers(this.contestId, currentRoundId)).Select(x => x.UserHubId).ToList();
 
+            Dictionary<string, int> scores = new Dictionary<string, int>();
 
             while (drawingUsersHubIds.Count > 0)
             {
                 var word = words[currentRoundId];
                 currentRoundId++;
 
-                await service.CreateRound(contestId, currentRoundId, word, drawingUsersHubIds);
+                await imageService.CreateRound(contestId, currentRoundId, word, drawingUsersHubIds);
 
                 foreach (var user in participant)
                 {
                     bool isDrawing = drawingUsersHubIds.Contains(user.UserHubId);
-                    await this.context.Clients.User(user.UserHubId).SendAsync("StartRound", contestId, currentRoundId, word, word, contest.DrawTime, isDrawing);
+                    await this.context.Clients.User(user.UserHubId).SendAsync("StartRound", contestId, currentRoundId, word, contest.DrawTime, isDrawing);
                 }
 
                 await Task.Delay((contest.DrawTime * 1000) + waitTimeExtraDelay);
 
-                var images = await service.GetRoundImages(contestId, currentRoundId);
+                var images = await imageService.GetRoundImages(contestId, currentRoundId);
                 var shuffledImages = images.OrderBy(_ => random.Next()).ToList();
                 drawingUsersHubIds.Clear();
 
@@ -55,11 +61,11 @@ namespace FreshersV2.Jobs
                 {
                     var image1 = shuffledImages[i];
                     var image2 = shuffledImages[i + 1];
-                    var voteRoundId = await service.CreateVoteRound(contestId, currentRoundId, image1, image2);
+                    var voteRoundId = await imageService.CreateVoteRound(contestId, currentRoundId, image1, image2);
                     await this.context.Clients.Group(contestId.ToString()).SendAsync("StartVote", image1, image2, word, contest.VoteTime);
                     await Task.Delay((contest.VoteTime * 1000) + waitTimeExtraDelay);
 
-                    var voteRound = await service.GetRoundVote(voteRoundId);
+                    var voteRound = await imageService.GetRoundVote(voteRoundId);
                     if (voteRound.Image1Votes == voteRound.Image2Votes)
                     {
                         drawingUsersHubIds.Add(image1.User.UserHubId);
@@ -68,10 +74,21 @@ namespace FreshersV2.Jobs
                     else if (voteRound.Image1Votes > voteRound.Image2Votes)
                     {
                         drawingUsersHubIds.Add(image1.User.UserHubId);
+                        if (!scores.ContainsKey(image1.User.UserHubId))
+                        {
+                            scores.Add(image1.User.User.UserName, 0);
+                        }
+
+                        scores[image1.User.User.UserName] += scoreForWin;
                     }
                     else
                     {
                         drawingUsersHubIds.Add(image2.User.UserHubId);
+                        if (!scores.ContainsKey(image1.User.UserHubId))
+                        {
+                            scores.Add(image2.User.User.UserName, 0);
+                        }
+                        scores[image2.User.User.UserName] += scoreForWin;
                     }
                 }
 
@@ -80,12 +97,17 @@ namespace FreshersV2.Jobs
                     drawingUsersHubIds.Add(shuffledImages.Last().User.UserHubId);
                 }
 
-                await this.context.Clients.Group(contestId.ToString()).SendAsync("EndRound", "LEADERBOARD");
+                await this.context.Clients.Group(contestId.ToString()).SendAsync("EndRound", scores.OrderBy(x => x.Value).ToList());
 
                 await Task.Delay(viewResultsTimeDelay + waitTimeExtraDelay);
             }
 
-            await context.Clients.Groups(contestId.ToString()).SendAsync("Finish", "LEADERBOARD");
+            foreach (var score in scores)
+            {
+                await leaderboardService.AddPoints(score.Key, score.Value);
+            }
+
+            await context.Clients.Groups(contestId.ToString()).SendAsync("Finish", scores.OrderBy(x => x.Value).ToList());
         }
     }
 }

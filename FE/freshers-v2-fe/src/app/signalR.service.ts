@@ -5,8 +5,8 @@ import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
 
-@Injectable({ 
-    providedIn: 'root' 
+@Injectable({
+    providedIn: 'root'
 })
 export class SignalRService implements IDisposable {
     private connection!: signalR.HubConnection;
@@ -53,8 +53,6 @@ export class SignalRService implements IDisposable {
     private initEvents() {
         this.connection.on("NewMessage", (data: any) => {
             // work with global state
-
-            
         })
     }
 }
