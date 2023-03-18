@@ -27,6 +27,7 @@ export class CheckpointComponent implements OnInit, OnDestroy {
     resize: false,
     text: {font: '25px serif'}, // Hiden { font: '0px' },
     frame: {lineWidth: 8},
+    isBeep: false,
     medias: {
       audio: false,
       video: {
@@ -51,7 +52,6 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    debugger;
     this.subs.add(
       this.treasureHuntDataService.getSelectedCheckpoint().subscribe(res => {
         this.selectedCheckPoint = res;
@@ -84,7 +84,6 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   }
 
   showData(data: any) {
-    debugger;
     if (data.data._value.length > 0) {
       this.currentUrl = data.data._value[0].value;
     }
