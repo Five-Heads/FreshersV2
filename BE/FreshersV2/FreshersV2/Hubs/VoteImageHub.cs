@@ -27,7 +27,7 @@ namespace FreshersV2.Hubs
         private async Task UpdateContestsData()
         {
             await Clients.All.SendAsync("ContestsUpdateData",
-                ContestConnectionsMap.Select(x => new { x.Key, x.Value.Count }).ToList());
+                ContestConnectionsMap.Select(x => new { ContestId=x.Key, UsersCount=x.Value.Count }).ToList());
         }
         public override async Task OnConnectedAsync()
         {
