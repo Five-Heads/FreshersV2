@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Data.Models;
+using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.Start;
 using FreshersV2.Services.TreasureHunt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +16,12 @@ namespace FreshersV2.Controllers
         public TreasureHuntController(ITreasureHuntService treasureHuntService)
         {
             this.treasureHuntService = treasureHuntService;
+        }
+
+        [HttpPost("create")]
+        public async Task Create([FromBody] CreateTreasureHuntRequestModel model)
+        {
+            await this.treasureHuntService.CreateTreasureHunt(model);
         }
 
         [HttpGet("my")]
