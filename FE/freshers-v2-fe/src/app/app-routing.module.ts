@@ -6,8 +6,10 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { EventsComponent } from "./events/events.component";
 import { TreasureHuntComponent } from "./events/treasure-hunt/treasure-hunt.component";
 import { CheckpointComponent } from "./events/treasure-hunt/checkpoint/checkpoint.component";
+import {GuessTheImageComponent} from "./guess-the-image/guess-the-image.component";
 import { VotingGameComponent } from './events/voting-game/voting-game.component';
 import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
+import {BlurredImageComponent} from "./guess-the-image/blurreder-image/blurred-image.component";
 
 const routes: Routes = [
   {
@@ -37,7 +39,15 @@ const routes: Routes = [
   {
     path: 'events/voting-game/:id',
     component: VotingGameLobbyComponent
-  }
+  },
+  {
+    path: 'guess-the-image',
+    component: GuessTheImageComponent,
+  },
+  {
+    path: 'guess-the-image/:id',
+    component: BlurredImageComponent,
+  },
 ];
 
 @NgModule({

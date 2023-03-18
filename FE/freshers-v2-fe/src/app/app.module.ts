@@ -22,11 +22,15 @@ import { SafePipe } from './events/treasure-hunt/checkpoint/safe.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { CreateEventModalComponent } from './events/create-event-modal/create-event-modal.component';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { CreateCheckpointModalComponent } from './events/create-event-modal/create-checkpoint-modal/create-checkpoint-modal.component';
+import { GuessTheImageComponent } from './guess-the-image/guess-the-image.component';
+import { ChangeGameStatusModalComponent } from './guess-the-image/change-game-status-modal/change-game-status-modal.component';
+import { CreateGameModalComponent } from './guess-the-image/create-game-modal/create-game-modal.component';
 import { VotingGameComponent } from './events/voting-game/voting-game.component';
 import { CreateContestModalComponent } from './events/voting-game/create-contest-modal/create-contest-modal.component';
 import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
+import { BlurredImageComponent } from './guess-the-image/blurreder-image/blurred-image.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,12 @@ import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby
     VotingGameComponent,
     CreateContestModalComponent,
     VotingGameLobbyComponent,
-  ],
+    GuessTheImageComponent,
+    ChangeGameStatusModalComponent,
+    CreateGameModalComponent,
+    BlurredImageComponent,
+    ]
+  ,
   imports: [
     BrowserModule,
     HttpClientModule,

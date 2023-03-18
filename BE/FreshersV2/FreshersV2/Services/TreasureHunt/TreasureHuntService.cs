@@ -1,4 +1,4 @@
-﻿using FreshersV2.Data;
+using FreshersV2.Data;
 using FreshersV2.Data.Models;
 using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.NextCheckpoint;

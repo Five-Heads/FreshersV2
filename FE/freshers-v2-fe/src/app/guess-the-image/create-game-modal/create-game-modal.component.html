@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    CREATE GAME
+  </h4>
+  <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+    <h2 aria-hidden="true">&times;</h2>
+  </button>
+</div>
+<div class="modal-body">
+  <form *ngIf="!!formGroup"
+        [formGroup]="formGroup"
+        novalidate
+        (ngSubmit)="submitForm()">
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="GameName">Game name</label>
+          <div class="position-relative has-icon-right mt-1">
+            <input type="text"
+                   id="GameName"
+                   class="form-control"
+                   placeholder="Enter game name"
+                   formControlName="Name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="MaxParticipants">Max Participants</label>
+          <input type="number"
+                 id="MaxParticipants"
+                 class="form-control"
+                 placeholder="Enter the max number of participants"
+                 formControlName="MaxParticipants">
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="SecondsPerRound">Second Per Round</label>
+          <input type="number"
+                 id="SecondsPerRound"
+                 class="form-control"
+                 placeholder="Enter seconds for every round"
+                 formControlName="SecondsPerRound">
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="photo">Enter photo &nbsp;&nbsp;</label>
+          <button class="btn btn-outline-primary ml-3" id="photo"
+                  (click)="submitForm()"><fa-icon [icon]="faCamera"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-primary  "
+          (click)="submitForm()">Запази
+  </button>
+</div>
+
