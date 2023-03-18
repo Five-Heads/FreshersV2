@@ -1,0 +1,105 @@
+<!--<div class="container">-->
+<div class="row text-center ">
+  <div class="horizontal-div bg-primary">
+    <h2 class="mt-2">Question: {{selectedCheckPoint.OrderNumber}}:</h2>
+    <hr>
+    <h1 class="mb-3"> {{selectedCheckPoint.Question}}</h1>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col custom">
+    <div class="center-container">
+      <ngx-scanner-qrcode #action="scanner" style="width: 480px;height: 360px" [config]="config"
+                          (error)="onError($event)"></ngx-scanner-qrcode>
+    </div>
+    <div class="col text-center">
+      <label for="camera">Turn {{ !action.isStart ? 'on' : 'off' }}:</label>
+      <button id="camera"
+              class="btn" [class.btn-success]="!action.isStart"
+              [class.btn-danger]="action.isStart" [disabled]="action.isLoading"
+              (click)="handle(action, !action.isStart ? 'start' : 'stop')">
+        <fa-icon *ngIf="action.isStart" [icon]="faCamera"></fa-icon>
+        <fa-icon *ngIf="!action.isStart" [icon]="faCamera"></fa-icon>
+      </button>
+      <ng-container *ngIf="action.isStart">
+        <label for="scan">Scan:</label>
+        <button id="scan" [disabled]="action.isLoading"
+                class="btn bg-info" (click)="showData(action)">
+          <fa-icon [icon]="faQrcode"></fa-icon>
+        </button>
+      </ng-container>
+    </div>
+
+  </div>
+
+  <div class="col custom2">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3 px-0">
+          <div class="d-flex">
+            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                 style="width: 60px; height: 60px;">
+              <h1 class="mb-0"><fa-icon [icon]="faFlagCheckered" class="text-white"></fa-icon></h1>
+            </div>
+          </div>
+        </div>
+        <div class="col px-0 mr-5">
+          <h5 class="text-uppercase">Completed checkpoints</h5>
+          <h1 class="display-5 mb-0" data-toggle="counter-up">{{selectedCheckPoint.OrderNumber-1}} / {{selectedTreasureHust.TotalCheckpoints}}</h1>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-3 px-0">
+          <div class="d-flex">
+            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                 style="width: 60px; height: 60px;">
+              <h1 class="mb-0"><fa-icon [icon]="faStar" class="text-white"></fa-icon></h1>
+            </div>
+          </div>
+        </div>
+        <div class="col px-0">
+          <h5 class="text-uppercase">Person checkpoint completion</h5>
+          <h1 class="display-5 mb-0" data-toggle="counter-up">0 / {{selectedCheckPoint.NextReachedBy.length}}</h1>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <h5 class="">Your status on this checkpoint: <span class="text-warning">{{status}}</span></h5>
+      </div>
+    </div>
+  </div>
+  <!--  <div class="col ">-->
+  <!--    <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"-->
+  <!--            [disabled]="action.isLoading" (click)="handle(action, 'start')">Start-->
+  <!--    </button>-->
+  <!--    <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"-->
+  <!--            [disabled]="action.isLoading" (click)="handle(action, 'play')">Play-->
+  <!--    </button>-->
+  <!--    <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"-->
+  <!--            [disabled]="action.isLoading" (click)="handle(action, 'pause')">Pause-->
+  <!--    </button>-->
+  <!--    <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"-->
+  <!--            [disabled]="action.isLoading" (click)="handle(action, 'stop')">Stop-->
+  <!--    </button>-->
+  <!--    <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"-->
+  <!--            [disabled]="action.isLoading" (click)="action.download('ngx-scanner-qrcode')">Cap-->
+  <!--    </button>-->
+  <!--  </div>-->
+
+  <br>
+</div>
+
+<!--    &lt;!&ndash; For select files &ndash;&gt;-->
+<!--    <input #file type="file" (change)="onSelects(file.files)" [multiple]="'multiple'"-->
+<!--           [accept]="'.jpg, .png, .gif, .jpeg'" class="btn btn-success my-2"/>-->
+
+<!--    <ol>-->
+<!--      <li *ngFor="let row of selectedFiles">-->
+<!--        <img [src]="row.url" [alt]="row.name">-->
+<!--        <p class="data">{{row.data}}</p>-->
+<!--      </li>-->
+<!--    </ol>-->
+<!--  </div>-->
+
+<!--</div>-->

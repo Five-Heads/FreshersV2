@@ -16,7 +16,7 @@ export class AppComponent {
   }
 
   title = 'freshers-v2-fe';
-  
+
   ngOnInit() {
     this.authService.login("a", "a").subscribe((data)=>{
       this.signalRService.initConnection();

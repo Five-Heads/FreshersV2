@@ -1,0 +1,30 @@
+.btncts {
+  color: black;
+  font-size: 1rem;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #D98324, #A40606);
+  border-image-slice: 1;
+  width: 200px;
+  height: 75px;
+}
+
+.btncts:hover {
+  background: linear-gradient(to right, #D98324, #A40606);
+  color: white;
+  border-radius: 20px;
+}
+
+.create_team_button {
+  float: right;
+  margin-right: 100px;
+}
+
+.btn-middle {
+  color: black;
+  font-size: 2rem;
+  border-width: 3px;
+  border-radius: 30px;
+  border-color: white;
+  width: 400px;
+  height: 150px;
+}
