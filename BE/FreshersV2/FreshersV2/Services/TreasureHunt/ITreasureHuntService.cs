@@ -10,5 +10,13 @@ namespace FreshersV2.Services.TreasureHunt
         Task<StartTreasureHuntResponseModel> StartTreasureHunt(int treasureHuntId, string userId);
 
         Task CreateTreasureHunt(CreateTreasureHuntRequestModel model);
+
+        Task AssignGroupToTreasureHunt(int treasureHuntId, int groupId);
+
+        Task<bool> ValidateNextCheckpointForUser(int checkpointId, int treasureHuntId, string userId);
+
+        Task UpdateNextCheckpointForUser(int treasureHuntId, string userId);
+
+        Task<bool> CheckIfAllHaveReachedCheckpoint(int groupId,  int checkpointId);
     }
 }
