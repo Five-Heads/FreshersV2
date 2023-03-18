@@ -1,0 +1,180 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    ДОБАВЯНЕ НА СЪБИТИЕ
+  </h4>
+  <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+    <h2 aria-hidden="true">&times;</h2>
+  </button>
+</div>
+<div class="modal-body">
+  <form *ngIf="!!formGroup"
+        [formGroup]="formGroup"
+        novalidate
+        (ngSubmit)="submitForm()">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="name">Име на събитието</label>
+          <div class="position-relative has-icon-right mt-1">
+            <input type="text"
+                   id="name"
+                   class="form-control"
+                   placeholder="Въведете име на събитието"
+                   formControlName="Name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--    <div class="col-12 col-md-6 col-lg-3">-->
+    <!--      <div class="form-group">-->
+    <!--        <label for="MarkDateSingleMarkInsert" class="as-label">-->
+    <!--          Дата-->
+    <!--        </label>-->
+    <!--        <div class="input-group">-->
+    <!--          <ng-container *ngIf="!!updatableMark">-->
+    <!--            <input type="text"-->
+    <!--                   class="form-control"-->
+    <!--                   [value]="calendarDateControl.value"-->
+    <!--                   disabled>-->
+    <!--            <div class="input-group-append">-->
+    <!--              <button class="btn btn-outline-secondary calendar"-->
+    <!--                      type="button"-->
+    <!--                      disabled>-->
+    <!--                <i class="far fa-calendar-alt"></i>-->
+    <!--              </button>-->
+    <!--            </div>-->
+    <!--          </ng-container>-->
+    <!--          <ng-container *ngIf="!updatableMark">-->
+    <!--            <input class="form-control"-->
+    <!--                   placeholder="дд.мм.гггг"-->
+    <!--                   id="MarkDateSingleMarkInsert"-->
+    <!--                   container="body"-->
+    <!--                   formControlName="CalendarDate"-->
+    <!--                   ngbDatepicker-->
+    <!--                   #date="ngbDatepicker"-->
+    <!--                   (navigate)="onNavigate($event)"-->
+    <!--                   (dateSelect)="setTerm()"-->
+    <!--                   [dayTemplate]="markDateDay"-->
+    <!--                   [markDisabled]="markDisabled"-->
+    <!--                   [minDate]="minDate"-->
+    <!--                   [maxDate]="maxDate"/>-->
+    <!--            <div class="input-group-append">-->
+    <!--              <button class="btn btn-outline-secondary calendar"-->
+    <!--                      type="button"-->
+    <!--                      (click)="date.toggle()">-->
+    <!--                <i class="far fa-calendar-alt"></i>-->
+    <!--              </button>-->
+    <!--            </div>-->
+    <!--          </ng-container>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    &lt;!&ndash; Datepicker &ndash;&gt;-->
+    <!--    <ngb-datepicker [(ngModel)]="selectedDate"></ngb-datepicker>-->
+
+    <!--    &lt;!&ndash; Timepicker &ndash;&gt;-->
+    <!--    <ngb-timepicker [(ngModel)]="selectedTime"></ngb-timepicker>-->
+
+
+    <div class="row mt-2">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="name">
+            Начална дата</label>
+          <div class="row mt-1">
+            <div class="col flex-grow-0 pr-0">
+              <button (click)="dp.toggle()" class="btn btn-outline-secondary calendar-btn">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+              </button>
+            </div>
+            <div class="col flex-grow-1 pr-1">
+              <input type="text" class="form-control" formControlName="StartTimeDate" placeholder="Изберете начална дата"
+                     ngbDatepicker #dp="ngbDatepicker">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="name">
+            Начален час</label>
+          <div class="row mt-1">
+            <div class="col flex-grow-1 pr-1">
+              <input type="text" class="form-control" placeholder="Изберете начален час" formControlName="StartTimeHour">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="name">
+            Краен дата</label>
+          <div class="row mt-1">
+            <div class="col flex-grow-0 pr-0">
+              <button (click)="dp2.toggle()" class="btn btn-outline-secondary calendar-btn">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+              </button>
+            </div>
+            <div class="col flex-grow-1 pr-1">
+              <input type="text" class="form-control" placeholder="Изберете крайна дата" formControlName="EndTimeDate"
+                     ngbDatepicker #dp2="ngbDatepicker">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="name">
+            Начален час</label>
+          <div class="row mt-1">
+            <div class="col flex-grow-1 pr-1">
+              <input type="text" class="form-control" placeholder="Изберете краен час" formControlName="EndTimeHour">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row mt-3">
+      <div class="col-3">
+        <button class="btn btn-primary text-white text-nowrap"
+                (click)="addCheckpoint()"> Добави деситинация
+        </button>
+      </div>
+    </div>
+    <div class="row mt-2" *ngIf="crrCheckpointsForEvent.length !== 0">
+      <ng-select [items]="crrCheckpointsForEvent"
+                 [clearable]="true"
+                 [multiple]="true"
+                 bindLabel="Name"
+                 bindValue="Name"
+                 id="UsersIds"
+                 class="mt-1"
+                 formControlName="CheckpointsIds"
+                 placeholder="Изберете деситинации">
+        <ng-template ng-option-tmp let-item="item">
+          <div>
+            <span class="font-weight-500">{{item.Name}}</span><br>
+            <span class="small">{{item.Question}}</span>
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-primary  "
+          (click)="submitForm()">Запази
+  </button>
+</div>
+

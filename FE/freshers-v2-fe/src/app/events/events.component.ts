@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {CreateEventModalComponent} from "./create-event-modal/create-event-modal.component";
 
 @Component({
   selector: 'app-events',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class EventsComponent {
 
+  constructor(private modalService: NgbModal) {
+  }
+  createEvent() {
+    const modalRef = this.modalService.open(CreateEventModalComponent, {size: 'lg'});
+  }
 }
