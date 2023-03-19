@@ -39,10 +39,8 @@ namespace FreshersV2
                 {
                     options.AddPolicy("CorsPolicy", 
                         builder => builder.AllowAnyOrigin()
-                        .SetIsOriginAllowed((host) => true)
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
                 });
 
             services
