@@ -1,4 +1,5 @@
-﻿using FreshersV2.Data.Models;
+﻿using FreshersV2.Data;
+using FreshersV2.Data.Models;
 using FreshersV2.Models.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -12,11 +13,17 @@ namespace FreshersV2.Services.Identity
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<Data.Models.User> userManager;
+        private readonly AppDbContext appDbContext;
         private readonly ApplicationSettings applicationSettings;
 
-        public IdentityService(UserManager<Data.Models.User> userManager, IOptions<ApplicationSettings> applicationSettings)
+        public IdentityService(
+            UserManager<Data.Models.User> userManager,
+            IOptions<ApplicationSettings> applicationSettings,
+            AppDbContext appDbContext
+            )
         {
             this.userManager = userManager;
+            this.appDbContext = appDbContext;
             this.applicationSettings = applicationSettings.Value;
         }
 
@@ -40,7 +47,22 @@ namespace FreshersV2.Services.Identity
                 FacultyNumber = model.FacultyNumber
             };
 
-            return (await userManager.CreateAsync(user, model.Password)).Succeeded ? user : null;
+            var identityResult = await userManager.CreateAsync(user, model.Password);
+
+            if (!identityResult.Succeeded)
+            {
+                return null;
+            }
+
+            await appDbContext
+                .Leaderboard
+                .AddAsync(new Data.Models.Leaderboard
+                {
+                    UserId = user.Id,
+                    Score = 0
+                });
+
+            return user;
         }
 
         public string GenerateJwtToken(string userId, string userName, string role, string secret)
@@ -54,7 +76,7 @@ namespace FreshersV2.Services.Identity
                 {
                     new Claim(ClaimTypes.NameIdentifier, userId),
                     new Claim(ClaimTypes.Name, userName),
-                    //new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
