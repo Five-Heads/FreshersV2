@@ -1,1 +1,26 @@
-<p>treasure-hunt-all works!</p>
+<div class="container-fluid programe position-relative px-5 mt-5" style="margin-bottom: 135px;">
+  <div *ngIf="userRole == 'Admin'" class="row">
+    <div class="col">
+      <button type="submit" class="btncts create_team_button bg-primary" (click)="createEvent()">
+        Създай евент
+      </button>
+    </div>
+  </div>
+  <br />
+  <div class="row g-5 gb-5">
+    <ng-container *ngIf="!!allTreasureHuntData">
+    <ng-container *ngFor="let hunt of allTreasureHuntData">
+      <div class="col-lg-4 col-md-6">
+        <div class="bg-light rounded text-center p-5">
+          <i class="flaticon-barbell display-1 text-primary"></i>
+          <h3 class="text-uppercase my-4">{{hunt.name}}</h3>
+          <p >Start Time: {{hunt.startTime}} | End Time: {{hunt.endTime}}</p>
+          <a class="text-uppercase" routerLink="/"
+             [routerLink]="['/events/treasure-hunt/main', hunt.id]"
+             [routerLinkActive]="'active'" >Join this event<fa-icon [icon]="faArrowRight"></fa-icon></a>
+        </div>
+      </div>
+    </ng-container>
+    </ng-container>
+  </div>
+</div>

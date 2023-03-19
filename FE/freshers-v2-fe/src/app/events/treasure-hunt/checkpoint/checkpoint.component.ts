@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TreasureHuntService} from "../treasure-hunt.service";
 import {Observable, Subscription, debounce, take} from "rxjs";
 import {CheckpointInputModel, TreasureHuntStartInputModel} from "../../models/TreasureHuntStartInputModel";
@@ -17,7 +17,9 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './checkpoint.component.html',
   styleUrls: ['./checkpoint.component.scss']
 })
-export class CheckpointComponent implements OnInit, OnDestroy {
+export class CheckpointComponent implements OnInit, OnDestroy {    
+  @ViewChild('action') myAction!: ElementRef;
+
 
   faCamera = faCamera;
   faQrcode = faQrcode;
@@ -141,6 +143,7 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.handle(this.myAction, 'stop');
     this.subs.unsubscribe();
     this.signalRService.closeConnection();
   }
