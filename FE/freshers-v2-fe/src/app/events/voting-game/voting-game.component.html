@@ -1,26 +1,52 @@
 <div class="mb-5 text-center">
-    <h1 class="display-3 text-uppercase mb-0">Available Contests</h1>
+  <h1 class="display-3 text-uppercase mb-0">Available Contests</h1>
 </div>
 <div class="m-5 d-flex flex-column justify-content-center align-items-center">
-    <div *ngFor="let contest of contests" class="accordion w-25" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="heading{{contest.id}}">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" attr.data-bs-target="#collapse{{contest.id}}" aria-expanded="true" attr.aria-controls="collapse{{contest.id}}">
-                    {{contest.name}}
-                </button>
-            </h2>
-            <div id="collapse{{contest.id}}" class="accordion-collapse collapse show" attr.aria-labelledby="heading{{contest.id}}" data-bs-parent="#accordionExample">
-                <div class="d-flex">
-                    <div class="text-center accordion-body">
-                        <a routerLink="/"
-                        [routerLink]="['/events/voting-game/{{contest.id}}']"
-                        [routerLinkActive]="'active'"
-                        class="btn btn-primary mx-md-2 py-md-3 px-md-5">Join Contest</a>
-                    </div>
-                    <span class="mx-md-2 my-md-3 py-md-3 px-md-5" data-toggle="counter-up">{{getUserCount(contest.id) ?? 0}} / {{contest.maxParticipants}}</span>
-                </div>
-            </div>
+  <div
+    *ngFor="let contest of contests"
+    class="accordion w-25"
+    id="accordionExample"
+  >
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading{{ contest.contestId }}">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          attr.data-bs-target="#collapse{{ contest.contestId }}"
+          aria-expanded="true"
+          attr.aria-controls="collapse{{ contest.contestId }}"
+        >
+          {{ contest.name }}
+        </button>
+      </h2>
+      <div
+        id="collapse{{ contest.contestId }}"
+        class="accordion-collapse collapse show"
+        attr.aria-labelledby="heading{{ contest.contestId }}"
+        data-bs-parent="#accordionExample"
+      >
+        <div class="d-flex">
+          <div class="text-center accordion-body">
+            <a
+              href="/events/voting-game/{{ contest.contestId }}"
+              class="btn btn-primary mx-md-2 py-md-3 px-md-5"
+              >Join Contest</a
+            >
+          </div>
+          <span class="mx-md-2 my-md-3 py-md-3 px-md-5" data-toggle="counter-up"
+            >{{ getUserCount(contest.contestId) ?? 0 }} /
+            {{ contest.maxParticipants }}</span
+          >
         </div>
+      </div>
     </div>
-    <button class="btn btn-primary mx-md-2 my-md-5 py-md-4 px-md-5" (click)="createContest()">Create Contest</button>
+  </div>
+  <button
+    *ngIf="authService.user.value!.role === 'Admin'"
+    class="btn btn-primary mx-md-2 my-md-5 py-md-4 px-md-5"
+    (click)="createContest()"
+  >
+    Create Contest
+  </button>
 </div>

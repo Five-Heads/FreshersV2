@@ -33,6 +33,8 @@ import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby
 import { BlurredImageComponent } from './guess-the-image/blurreder-image/blurred-image.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { TreasureHuntAllComponent } from './events/treasure-hunt/treasure-hunt-all/treasure-hunt-all.component';
+import { MiniGamesComponent } from './mini-games/mini-games.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { TreasureHuntAllComponent } from './events/treasure-hunt/treasure-hunt-a
     BlurredImageComponent,
     LeaderboardComponent,
     TreasureHuntAllComponent,
+    MiniGamesComponent,
+    HomeComponent,
     ]
   ,
   imports: [
@@ -81,7 +85,7 @@ import { TreasureHuntAllComponent } from './events/treasure-hunt/treasure-hunt-a
       multi: true,
     },
     {
-      provide: LocationStrategy, 
+      provide: LocationStrategy,
       useClass: PathLocationStrategy
     }
   ],

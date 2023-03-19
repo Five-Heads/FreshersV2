@@ -98,7 +98,7 @@ namespace FreshersV2.Services.BaseImageContest
                 {
                     foreach (var blurredImage in contest.BaseImage.BlurredImages)
                     {
-                        blurredImage.Base64Image = ImageHelper.GetDecompressedBase64Image(blurredImage.Base64Image);
+                        blurredImage.Base64Image = blurredImage.Base64Image;
                         blurredImage.BaseImage = null;
                     }
                 }

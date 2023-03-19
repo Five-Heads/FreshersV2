@@ -3,24 +3,36 @@
   <div class="mb-5 text-center">
     <h1 class="display-3 text-uppercase mb-0">Join Guess The Image</h1>
   </div>
-  <div class="row">
+  <div *ngIf="authService.user.value!.role === 'Admin'" class="row">
     <div class="col">
-      <button type="submit" class="btncts create_team_button bg-primary" (click)="changeGameStatus()">
+      <button
+        type="submit"
+        class="btncts create_team_button bg-primary"
+        (click)="changeGameStatus()"
+      >
         Change game status
       </button>
     </div>
     <div class="col" style="text-align: right">
-      <button type="submit" class="btncts create_team_button bg-primary" (click)="createGame()">
+      <button
+        type="submit"
+        class="btncts create_team_button bg-primary"
+        (click)="createGame()"
+      >
         Create game
       </button>
     </div>
   </div>
   <div class="row g-5 mt-5">
-      <div class="col center-container">
-        <button type="submit" class="btn-middle btn btn-primary" (click)="joinTheGame()">
-          Join
-        </button>
-      </div>
+    <div class="col center-container">
+      <button
+        type="submit"
+        class="btn-middle btn btn-primary"
+        (click)="joinTheGame()"
+      >
+        Join
+      </button>
+    </div>
   </div>
 </div>
 <!-- Blog End -->
