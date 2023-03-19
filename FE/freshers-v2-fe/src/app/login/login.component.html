@@ -38,7 +38,10 @@
         <input type="submit" class="btn" value="Login">
       </div>
     </form>
-    <p class="text-center">Not a member? <a href="/register">Sign up now</a></p>
+    <p class="text-center">Not a member? <a routerLink="/"
+      [routerLink]="['/register']"
+      [routerLinkActive]="'active'"
+      >Sign up now</a></p>
   </div>
 </body>
 

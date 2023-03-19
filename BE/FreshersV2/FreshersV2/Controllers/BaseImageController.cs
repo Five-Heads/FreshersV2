@@ -10,7 +10,7 @@ using System.Drawing.Imaging;
 
 namespace FreshersV2.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BaseImageController : BaseApiController
     {
         private readonly IBaseImageService baseImageService;

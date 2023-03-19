@@ -8,7 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
+import { CommonModule, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EventsComponent } from './events/events.component';
@@ -34,6 +34,7 @@ import { BlurredImageComponent } from './guess-the-image/blurreder-image/blurred
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { TreasureHuntAllComponent } from './events/treasure-hunt/treasure-hunt-all/treasure-hunt-all.component';
 import { MiniGamesComponent } from './mini-games/mini-games.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MiniGamesComponent } from './mini-games/mini-games.component';
     LeaderboardComponent,
     TreasureHuntAllComponent,
     MiniGamesComponent,
+    HomeComponent,
     ]
   ,
   imports: [
@@ -81,6 +83,10 @@ import { MiniGamesComponent } from './mini-games/mini-games.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
+    },
+    {
+      provide: LocationStrategy,
+      useClass: PathLocationStrategy
     }
   ],
   bootstrap: [AppComponent]

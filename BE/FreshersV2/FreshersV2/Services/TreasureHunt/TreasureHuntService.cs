@@ -110,7 +110,7 @@ namespace FreshersV2.Services.TreasureHunt
         {
             return await this.appDbContext
                 .UserTreasureHunts
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId && !x.Done)
                 .Select(x => x.TreasureHunt)
                 .ToListAsync();
         }
@@ -215,10 +215,13 @@ namespace FreshersV2.Services.TreasureHunt
 
             if (next == null)
             {
-                return;
+                current.Done = true;
+            }
+            else
+            {
+                current.NextId = next.Id;
             }
 
-            current.NextId = next.Id;
             this.appDbContext.Update(current);
             await this.appDbContext.SaveChangesAsync();
         }
@@ -227,12 +230,13 @@ namespace FreshersV2.Services.TreasureHunt
         {
             var groupTreasureHunt = await this.appDbContext
                 .GroupTreasureHunts
-                .Where(x => x.GroupId == groupId)
+                .Include(x => x.Next)
+                .Where(x => x.GroupId == groupId && x.TreasureHuntId == treasureHuntId)
                 .FirstOrDefaultAsync();
 
             var haveReached = await this.appDbContext
                 .UserTreasureHunts
-                .Where(x => x.User.GroupId == groupId && x.NextId == groupTreasureHunt.NextId)
+                .Where(x => x.User.GroupId == groupId && x.NextId == groupTreasureHunt.NextId && !x.Done)
                 .CountAsync();
 
             if (haveReached > 0)
@@ -247,6 +251,9 @@ namespace FreshersV2.Services.TreasureHunt
             // TODO: distinct
             if (newNext == null)
             {
+                groupTreasureHunt.Done = true;
+                this.appDbContext.Update(groupTreasureHunt);
+                await this.appDbContext.SaveChangesAsync();
                 return null;
             }
 

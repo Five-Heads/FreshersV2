@@ -1,7 +1,7 @@
 <div class="row center-container" style="height: 500px">
   <div class="col">
     <div class="row text-center">
-      <div class="col col-2 bg-dark" style="width: 20%">
+      <div *ngIf="showCounter" class="col col-2 bg-dark" style="width: 20%">
         <h2 class="text-white mt-1">{{ countdown }}</h2>
       </div>
       <div class="col bg-primary flex-grow-1">
@@ -10,38 +10,50 @@
     </div>
     <div class="row text-center">
       <div class="col px-0">
-        <img [src]="imageSource" alt="Image Source">
+        <img
+          [src]="imageSource"
+          alt="Image Source"
+          style="height: 23rem; width: 25rem"
+        />
       </div>
     </div>
-    <form *ngIf="!!formGroup"
-          class="form login"
-          [formGroup]="formGroup"
-          (ngSubmit)="submitForm()">
+    <form
+      *ngIf="!!formGroup && showCounter && !hasGuessed"
+      class="form login"
+      [formGroup]="formGroup"
+      (ngSubmit)="submitForm()"
+    >
       <div class="row text-center">
         <div class="col">
           <div class="form__field form-group">
             <label for="imageGuess">
               <!--            <fa-icon [icon]="faLock"></fa-icon>-->
-              <span class="hidden">Guess the image:</span></label>
+              <span class="hidden">Guess the image:</span></label
+            >
             <input
               id="imageGuess"
               type="text"
               name="imageGuess"
               placeholder="Enter guess here"
-              formControlName="Guess"
-              [disabled]="false">
+              formControlName="guess"
+              [disabled]="false"
+            />
           </div>
         </div>
         <div class="col">
-          <button id="scan" [disabled]="false"
-                  class="btn btn-outline-primary mt-3" type="submit">
+          <button
+            id="scan"
+            [disabled]="false"
+            class="btn btn-outline-primary mt-3"
+            type="submit"
+          >
             <fa-icon [icon]="paperPlane"></fa-icon>
           </button>
         </div>
       </div>
     </form>
+    <div *ngIf="hasGuessed" class="col flex-grow-1">
+      <h5 class="mt-1">You guessed correctly! The word is {{ object }}.</h5>
+    </div>
   </div>
 </div>
-
-
-
