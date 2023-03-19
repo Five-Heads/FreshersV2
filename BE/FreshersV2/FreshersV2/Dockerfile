@@ -10,7 +10,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["FreshersV2/FreshersV2.csproj", "FreshersV2/"]
+COPY ["FreshersV2.csproj", "FreshersV2/"]
 RUN dotnet restore "FreshersV2/FreshersV2.csproj"
 COPY . .
 WORKDIR "/src/FreshersV2"
