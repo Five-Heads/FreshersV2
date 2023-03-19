@@ -54,7 +54,7 @@ namespace FreshersV2.Services.Identity
                 {
                     new Claim(ClaimTypes.NameIdentifier, userId),
                     new Claim(ClaimTypes.Name, userName),
-                    //new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

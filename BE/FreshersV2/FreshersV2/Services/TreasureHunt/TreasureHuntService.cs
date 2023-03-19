@@ -254,5 +254,12 @@ namespace FreshersV2.Services.TreasureHunt
                 Question = newNext.Question
             };
         }
+
+        public async Task<List<Data.Models.TreasureHunt>> GetAllTreasureHunts()
+        {
+            return await this.appDbContext
+                .TreasureHunts
+                .ToListAsync();
+        }
     }
 }
