@@ -1,12 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TreasureHuntService} from "../treasure-hunt.service";
-import {Observable, Subscription, debounce} from "rxjs";
+import {Observable, Subscription, debounce, take} from "rxjs";
 import {CheckpointInputModel, TreasureHuntStartInputModel} from "../../models/TreasureHuntStartInputModel";
 import {ScannerQRCodeSelectedFiles} from "ngx-scanner-qrcode/lib/ngx-scanner-qrcode.options";
 import {NgxScannerQrcodeService} from "ngx-scanner-qrcode";
 import {faCamera, faFlagCheckered, faQrcode, faStar} from '@fortawesome/free-solid-svg-icons';
 import {TreasureHuntDataService} from "../treasure-hunt-data.service";
 import {TreasureHuntData} from "../../models/TreasureHuntData";
+import { Router } from '@angular/router';
+import { SignalRService } from 'src/app/signalR.service';
+import { GroupResponseModel } from '../../models/GroupResponseModel';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-checkpoint',
@@ -45,23 +49,51 @@ export class CheckpointComponent implements OnInit, OnDestroy {
   selectedTreasureHust: TreasureHuntData;
   isCameraOn: boolean = false;
   subs: Subscription;
+  reachedBy: string[] = [];
+  userGroup: GroupResponseModel;
 
   constructor(private qrcode: NgxScannerQrcodeService,
               private treasureHuntDataService: TreasureHuntDataService,
-              private treasureHuntService: TreasureHuntService) {
+              private treasureHuntService: TreasureHuntService,
+              private router: Router,
+              private signalRService: SignalRService,
+              private authService: AuthService) {
     this.subs = new Subscription();
+    this.signalRService.initConnection();
   }
+
+
+
+  private waitingForOther = false;
+  private isFinal = false;
 
   ngOnInit(): void {
     this.subs.add(
-      this.treasureHuntDataService.getSelectedCheckpoint().subscribe(res => {
-        this.selectedCheckPoint = res;
-        console.log(res);
+      this.treasureHuntDataService.getUserGroup().subscribe(res=>{
+        this.userGroup = res;
       })
     )
     this.subs.add(
-      this.treasureHuntDataService.getSelectedTreasureHunt().subscribe(res => {
+      this.treasureHuntDataService.getReachedBy().subscribe(res => {
+        this.reachedBy = res;
+
+        this.status = this.reachedBy.includes(this.authService.user.value!.id) ? 
+          "Reached" :
+          "Pending"
+      })
+    )
+    this.subs.add(
+      this.treasureHuntDataService.getSelectedCheckpoint().subscribe(res => {
+        this.selectedCheckPoint = res;
+        this.isFinal = this.selectedCheckPoint.isFinal;
+      })
+    )
+    this.subs.add(
+      this.treasureHuntDataService.getSelectedTreasureHunt()
+      .pipe(take(1))
+      .subscribe(res => {
         this.selectedTreasureHust = res;
+        this.reachedBy = this.selectedTreasureHust.nextReachedBy;
         console.log(res);
       })
     )
@@ -84,7 +116,6 @@ export class CheckpointComponent implements OnInit, OnDestroy {
     }
   }
 
-  private waitingForOther = false;
   showData(data: any) {
     if (data.data._value.length > 0) {
       this.currentUrl = data.data._value[0].value;
@@ -107,6 +138,7 @@ export class CheckpointComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    this.signalRService.closeConnection();
   }
 
 }

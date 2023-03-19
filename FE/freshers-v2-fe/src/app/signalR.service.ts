@@ -9,7 +9,7 @@ import { TreasureHuntDataService } from './events/treasure-hunt/treasure-hunt-da
     providedIn: 'root'
 })
 export class SignalRService implements IDisposable {
-    private connection!: signalR.HubConnection;
+    public connection!: signalR.HubConnection;
     private apiUrl = environment.apiUrl;
 
     constructor(
@@ -45,16 +45,17 @@ export class SignalRService implements IDisposable {
     dispose() {
         this.closeConnection();
     }
-
     private initEvents() {
         this.connection.on("CheckpointReached", (userId: any) => {
             // update
             debugger;
+            this.treasureHuntDataService.setReachedBy(userId);
         })
-
+  
         this.connection.on("NextCheckpoint", (newNext: any) => {
             // update
             debugger;
+            this.treasureHuntDataService.resetReachedBy();
             this.treasureHuntDataService.setSelectedCheckpoint(newNext);
         })
     }

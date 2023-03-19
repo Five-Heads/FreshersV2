@@ -8,6 +8,7 @@ import { environment } from 'src/environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { EventCreateOutput } from '../models/EventCreateOutput';
 import { ValidateCheckpointModel } from '../models/ValidateCheckpointModel';
+import { GroupResponseModel } from '../models/GroupResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,11 @@ export class TreasureHuntService {
 
   createGroup(data: any) {
     return this.http.post(`${this.apiUrl}/groups/create`, data)
+      .pipe(take(1));
+  }
+
+  getMyGroup() : Observable<GroupResponseModel> {
+    return this.http.get<GroupResponseModel>(`${this.apiUrl}/groups/my`)
       .pipe(take(1));
   }
 

@@ -60,11 +60,11 @@
         </div>
         <div class="col px-0">
           <h5 class="text-uppercase">Person checkpoint completion</h5>
-          <h1 class="display-5 mb-0" data-toggle="counter-up"> {{selectedTreasureHust.nextReachedBy.length}} / 0</h1>
+          <h1 class="display-5 mb-0" data-toggle="counter-up"> {{reachedBy.length}} / {{userGroup.users.length}}</h1>
         </div>
       </div>
       <div class="row mt-2">
-        <h5 class="">Your status on this checkpoint: <span class="text-warning">{{status}}</span></h5>
+        <h5 class="">Your status on this checkpoint: <span [class]="(status == 'Reached' ? 'text-success' : 'text-warning')">{{status}}</span></h5>
       </div>
     </div>
   </div>
