@@ -36,4 +36,4 @@ RUN npm run build --prod
 
 # Stage 2
 FROM nginx:alpine
-COPY --from=node /app/dist/freshers-v2-fe /usr/share/nginx/html
+COPY --from=node /app/dist/freshers-v2-fe /var/www/html
