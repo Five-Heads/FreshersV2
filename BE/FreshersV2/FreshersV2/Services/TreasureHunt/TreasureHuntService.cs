@@ -99,7 +99,7 @@ namespace FreshersV2.Services.TreasureHunt
 
             result.NextReachedBy = await this.appDbContext
                 .UserTreasureHunts
-                .Where(x => x.User.GroupId == result.GroupId && x.NextId != result.Next.Id)
+                .Where(x => x.TreasureHuntId == treasureHuntId && x.User.GroupId == result.GroupId && x.NextId != result.Next.Id)
                 .Select(x => x.UserId)
                 .ToListAsync();
 

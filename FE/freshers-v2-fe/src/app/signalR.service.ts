@@ -3,6 +3,7 @@ import * as signalR from '@microsoft/signalr';
 import { AuthService } from './auth/auth.service';
 import { IDisposable } from './utils/disposable';
 import { environment } from 'src/environment/environment';
+import { TreasureHuntDataService } from './events/treasure-hunt/treasure-hunt-data.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,8 @@ export class SignalRService implements IDisposable {
     private apiUrl = environment.apiUrl;
 
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private treasureHuntDataService: TreasureHuntDataService
     ) {  }
 
     send(eventName: string, data: any) {
@@ -53,6 +55,7 @@ export class SignalRService implements IDisposable {
         this.connection.on("NextCheckpoint", (newNext: any) => {
             // update
             debugger;
+            this.treasureHuntDataService.setSelectedCheckpoint(newNext);
         })
     }
 }

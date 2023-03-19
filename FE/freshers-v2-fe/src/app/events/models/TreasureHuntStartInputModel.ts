@@ -2,11 +2,11 @@ export class TreasureHuntStartInputModel {
   constructor(
     public Id: number,
 
-    public TotalCheckpoints: number,
+    public totalCheckpoints: number,
 
     public GroupId: number,
 
-    public GroupMembers: number[],
+    public groupMembers: number[],
 
     public next: CheckpointInputModel,
 
