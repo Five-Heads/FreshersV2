@@ -1,75 +1,77 @@
 <div class="container-fluid bg-dark px-0">
-        <div class="row gx-0">
-            <div class="col-lg-3 bg-dark d-none d-lg-block">
-                <a href="#" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
-                    <h1 class="m-0 display-4 text-primary text-uppercase">Freshers</h1>
-                </a>
-            </div>
-            <div class="col-lg-9">
-                <div class="row gx-0 bg-secondary d-none d-lg-flex">
-                    <div class="col-lg-7 px-5 text-start">
-                        <div class="h-100 d-inline-flex align-items-center py-2 me-4">
-                            <i class="fa fa-envelope text-primary me-2"></i>
-                            <h6 class="mb-0">fss.fmi.uni-sofia.bg</h6>
-                        </div>
-                        <div class="h-100 d-inline-flex align-items-center py-2">
-                            <i class="fa fa-phone-alt text-primary me-2"></i>
-                            <h6 class="mb-0">IG: lifeinfmi</h6>
-                        </div>
-                    </div>
-                </div>
-                <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0 px-lg-5">
-                    <a href="#" class="navbar-brand d-block d-lg-none">
-                        <h1 class="m-0 display-4 text-primary text-uppercase">Freshers 2.0</h1>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <a 
-                            routerLink="/"
-                            [routerLink]="['/']"
-                            [routerLinkActive]="'active'" 
-                            class="nav-item nav-link">Home</a>
-                            <a routerLink="/"
-                            [routerLink]="['/events']"
-                            [routerLinkActive]="'active'"
-                            class="nav-item nav-link active">Treasure Hunt</a>
-                            <a routerLink="/"
-                            [routerLink]="['/blurry-vision']"
-                            [routerLinkActive]="'active'" class="nav-item nav-link">Blurry vision</a>
-                            <a routerLink="/"
-                            [routerLink]="['/leaderboard']"
-                            [routerLinkActive]="'active'" class="nav-item nav-link">Leaderboard</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="#" class="dropdown-item">Blog Grid</a>
-                                    <a href="#" class="dropdown-item">Blog Detail</a>
-                                    <a href="#" class="dropdown-item">Testimonial</a>
-                                </div>
-                            </div>
-                            <a routerLink="/"
-                            [routerLink]="['/events']"
-                            [routerLinkActive]="'active'"
-                             class="nav-item nav-link">Events</a>
-                            <a href="#" class="nav-item nav-link">Contact</a>
-                        </div>
-                        <div *ngIf="!user" class="d-flex">
-                            <a  routerLink="/"
-                            [routerLink]="['/login']"
-                            [routerLinkActive]="'active'"
-                             class="btn btn-primary mx-md-2 py-md-3 px-md-5">Login</a>
-                            <a hrouterLink="/"
-                            [routerLink]="['/register']"
-                            [routerLinkActive]="'active'" class="btn btn-primary mx-md-2 py-md-3 px-md-5">Sign Up</a>
-                        </div>
-                        <div *ngIf="user" class="d-flex">
-                            <button class="btn btn-primary mx-md-2 py-md-3 px-md-5" (click)="logOut()">Logout</button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  <div class="row gx-0">
+    <div class="col-lg-3 bg-dark d-none d-lg-block">
+      <a
+        href="#"
+        class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center"
+      >
+        <h1 class="m-0 display-4 text-primary text-uppercase">Freshers</h1>
+      </a>
     </div>
+    <div class="col-lg-9">
+      <div class="row gx-0 bg-secondary d-none d-lg-flex">
+        <div class="col-lg-7 px-5 text-start">
+          <div class="h-100 d-inline-flex align-items-center py-2 me-4">
+            <i class="fa fa-envelope text-primary me-2"></i>
+            <h6 class="mb-0">fss.fmi.uni-sofia.bg</h6>
+          </div>
+          <div class="h-100 d-inline-flex align-items-center py-2">
+            <i class="fa fa-phone-alt text-primary me-2"></i>
+            <h6 class="mb-0">IG: @lifeinfmi</h6>
+          </div>
+        </div>
+      </div>
+      <nav
+        class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0 px-lg-5"
+      >
+        <a href="#" class="navbar-brand d-block d-lg-none">
+          <h1 class="m-0 display-4 text-primary text-uppercase">
+            Freshers 2.0
+          </h1>
+        </a>
+        <button
+          type="button"
+          class="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-between"
+          id="navbarCollapse"
+        >
+          <div class="navbar-nav m-3 py-0">
+            <a href="#" class="nav-item nav-link">Home</a>
+            <a *ngIf="user" href="/events" class="nav-item nav-link"
+              >Treasure Hunt</a
+            >
+            <a *ngIf="user" href="/blurry-vision" class="nav-item nav-link"
+              >Blurry Vision</a
+            >
+            <a *ngIf="user" href="/leaderboard" class="nav-item nav-link"
+              >Leaderboard</a
+            >
+            <a *ngIf="user" href="/events" class="nav-item nav-link">Events</a>
+          </div>
+          <div *ngIf="!user" class="d-flex">
+            <a href="/login" class="btn btn-primary mx-md-2 py-md-3 px-md-5"
+              >Login</a
+            >
+            <a href="/register" class="btn btn-primary mx-md-2 py-md-3 px-md-5"
+              >Sign Up</a
+            >
+          </div>
+          <div *ngIf="user" class="d-flex">
+            <button
+              class="btn btn-primary mx-md-2 py-md-3 px-md-5"
+              (click)="logOut()"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>

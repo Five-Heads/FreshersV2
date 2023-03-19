@@ -3,12 +3,15 @@ using FreshersV2.Models.BlurredImage;
 using FreshersV2.Services.BaseImage;
 using FreshersV2.Services.BaseImageContest;
 using FreshersV2.Services.BlurredImage;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BlurredImageContestController : BaseApiController
     {
         private readonly IBlurredImageContestService blurredImageContestService;
