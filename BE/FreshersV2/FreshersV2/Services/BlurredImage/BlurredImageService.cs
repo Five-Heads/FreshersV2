@@ -30,7 +30,7 @@ namespace FreshersV2.Services.BlurredImage
                         {
                             using (Bitmap bm2 = new Bitmap(ms))
                             {
-                                for (int i = 11; i < 16; i++)
+                                for (int i = 9; i < 15; i++)
                                 {
                                     var bitmap = Blur(bm2, i);
                                     var base64 = ToBase64String(bitmap, viewIcon.RawFormat);

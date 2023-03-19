@@ -33,7 +33,7 @@ namespace FreshersV2.Infrastructure.Extensions
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString)
             => services.AddDbContext<AppDbContext>(options =>
-                        options.UseSqlServer(connectionString,
+                        options.UseNpgsql(connectionString,
                         b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
                     ), ServiceLifetime.Transient);
 

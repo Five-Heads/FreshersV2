@@ -11,6 +11,7 @@ import { VotingGameComponent } from './events/voting-game/voting-game.component'
 import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
 import {BlurredImageComponent} from "./guess-the-image/blurreder-image/blurred-image.component";
 import {LeaderboardComponent} from "./leaderboard/leaderboard.component";
+import {TreasureHuntAllComponent} from "./events/treasure-hunt/treasure-hunt-all/treasure-hunt-all.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'events/treasure-hunt',
     component: TreasureHuntComponent,
+  },
+  {
+    path: 'events/treasure-hunt/:id',
+    component: TreasureHuntAllComponent,
   },
   {
     path: 'events/treasure-hunt/:id',

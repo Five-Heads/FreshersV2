@@ -19,19 +19,19 @@ export class GuessTheImageService {
 
 
   getEvent(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${this.blurredImageContest}/upcoming`)
+    return this.http.get<any>(`${this.apiUrl}/api/${this.blurredImageContest}/upcoming`)
       .pipe(take(1));
     return of(null);
   }
 
   postChangeStatus(data: any): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/${this.blurredImageContest}/change-status`, data)
+    return this.http.post<boolean>(`${this.apiUrl}/api/${this.blurredImageContest}/change-status`, data)
       .pipe(take(1));
   }
   //postCreateGame
 
   postCreateGame(data: any): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/${this.blurredImageContest}/create`, data)
+    return this.http.post<boolean>(`${this.apiUrl}/api/${this.blurredImageContest}/create`, data)
       .pipe(take(1));
   }
 }
