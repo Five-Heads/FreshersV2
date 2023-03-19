@@ -230,12 +230,13 @@ namespace FreshersV2.Services.TreasureHunt
         {
             var groupTreasureHunt = await this.appDbContext
                 .GroupTreasureHunts
+                .Include(x => x.Next)
                 .Where(x => x.GroupId == groupId && x.TreasureHuntId == treasureHuntId)
                 .FirstOrDefaultAsync();
 
             var haveReached = await this.appDbContext
                 .UserTreasureHunts
-                .Where(x => x.User.GroupId == groupId && x.NextId == groupTreasureHunt.NextId)
+                .Where(x => x.User.GroupId == groupId && x.NextId == groupTreasureHunt.NextId && !x.Done)
                 .CountAsync();
 
             if (haveReached > 0)
