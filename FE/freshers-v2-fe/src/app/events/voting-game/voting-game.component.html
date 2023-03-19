@@ -12,7 +12,10 @@
             <div id="collapse{{contest.id}}" class="accordion-collapse collapse show" attr.aria-labelledby="heading{{contest.id}}" data-bs-parent="#accordionExample">
                 <div class="d-flex">
                     <div class="text-center accordion-body">
-                        <a href="/events/voting-game/{{contest.id}}" class="btn btn-primary mx-md-2 py-md-3 px-md-5">Join Contest</a>
+                        <a routerLink="/"
+                        [routerLink]="['/events/voting-game/{{contest.id}}']"
+                        [routerLinkActive]="'active'"
+                        class="btn btn-primary mx-md-2 py-md-3 px-md-5">Join Contest</a>
                     </div>
                     <span class="mx-md-2 my-md-3 py-md-3 px-md-5" data-toggle="counter-up">{{getUserCount(contest.id) ?? 0}} / {{contest.maxParticipants}}</span>
                 </div>

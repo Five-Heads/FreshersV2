@@ -32,7 +32,7 @@ FROM node:18.10 as node
 WORKDIR /app
 COPY . .
 RUN npm install
-RUN npm run build --prod
+RUN npm run build --prod --base-href=./
 
 # Stage 2
 FROM nginx:alpine
