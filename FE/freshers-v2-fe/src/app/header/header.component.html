@@ -39,7 +39,12 @@
                                     <a href="#" class="dropdown-item">Testimonial</a>
                                 </div>
                             </div>
+
                             <a href="/events" class="nav-item nav-link">Events</a>
+                            <a routerLink="/"
+                               [routerLink]="['/mini-games']"
+                               [routerLinkActive]="'active'"
+                               class="nav-item nav-link">Mini game</a>
                             <a href="#" class="nav-item nav-link">Contact</a>
                         </div>
                         <div *ngIf="!user" class="d-flex">

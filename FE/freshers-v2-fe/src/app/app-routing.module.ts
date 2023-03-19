@@ -12,6 +12,7 @@ import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby
 import {BlurredImageComponent} from "./guess-the-image/blurreder-image/blurred-image.component";
 import {LeaderboardComponent} from "./leaderboard/leaderboard.component";
 import {TreasureHuntAllComponent} from "./events/treasure-hunt/treasure-hunt-all/treasure-hunt-all.component";
+import {MiniGamesComponent} from "./mini-games/mini-games.component";
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'leaderboard',
     component: LeaderboardComponent,
+  },
+  {
+    path: 'mini-games',
+    component: MiniGamesComponent,
   },
 ];
 
