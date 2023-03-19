@@ -46,7 +46,7 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
         this.treasureHuntDataService.setSelectedCheckpoint(res[0].next);
         this.treasureHuntDataService.setSelectedTreasureHunt(res[0]);
         this.treasureHuntDataService.setUserGroup(res[1]);
-        
+
         this.router.navigate(['events/treasure-hunt/', res[0].next.id]);
       })
     )

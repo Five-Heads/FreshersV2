@@ -20,11 +20,6 @@ export class EventsComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     console.log("ins");
-    this.subs.add(
-      this.eventService.getAllTreasureHunts().subscribe(res => {
-        console.log(res);
-      })
-    );
   }
 
   createEvent() {
