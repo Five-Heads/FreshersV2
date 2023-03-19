@@ -4,7 +4,7 @@ import {EventsComponent} from "../events.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {TreasureHuntService} from "./treasure-hunt.service";
 import {TreasureHuntDataService} from "./treasure-hunt-data.service";
-import {Subscription, debounce} from "rxjs";
+import {Subscription, combineLatest, debounce} from "rxjs";
 import {Router} from "@angular/router";
 
 
@@ -38,11 +38,16 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
   startEvent() {
     this.subs.add(
       // TODO: fix
-      this.treasureHuntService.getTreasureHuntStart(20).subscribe(res=>{
-        this.treasureHuntDataService.setSelectedCheckpoint(res.next);
-        this.treasureHuntDataService.setSelectedTreasureHunt(res);
+      combineLatest([
+        this.treasureHuntService.getTreasureHuntStart(20),
+        this.treasureHuntService.getMyGroup()
+      ])
+      .subscribe(res=>{
+        this.treasureHuntDataService.setSelectedCheckpoint(res[0].next);
+        this.treasureHuntDataService.setSelectedTreasureHunt(res[0]);
+        this.treasureHuntDataService.setUserGroup(res[1]);
         
-        this.router.navigate(['events/treasure-hunt/', res.next.id]);
+        this.router.navigate(['events/treasure-hunt/', res[0].next.id]);
       })
     )
   }
