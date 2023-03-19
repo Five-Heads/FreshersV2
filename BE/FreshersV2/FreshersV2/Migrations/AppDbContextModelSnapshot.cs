@@ -181,9 +181,8 @@ namespace FreshersV2.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Done")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
@@ -342,9 +341,8 @@ namespace FreshersV2.Migrations
                     b.Property<int>("TreasureHuntId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Done")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
 
                     b.Property<int>("NextId")
                         .HasColumnType("int");

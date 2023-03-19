@@ -85,6 +85,7 @@ namespace FreshersV2.Services.BaseImageContest
 
                 var blurredImages = await this.appDbContext.BlurredImages
                         .Where(x => x.BaseImageId == contest.BaseImageId)
+                        .OrderByDescending(x=>x.BlurrLevel)
                         .ToListAsync();
                 var userContests = await this.appDbContext.UserBlurredImageContests
                         .Where(x => x.BlurredImageContestId == contest.Id)

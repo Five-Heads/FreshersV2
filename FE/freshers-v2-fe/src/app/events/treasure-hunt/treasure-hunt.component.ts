@@ -39,7 +39,7 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
     this.subs.add(
       // TODO: fix
       combineLatest([
-        this.treasureHuntService.getTreasureHuntStart(20),
+        this.treasureHuntService.getTreasureHuntStart(1),
         this.treasureHuntService.getMyGroup()
       ])
       .subscribe(res=>{

@@ -139,7 +139,7 @@ namespace FreshersV2.Services.TreasureHunt
                     TreasureHuntId = treasureHuntId,
                     GroupId = groupId,
                     Started = false,
-                    Done = "",
+                    Done = false,
                     StartTime = DateTime.UtcNow,
                     EndTime = DateTime.UtcNow,
                     NextId = firstCheckpoint.Id
@@ -162,7 +162,7 @@ namespace FreshersV2.Services.TreasureHunt
                         TreasureHuntId = treasureHuntId,
                         UserId = user.Id,
                         NextId = firstCheckpoint.Id,
-                        Done = ""
+                        Done = false
                     });
                 }
 

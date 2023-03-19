@@ -5,6 +5,8 @@ using FreshersV2.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Hangfire;
 using Hangfire.SqlServer;
+using Hangfire.PostgreSql;
+using Microsoft.Extensions.Configuration;
 
 namespace FreshersV2
 {
@@ -52,16 +54,8 @@ namespace FreshersV2
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                     .UseSimpleAssemblyNameTypeSerializer()
                     .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(
-                        builder.Configuration.GetConnectionString("HangfireConnection"),
-                        new SqlServerStorageOptions
-                        {
-                            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                            QueuePollInterval = TimeSpan.Zero,
-                            UseRecommendedIsolationLevel = true,
-                            DisableGlobalLocks = true
-                        }
+            .UseSqlServerStorage(
+                        builder.Configuration.GetConnectionString("HangfireConnection")
                     )
             ).AddHangfireServer();
 
