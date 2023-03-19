@@ -37,11 +37,10 @@ namespace FreshersV2
                 .AddApplicationServices()
                 .AddCors(options =>
                 {
-                    options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
-                        .SetIsOriginAllowed((host) => true)
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
+                    options.AddPolicy("CorsPolicy", 
+                        builder => builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
                 });
 
             services
@@ -49,15 +48,9 @@ namespace FreshersV2
                 .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddHangfire(configuration =>
-                configuration
-                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseRecommendedSerializerSettings()
-            .UseSqlServerStorage(
-                        builder.Configuration.GetConnectionString("HangfireConnection")
-                    )
-            ).AddHangfireServer();
+            services.AddHangfire(config =>
+                    config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")))
+                .AddHangfireServer();
 
             services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
             services.AddSignalR();
