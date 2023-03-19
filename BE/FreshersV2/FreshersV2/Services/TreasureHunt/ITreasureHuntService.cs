@@ -19,5 +19,6 @@ namespace FreshersV2.Services.TreasureHunt
         Task UpdateNextCheckpointForUser(int treasureHuntId, string userId);
 
         Task<NextCheckpointResponseModel> CheckIfAllHaveReachedCheckpoint(int groupId,  int checkpointId);
+        Task<List<Data.Models.TreasureHunt>> GetAllTreasureHunts();
     }
 }
