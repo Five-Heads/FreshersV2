@@ -37,7 +37,8 @@ namespace FreshersV2
                 .AddApplicationServices()
                 .AddCors(options =>
                 {
-                    options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                    options.AddPolicy("CorsPolicy", 
+                        builder => builder.WithOrigins("http://localhost:4200", "https://starfish-app-u2ofh.ondigitalocean.app/")
                         .SetIsOriginAllowed((host) => true)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
