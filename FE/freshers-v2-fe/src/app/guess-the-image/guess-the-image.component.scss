@@ -14,3 +14,19 @@
   border-radius: 20px;
 }
 
+
+.btn-middle {
+  color: black;
+  font-size: 2rem;
+  border-width: 3px;
+  border-radius: 30px;
+  border-color: white;
+  width: 400px;
+  height: 150px;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

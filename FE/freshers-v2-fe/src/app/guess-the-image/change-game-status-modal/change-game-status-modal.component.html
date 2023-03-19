@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    CHANGE STATUS
+  </h4>
+  <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+    <h2 aria-hidden="true">&times;</h2>
+  </button>
+</div>
+<div class="modal-body" >
+  <form *ngIf="!!formGroup"
+        [formGroup]="formGroup"
+        novalidate
+        (ngSubmit)="submitForm()">
+    <div class="row mt-3">
+      <div class="col-12">
+        <label for="statusId">Statuses</label>
+        <ng-select [items]="statusList"
+                   [clearable]="false"
+                   [multiple]="false"
+                   bindLabel="name"
+                   bindValue="id"
+                   id="statusId"
+                   class="mt-1"
+                   formControlName="Status"
+                   placeholder="Select status">
+          <ng-template ng-option-tmp let-item="item">
+            <div>
+              <span class="font-weight-500">{{item.name}}</span><br>
+            </div>
+          </ng-template>
+        </ng-select>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-primary  "
+          (click)="submitForm()">Запази
+  </button>
+</div>
+

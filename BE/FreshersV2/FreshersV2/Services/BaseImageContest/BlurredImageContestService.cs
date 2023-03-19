@@ -63,6 +63,15 @@ namespace FreshersV2.Services.BaseImageContest
             }
         }
 
+        public async Task ChangeStatus(int status)
+        {
+            var contest = await this.appDbContext.BlurredImageContests
+                .FirstOrDefaultAsync(x => x.Status == (int)ContestStatus.Upcoming);
+            contest.Status = status;
+            this.appDbContext.BlurredImageContests.Update(contest);
+            await this.appDbContext.SaveChangesAsync();
+        }
+
         public async Task<BlurredImageContest?> GetUpcomingContest()
         {
             try
@@ -151,48 +160,31 @@ namespace FreshersV2.Services.BaseImageContest
                 .ToListAsync();
         }
 
-        public async Task AddUsersPointsToLeaderboard(List<BlurredImageContestResultsRequestModel> results)
+        public async Task AddUsersPointsToLeaderboard(int round, string userId)
         {
             try
             {
-                results = results.OrderBy(x => x.Completed).ToList();
-                if (results != null && results.Any())
+                var leaderboard = await this.appDbContext.Leaderboard
+                    .FirstOrDefaultAsync(x => x.UserId == userId);
+
+                bool isNew = leaderboard == null;
+                if (leaderboard == null)
                 {
-                    for (int i = 1; i <= results.Count; i++)
+                    leaderboard = new Data.Models.Leaderboard
                     {
-                        if (results[i - 1].Completed != null)
-                        {
-                            var leaderboard = await this.appDbContext.Leaderboard
-                                .FirstOrDefaultAsync(x => x.UserId == results[i - 1].UserId);
-
-                            bool isNew = leaderboard == null;
-                            if (leaderboard == null)
-                            {
-                                leaderboard = new Data.Models.Leaderboard
-                                {
-                                    UserId = results[i - 1].UserId,
-                                    Score = 0
-                                };
-                            }
-
-                            if (i == 1)
-                                leaderboard.Score = 50;
-                            else if (i == 2)
-                                leaderboard.Score = 35;
-                            else if (i == 3)
-                                leaderboard.Score = 20;
-                            else
-                                break;
-
-                            if (isNew)
-                                await this.appDbContext.Leaderboard.AddAsync(leaderboard);
-                            else
-                                this.appDbContext.Leaderboard.Update(leaderboard);
-
-                            await this.appDbContext.SaveChangesAsync();
-                        };
-                    }
+                        UserId = userId,
+                        Score = (6-round)*10
+                    };
                 }
+                else
+                   leaderboard.Score += (6-round)*10;
+
+                if (isNew)
+                    await this.appDbContext.Leaderboard.AddAsync(leaderboard);
+                else
+                    this.appDbContext.Leaderboard.Update(leaderboard);
+
+                await this.appDbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

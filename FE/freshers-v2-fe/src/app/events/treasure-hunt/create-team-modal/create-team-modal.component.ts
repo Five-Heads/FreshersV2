@@ -62,6 +62,7 @@ export class CreateTeamModalComponent implements OnInit, OnDestroy {
       console.log(data);
       //TODO create a team with members
       this.treasureHuntService.createGroup(data).subscribe();
+      this.activeModal.close();
       }
 
   }

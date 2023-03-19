@@ -2,8 +2,6 @@
 {
     public class BlurredImageContestResultsRequestModel
     {
-        public string UserId { get; set; }
-
-        public DateTime? Completed { get; set; }
+        public int Round { get; set; }
     }
 }
