@@ -22,19 +22,25 @@ namespace FreshersV2.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<AuthResponseModel>> Register([FromBody] RegisterRequestModel model)
         {
-            var registerUser = await identityService.Register(model);
-            if (registerUser == null)
+            try
             {
-                return this.BadRequest();
+                var registerUser = await identityService.Register(model);
+                if (registerUser == null)
+                {
+                    return this.BadRequest();
+                }
+
+                return new AuthResponseModel
+                {
+                    Token = identityService.GenerateJwtToken(registerUser.Id, registerUser.UserName, Enum.GetName(typeof(Role), registerUser.Role), this.applicationSettings.Secret)
+                };
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
 
-            return new AuthResponseModel
-            {
-                Id = registerUser.Id,
-                UserName = registerUser.UserName,
-                FacultyNumber = registerUser.FacultyNumber,
-                Token = identityService.GenerateJwtToken(registerUser.Id, registerUser.UserName, Enum.GetName(typeof(Role), registerUser.Role), this.applicationSettings.Secret)
-            };
         }
 
 
@@ -49,9 +55,6 @@ namespace FreshersV2.Controllers
 
             return new AuthResponseModel
             {
-                Id = registerUser.Id,
-                UserName = registerUser.UserName,
-                FacultyNumber = registerUser.FacultyNumber,
                 Token = identityService.GenerateJwtToken(registerUser.Id, registerUser.UserName, Enum.GetName(typeof(Role), registerUser.Role), this.applicationSettings.Secret)
             };
         }
