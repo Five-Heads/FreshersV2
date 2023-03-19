@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BlurredImageContestController : BaseApiController
     {

@@ -43,6 +43,7 @@
     </div>
   </div>
   <button
+    *ngIf="authService.user.value!.role === 'Admin'"
     class="btn btn-primary mx-md-2 my-md-5 py-md-4 px-md-5"
     (click)="createContest()"
   >

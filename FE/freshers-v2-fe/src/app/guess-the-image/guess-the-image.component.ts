@@ -5,6 +5,7 @@ import { ChangeGameStatusModalComponent } from './change-game-status-modal/chang
 import { CreateGameModalComponent } from './create-game-modal/create-game-modal.component';
 import { GuessTheImageService } from './guess-the-image.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-guess-the-image',
@@ -15,6 +16,7 @@ export class GuessTheImageComponent {
   subs: Subscription;
 
   constructor(
+    protected authService: AuthService,
     private modalService: NgbModal,
     private guessTheImage: GuessTheImageService,
     private router: Router
