@@ -8,7 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
+import { CommonModule, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EventsComponent } from './events/events.component';
@@ -79,6 +79,10 @@ import { TreasureHuntAllComponent } from './events/treasure-hunt/treasure-hunt-a
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
+    },
+    {
+      provide: LocationStrategy, 
+      useClass: PathLocationStrategy
     }
   ],
   bootstrap: [AppComponent]

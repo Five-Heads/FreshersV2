@@ -27,10 +27,21 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="#" class="nav-item nav-link">Home</a>
-                            <a [routerLink]="['events']" class="nav-item nav-link active">Events</a>
-                            <a href="/blurry-vision" class="nav-item nav-link">Blurry vision</a>
-                            <a href="/leaderboard" class="nav-item nav-link">Leaderboard</a>
+                            <a 
+                            routerLink="/"
+                            [routerLink]="['/']"
+                            [routerLinkActive]="'active'" 
+                            class="nav-item nav-link">Home</a>
+                            <a routerLink="/"
+                            [routerLink]="['/events']"
+                            [routerLinkActive]="'active'"
+                            class="nav-item nav-link active">Treasure Hunt</a>
+                            <a routerLink="/"
+                            [routerLink]="['/blurry-vision']"
+                            [routerLinkActive]="'active'" class="nav-item nav-link">Blurry vision</a>
+                            <a routerLink="/"
+                            [routerLink]="['/leaderboard']"
+                            [routerLinkActive]="'active'" class="nav-item nav-link">Leaderboard</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
@@ -39,12 +50,20 @@
                                     <a href="#" class="dropdown-item">Testimonial</a>
                                 </div>
                             </div>
-                            <a href="/events" class="nav-item nav-link">Events</a>
+                            <a routerLink="/"
+                            [routerLink]="['/events']"
+                            [routerLinkActive]="'active'"
+                             class="nav-item nav-link">Events</a>
                             <a href="#" class="nav-item nav-link">Contact</a>
                         </div>
                         <div *ngIf="!user" class="d-flex">
-                            <a [routerLink]="['login']" class="btn btn-primary mx-md-2 py-md-3 px-md-5">Login</a>
-                            <a [routerLink]="['register']" class="btn btn-primary mx-md-2 py-md-3 px-md-5">Sign Up</a>
+                            <a  routerLink="/"
+                            [routerLink]="['/login']"
+                            [routerLinkActive]="'active'"
+                             class="btn btn-primary mx-md-2 py-md-3 px-md-5">Login</a>
+                            <a hrouterLink="/"
+                            [routerLink]="['/register']"
+                            [routerLinkActive]="'active'" class="btn btn-primary mx-md-2 py-md-3 px-md-5">Sign Up</a>
                         </div>
                         <div *ngIf="user" class="d-flex">
                             <button class="btn btn-primary mx-md-2 py-md-3 px-md-5" (click)="logOut()">Logout</button>
