@@ -60,7 +60,7 @@ namespace FreshersV2
                 .AddSwaggerGen();
 
             var app = builder.Build();
-
+            app.UseCorsMiddleware();
             app.UseHangfireDashboard();
 
             // Configure the HTTP request pipeline.
