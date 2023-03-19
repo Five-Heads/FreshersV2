@@ -33,6 +33,7 @@ export class VoteImageSignalRService implements IDisposable {
             .withUrl(`${this.apiUrl}/hubs/VoteImage`, {
                 accessTokenFactory: () => this.authService.user.value!.token
             })
+            .withAutomaticReconnect()
             .build();
 
         this.connection.start()
@@ -74,5 +75,9 @@ export class VoteImageSignalRService implements IDisposable {
         this.connection.on("Finish", (obj:any) => {
             console.log(obj)
         })
+
+        this.connection.on("ContestsUpdateData", (obj: any) => {
+            console.log(obj);
+        }) 
     }
 }
