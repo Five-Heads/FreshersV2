@@ -1,4 +1,4 @@
-﻿using FreshersV2.Data;
+using FreshersV2.Data;
 using FreshersV2.Data.Models;
 using FreshersV2.Models.TreasureHunt.Create;
 using FreshersV2.Models.TreasureHunt.NextCheckpoint;
@@ -99,7 +99,7 @@ namespace FreshersV2.Services.TreasureHunt
 
             result.NextReachedBy = await this.appDbContext
                 .UserTreasureHunts
-                .Where(x => x.User.GroupId == result.GroupId && x.NextId != result.Next.Id)
+                .Where(x => x.TreasureHuntId == treasureHuntId && x.User.GroupId == result.GroupId && x.NextId != result.Next.Id)
                 .Select(x => x.UserId)
                 .ToListAsync();
 

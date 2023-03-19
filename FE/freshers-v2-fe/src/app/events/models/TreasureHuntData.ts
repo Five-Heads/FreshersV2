@@ -1,11 +1,11 @@
 export class TreasureHuntData {
   public Id: number = 0
 
-  public TotalCheckpoints: number = 0
+  public totalCheckpoints: number = 0
 
   public GroupId: number = 0
 
-  public GroupMembers: number[] = []
+  public groupMembers: number[] = []
 
   public nextReachedBy: string[] = []
 }
