@@ -6,6 +6,7 @@ import {TreasureHuntService} from "./treasure-hunt.service";
 import {TreasureHuntDataService} from "./treasure-hunt-data.service";
 import {Subscription, combineLatest, debounce} from "rxjs";
 import {Router} from "@angular/router";
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -20,15 +21,20 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
     private modalService: NgbModal,
     private treasureHuntService: TreasureHuntService,
     private treasureHuntDataService: TreasureHuntDataService,
-
+    private authService: AuthService,
     private router: Router
   ) {
     this.subs = new Subscription();
   }
+
+  public userRole: string = "";
+
   ngOnInit(): void {
-
-
-
+    this.subs.add(
+      this.authService.user.subscribe(res => {
+        this.userRole = res!.role
+      })
+    )
   }
 
   createTeam() {
@@ -39,14 +45,14 @@ export class TreasureHuntComponent implements OnInit, OnDestroy{
     this.subs.add(
       // TODO: fix
       combineLatest([
-        this.treasureHuntService.getTreasureHuntStart(20),
+        this.treasureHuntService.getTreasureHuntStart(1),
         this.treasureHuntService.getMyGroup()
       ])
       .subscribe(res=>{
         this.treasureHuntDataService.setSelectedCheckpoint(res[0].next);
         this.treasureHuntDataService.setSelectedTreasureHunt(res[0]);
         this.treasureHuntDataService.setUserGroup(res[1]);
-        
+
         this.router.navigate(['events/treasure-hunt/', res[0].next.id]);
       })
     )

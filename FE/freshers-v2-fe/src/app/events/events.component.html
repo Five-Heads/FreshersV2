@@ -3,13 +3,6 @@
   <div class="mb-5 text-center">
     <h1 class="display-3 text-uppercase mb-0">Ongoing Events</h1>
   </div>
-  <div class="row">
-    <div class="col">
-      <button type="submit" class="btncts create_team_button bg-primary" (click)="createEvent()">
-        Създай евент
-      </button>
-    </div>
-  </div>
   <div class="row g-5 mt-3">
     <div class="col-lg-4">
       <div class="blog-item">
@@ -24,7 +17,7 @@
           </div>
           <a class="h5 text-uppercase text-light"
             routerLink="/"
-            [routerLink]="['/events/treasure-hunt']"
+            [routerLink]="['/events/treasure-hunt/all']"
             [routerLinkActive]="'active'"
           >
             Treasure Hunt
@@ -73,7 +66,7 @@
           </a>
         </div>
       </div>
-    </div>  
+    </div>
   </div>
 </div>
 <!-- Blog End -->

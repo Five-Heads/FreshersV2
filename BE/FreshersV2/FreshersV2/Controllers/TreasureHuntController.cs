@@ -115,20 +115,10 @@ namespace FreshersV2.Controllers
 
             var groupId = await this.userService.GetUserGroup(userId);
 
-            // notify all other
-            try
+            if (groupId != 0)
             {
                 await this.treasureHuntHubContext.Clients.Group(groupId.ToString()).SendAsync("CheckpointReached", userId);
 
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
-            if (groupId != 0)
-            {
                 // if all have reached send next info
                 var newNext = await this.treasureHuntService.CheckIfAllHaveReachedCheckpoint(groupId, model.TreasureHuntId);
 

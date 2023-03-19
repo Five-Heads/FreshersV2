@@ -54,7 +54,7 @@ namespace FreshersV2
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                     .UseSimpleAssemblyNameTypeSerializer()
                     .UseRecommendedSerializerSettings()
-            .UsePostgreSqlStorage(
+            .UseSqlServerStorage(
                         builder.Configuration.GetConnectionString("HangfireConnection")
                     )
             ).AddHangfireServer();

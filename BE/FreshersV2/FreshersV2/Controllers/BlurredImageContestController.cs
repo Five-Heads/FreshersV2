@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FreshersV2.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class BlurredImageContestController : BaseApiController
     {

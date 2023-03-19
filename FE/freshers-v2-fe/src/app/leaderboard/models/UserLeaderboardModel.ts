@@ -1,9 +1,9 @@
 export class UserLeaderboardModel {
   constructor(
-    public Id: number,
-    public Name: string,
-    public FacultyNumber: string,
-    public Points: number
+    public id: number,
+    public name: string,
+    public facultyNumber: string,
+    public points: number
   ) {
   }
 
