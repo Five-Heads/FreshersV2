@@ -32,7 +32,7 @@ export class GuessTheImageComponent {
 
   joinTheGame() {
     this.guessTheImage.getEvent().subscribe(res => {
-      this.router.navigate(['guess-the-image/', 1]);
+      this.router.navigate(['blurry-vision/', 1]);
     })
   }
 

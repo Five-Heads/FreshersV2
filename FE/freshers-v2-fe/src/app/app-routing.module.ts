@@ -10,6 +10,7 @@ import {GuessTheImageComponent} from "./guess-the-image/guess-the-image.componen
 import { VotingGameComponent } from './events/voting-game/voting-game.component';
 import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
 import {BlurredImageComponent} from "./guess-the-image/blurreder-image/blurred-image.component";
+import {LeaderboardComponent} from "./leaderboard/leaderboard.component";
 
 const routes: Routes = [
   {
@@ -41,12 +42,16 @@ const routes: Routes = [
     component: VotingGameLobbyComponent
   },
   {
-    path: 'guess-the-image',
+    path: 'blurry-vision',
     component: GuessTheImageComponent,
   },
   {
-    path: 'guess-the-image/:id',
+    path: 'blurry-vision/:id',
     component: BlurredImageComponent,
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent,
   },
 ];
 

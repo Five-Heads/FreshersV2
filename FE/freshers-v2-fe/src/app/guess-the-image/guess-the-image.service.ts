@@ -19,8 +19,8 @@ export class GuessTheImageService {
 
 
   getEvent(): Observable<any> {
-    // return this.http.get<any>(`${this.apiUrl}/${this.blurredImageContest}/upcoming`)
-    //   .pipe(take(1));
+    return this.http.get<any>(`${this.apiUrl}/${this.blurredImageContest}/upcoming`)
+      .pipe(take(1));
     return of(null);
   }
 

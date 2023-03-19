@@ -31,6 +31,7 @@ import { VotingGameComponent } from './events/voting-game/voting-game.component'
 import { CreateContestModalComponent } from './events/voting-game/create-contest-modal/create-contest-modal.component';
 import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
 import { BlurredImageComponent } from './guess-the-image/blurreder-image/blurred-image.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { BlurredImageComponent } from './guess-the-image/blurreder-image/blurred
     ChangeGameStatusModalComponent,
     CreateGameModalComponent,
     BlurredImageComponent,
+    LeaderboardComponent,
     ]
   ,
   imports: [
