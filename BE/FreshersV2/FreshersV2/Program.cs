@@ -5,82 +5,86 @@ using FreshersV2.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Hangfire;
 using Hangfire.SqlServer;
+using Hangfire.PostgreSql;
+using Microsoft.Extensions.Configuration;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-IServiceCollection services = builder.Services;
-var appSettings = services.GetApplicationSettings(builder.Configuration);
-
-services.Configure<IdentityOptions>(options =>
+namespace FreshersV2
 {
-    // Default Lockout settings.
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 1;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireDigit = false;
-});
 
-services
-    .AddJwtAuthentication(appSettings)
-    .AddApplicationServices()
-    .AddCors(options =>
+    public class Program
     {
-        options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
-            .SetIsOriginAllowed((host) => true)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());
-    });
+        static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-services
-    .AddIdentity<User, IdentityRole>()
-    .AddUserManager<UserManager<User>>()
-    .AddEntityFrameworkStores<AppDbContext>();
+            // Add services to the container.
 
-services.AddHangfire(configuration =>
-    configuration
-        .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-        .UseSimpleAssemblyNameTypeSerializer()
-        .UseRecommendedSerializerSettings()
-        .UseSqlServerStorage(
-            builder.Configuration.GetConnectionString("HangfireConnection"),
-            new SqlServerStorageOptions
+            IServiceCollection services = builder.Services;
+            var appSettings = services.GetApplicationSettings(builder.Configuration);
+
+            services.Configure<IdentityOptions>(options =>
             {
-                CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                QueuePollInterval = TimeSpan.Zero,
-                UseRecommendedIsolationLevel = true,
-                DisableGlobalLocks = true
-            }
-        )
-).AddHangfireServer();
+                // Default Lockout settings.
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+            });
 
-services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
-services.AddSignalR();
-services.AddControllers();
-services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen();
+            services
+                .AddJwtAuthentication(appSettings)
+                .AddApplicationServices()
+                .AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+                });
 
-var app = builder.Build();
+            services
+                .AddIdentity<User, IdentityRole>()
+                .AddUserManager<UserManager<User>>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
-app.UseHangfireDashboard();
+            services.AddHangfire(configuration =>
+                configuration
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+            .UsePostgreSqlStorage(
+                        builder.Configuration.GetConnectionString("HangfireConnection")
+                    )
+            ).AddHangfireServer();
 
-// Configure the HTTP request pipeline.
-app.UseRouting()
-   .UseCors("CorsPolicy")
-   .UseHttpsRedirection()
-   .UseAuthentication()
-   .UseAuthorization()
-   .UseEndpoints(endpoints =>
-   {
-       endpoints.MapHub<TreasureHuntHub>("/hubs/TreasureHunt");
-       endpoints.MapHub<VoteImageHub>("/hubs/VoteImage");
-       endpoints.MapControllers();
-       endpoints.MapHangfireDashboard();
-   });
+            services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
+            services.AddSignalR();
+            services.AddControllers();
+            services
+                .AddEndpointsApiExplorer()
+                .AddSwaggerGen();
 
-app.Run();
+            var app = builder.Build();
+
+            app.UseHangfireDashboard();
+
+            // Configure the HTTP request pipeline.
+            app.UseRouting()
+                .UseCors("CorsPolicy")
+                .UseHttpsRedirection()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHub<TreasureHuntHub>("/hubs/TreasureHunt");
+                    endpoints.MapHub<VoteImageHub>("/hubs/VoteImage");
+                    endpoints.MapControllers();
+                    endpoints.MapHangfireDashboard();
+                });
+
+            app.Run();
+        }
+    }
+}

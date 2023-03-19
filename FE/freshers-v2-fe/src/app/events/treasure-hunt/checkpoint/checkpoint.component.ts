@@ -80,6 +80,10 @@ export class CheckpointComponent implements OnInit, OnDestroy {
         this.status = this.reachedBy.includes(this.authService.user.value!.id) ? 
           "Reached" :
           "Pending"
+
+        if(this.isFinal && this.reachedBy.length == this.userGroup.users.length) {     
+          this.router.navigate(['leaderboard']);
+        }
       })
     )
     this.subs.add(

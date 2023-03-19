@@ -71,7 +71,7 @@ namespace FreshersV2.Services.TreasureHunt
 
             var result = await this.appDbContext
                 .UserTreasureHunts
-                .Include(x=>x.Next)
+                .Include(x => x.Next)
                 .Include(x => x.TreasureHunt)
                 .ThenInclude(x => x.Checkpoints)
                 .Where(x => x.UserId == userId && x.TreasureHuntId == treasureHuntId)
@@ -182,7 +182,17 @@ namespace FreshersV2.Services.TreasureHunt
                 .Select(x => x.NextId)
                 .FirstOrDefaultAsync();
 
-            return nextId == checkpointId;
+            if (nextId != checkpointId)
+            {
+                return false;
+            }
+
+            await this.appDbContext
+                .Leaderboard
+                .Where(x => x.UserId == userId)
+                .ForEachAsync(x => { x.Score += 20; });
+
+            return true;
         }
 
         public async Task UpdateNextCheckpointForUser(int treasureHuntId, string userId)
@@ -253,6 +263,13 @@ namespace FreshersV2.Services.TreasureHunt
                 OrderNumber = newNext.OrderNumber,
                 Question = newNext.Question
             };
+        }
+
+        public async Task<List<Data.Models.TreasureHunt>> GetAllTreasureHunts()
+        {
+            return await this.appDbContext
+                .TreasureHunts
+                .ToListAsync();
         }
     }
 }

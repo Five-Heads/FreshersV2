@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
 
 namespace FreshersV2.Controllers
 {
@@ -53,6 +54,19 @@ namespace FreshersV2.Controllers
         public async Task Create([FromBody] CreateTreasureHuntRequestModel model)
         {
             await this.treasureHuntService.CreateTreasureHunt(model);
+        }
+
+        [HttpGet("all")]
+        public async Task<List<TreasureHunt>> All()
+        {
+            var role = this.ExtractClaim<string>(ClaimTypes.Role);
+
+            if (role != "Admin")
+            {
+                return new List<TreasureHunt>();
+            }
+
+            return await this.treasureHuntService.GetAllTreasureHunts();
         }
 
         [HttpGet("my")]

@@ -32,6 +32,7 @@ import { CreateContestModalComponent } from './events/voting-game/create-contest
 import { VotingGameLobbyComponent } from './events/voting-game/voting-game-lobby/voting-game-lobby.component';
 import { BlurredImageComponent } from './guess-the-image/blurreder-image/blurred-image.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { TreasureHuntAllComponent } from './events/treasure-hunt/treasure-hunt-all/treasure-hunt-all.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
     CreateGameModalComponent,
     BlurredImageComponent,
     LeaderboardComponent,
+    TreasureHuntAllComponent,
     ]
   ,
   imports: [

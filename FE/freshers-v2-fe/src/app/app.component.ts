@@ -23,10 +23,5 @@ export class AppComponent {
 
   ngOnInit() {
     this.authService.checkIsUserAuthenticatedOnStart();
-    //this.authService.login("tswetti","tswetti").subscribe();
-    //   .pipe(tap(()=>{
-    //     this.signalRService.initConnection();
-    //   }))
-    //   .subscribe()
   }
 }
