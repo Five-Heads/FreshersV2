@@ -7,7 +7,12 @@ import { environment } from "src/environment/environment";
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 export class AuthResponseModel {
-    constructor(public token: string) { }
+    constructor(
+        public id: string,
+        public facultyNumber: string,
+        public userName: string,
+        public token: string
+    ) { }
 }
 
 @Injectable({ 
@@ -50,7 +55,7 @@ export class AuthService {
         })
             .pipe(
                 tap(model => {
-                    this.handleAuthSuccess(new User('1', userName, facultyNumber, model.token));
+                    this.handleAuthSuccess(new User(model.id, model.userName, model.facultyNumber, model.token));
                 })
             )
     }
@@ -62,7 +67,7 @@ export class AuthService {
         })
             .pipe(
                 tap(model => {
-                    this.handleAuthSuccess(new User('1', userName, "nz", model.token));
+                    this.handleAuthSuccess(new User(model.id, model.userName, model.facultyNumber, model.token));
                 }),
                 take(1)
             )

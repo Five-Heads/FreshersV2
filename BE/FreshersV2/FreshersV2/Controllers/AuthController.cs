@@ -30,6 +30,9 @@ namespace FreshersV2.Controllers
 
             return new AuthResponseModel
             {
+                Id = registerUser.Id,
+                UserName = registerUser.UserName,
+                FacultyNumber = registerUser.FacultyNumber,
                 Token = identityService.GenerateJwtToken(registerUser.Id, registerUser.UserName, Enum.GetName(typeof(Role), registerUser.Role), this.applicationSettings.Secret)
             };
         }
@@ -46,6 +49,9 @@ namespace FreshersV2.Controllers
 
             return new AuthResponseModel
             {
+                Id = registerUser.Id,
+                UserName = registerUser.UserName,
+                FacultyNumber = registerUser.FacultyNumber,
                 Token = identityService.GenerateJwtToken(registerUser.Id, registerUser.UserName, Enum.GetName(typeof(Role), registerUser.Role), this.applicationSettings.Secret)
             };
         }
