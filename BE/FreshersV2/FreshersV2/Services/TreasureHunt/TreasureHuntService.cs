@@ -162,7 +162,7 @@ namespace FreshersV2.Services.TreasureHunt
                         TreasureHuntId = treasureHuntId,
                         UserId = user.Id,
                         NextId = firstCheckpoint.Id,
-                        Done = ""
+                        Done = false
                     });
                 }
 

@@ -80,6 +80,7 @@ export class AuthService {
     }
 
     private handleAuthSuccess(user: User) {
+        user.role = this.jwtHelper.decodeToken(user.token).role;
         this.user.next(user);
         localStorage.setItem('userData', JSON.stringify(user));
     }
