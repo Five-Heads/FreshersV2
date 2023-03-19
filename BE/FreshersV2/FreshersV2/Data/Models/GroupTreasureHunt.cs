@@ -10,7 +10,7 @@
 
         public TreasureHunt TreasureHunt { get; set; }
 
-        public string Done { get; set; }
+        public bool Done { get; set; } = false;
 
         public int NextId { get; set; }
 
