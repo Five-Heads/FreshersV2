@@ -55,33 +55,33 @@
         <h3 class="title text-white">Leaderboard</h3>
         <div></div>
       </div>
-<div class="profile">
+<div *ngIf="users.length > 1" class="profile">
   <div class="person second">
     <div class="num">2</div>
     <fa-icon [icon]="faCaretUp" style="color:#C0C0C0"></fa-icon>
     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="" class="photo">
-    <p class="link">{{users[1].Name}}</p>
-    <p class="points">{{users[1].Points}}</p>
+    <p class="link">{{users[1].name}}</p>
+    <p class="points">{{users[1].points}}</p>
   </div>
-  <div class="person first">
+  <div *ngIf="users.length > 0" class="person first">
     <div class="num">1</div>
     <fa-icon class="text-" [icon]="faCrown" style="color:yellow"></fa-icon>
     <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="" class="photo main">
-    <p class="link">{{users[0].Name}}</p>
-    <p class="points">{{users[0].Points}}</p>
+    <p class="link">{{users[0].name}}</p>
+    <p class="points">{{users[0].points}}</p>
   </div>
-  <div class="person third">
+  <div *ngIf="users.length > 2" class="person third">
     <div class="num">3</div>
     <fa-icon [icon]="faCaretUp" style="color:#CD7F32"></fa-icon>
         <img src="https://cdn-icons-png.flaticon.com/512/2922/2922561.png" alt="" class="photo">
 <!--    <img class="photo" src="assets/img/user.png" alt="">-->
-    <p class="link">{{users[2].Name}}</p>
-    <p class="points">{{users[2].Points}}</p>
+    <p class="link">{{users[2].name}}</p>
+    <p class="points">{{users[2].points}}</p>
   </div>
 </div>
 
   <ng-container *ngFor="let user of users;index as i">
-    <ng-container *ngIf="2 < i">
+    <ng-container>
     <div class="rest">
       <div class="others flex">
         <div class="rank">
@@ -91,8 +91,8 @@
         <div class="info flex">
           <img src="assets/img/user.png" alt="" class="p_img" *ngIf="i >= 6">
           <img src="https://cdn-icons-png.flaticon.com/512/4140/4140050.png" alt="" class="p_img" *ngIf="i < 6">
-          <p class="link text-black" style="width: 80px">{{user.Name}}</p>
-          <p class="points text-center" style="width: 30px">{{user.Points}}</p>
+          <p class="link text-black" style="width: 80px">{{user.name}}</p>
+          <p class="points text-center" style="width: 30px">{{user.points}}</p>
         </div>
       </div>
     </div>

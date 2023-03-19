@@ -1,8 +1,10 @@
-﻿namespace FreshersV2.Services.Leaderboard
+﻿using FreshersV2.Models.Leaderboard;
+
+namespace FreshersV2.Services.Leaderboard
 {
     public interface ILeaderboardService
     {
-        Task<List<Data.Models.Leaderboard>> All();
+        Task<List<LeaderboardEntityResponseModel>> All();
 
         Task AddPoints(string userId, int score);
     }
