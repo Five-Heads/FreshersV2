@@ -48,13 +48,11 @@ export class SignalRService implements IDisposable {
     private initEvents() {
         this.connection.on("CheckpointReached", (userId: any) => {
             // update
-            debugger;
             this.treasureHuntDataService.setReachedBy(userId);
         })
   
         this.connection.on("NextCheckpoint", (newNext: any) => {
             // update
-            debugger;
             this.treasureHuntDataService.resetReachedBy();
             this.treasureHuntDataService.setSelectedCheckpoint(newNext);
         })
