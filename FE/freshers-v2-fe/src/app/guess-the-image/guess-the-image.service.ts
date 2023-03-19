@@ -17,11 +17,14 @@ export class GuessTheImageService {
     private http: HttpClient,
   ) { }
 
-
   getEvent(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/${this.blurredImageContest}/upcoming`)
       .pipe(take(1));
-    return of(null);
+  }
+
+  getImage(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/${this.blurredImageContest}/upcoming`)
+      .pipe(take(1));
   }
 
   postChangeStatus(data: any): Observable<boolean> {

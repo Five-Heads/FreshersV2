@@ -11,26 +11,28 @@ import {faCamera} from '@fortawesome/free-solid-svg-icons';
 })
 export class CreateGameModalComponent implements OnInit{
   faCamera = faCamera;
-  formGroup: FormGroup;
+
+  formGroup: FormGroup = new FormGroup({
+    Name: new FormControl({
+      value: null,
+      disabled: false
+    }, [Validators.required]),
+    MaxParticipants: new FormControl({
+      value: 0,
+      disabled: false
+    }, [Validators.required, Validators.min(1)]),
+    SecondsPerRound: new FormControl({
+      value: 0,
+      disabled: false
+    }, [Validators.required, Validators.min(1)]),
+  });
+
   constructor(private activeModal: NgbActiveModal,
               private guessTheImageService: GuessTheImageService) {
   }
 
   ngOnInit() {
-    this.formGroup = new FormGroup({
-      Name: new FormControl({
-        value: null,
-        disabled: false
-      }, [Validators.required]),
-      MaxParticipants: new FormControl({
-        value: 0,
-        disabled: false
-      }, [Validators.required, Validators.min(1)]),
-      SecondsPerRound: new FormControl({
-        value: 0,
-        disabled: false
-      }, [Validators.required, Validators.min(1)]),
-    });
+    this.formGroup = 
   }
 
   closeModal() {
