@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Data.Models;
+using FreshersV2.Models.Leaderboard;
 using FreshersV2.Services.Leaderboard;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +17,8 @@ namespace FreshersV2.Controllers
             this.leaderboardService = leaderboardService;
         }
 
-        [HttpGet]
-        public async Task<List<Leaderboard>> All()
+        [HttpGet("all")]
+        public async Task<List<LeaderboardEntityResponseModel>> All()
         {
             return await leaderboardService.All();
         }

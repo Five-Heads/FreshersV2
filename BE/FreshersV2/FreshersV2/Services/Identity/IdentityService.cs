@@ -61,6 +61,7 @@ namespace FreshersV2.Services.Identity
                     UserId = user.Id,
                     Score = 0
                 });
+            await appDbContext.SaveChangesAsync();
 
             return user;
         }

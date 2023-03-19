@@ -1,4 +1,5 @@
 ﻿using FreshersV2.Data;
+using FreshersV2.Models.Leaderboard;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreshersV2.Services.Leaderboard
@@ -12,9 +13,19 @@ namespace FreshersV2.Services.Leaderboard
             this.context = context;
         }
 
-        public async Task<List<Data.Models.Leaderboard>> All()
+        public async Task<List<LeaderboardEntityResponseModel>> All()
         {
-            return await context.Leaderboard.AsNoTracking().ToListAsync();
+            return await context.Leaderboard
+                .Include(x => x.User)
+                .Select(x => new LeaderboardEntityResponseModel
+                {
+                    Id = x.UserId,
+                    Name = x.User.UserName,
+                    FacultyNumber = x.User.FacultyNumber,
+                    Points = x.Score
+                })
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task AddPoints(string userId, int score)
@@ -26,7 +37,7 @@ namespace FreshersV2.Services.Leaderboard
                 await this.context.Leaderboard.AddAsync(leaderboard);
             }
             else
-            leader.Score += score;
+                leader.Score += score;
 
             await context.SaveChangesAsync();
         }
