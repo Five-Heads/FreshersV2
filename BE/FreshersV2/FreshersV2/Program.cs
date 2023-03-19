@@ -47,11 +47,11 @@ namespace FreshersV2
                 .AddIdentity<User, IdentityRole>()
                 .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<AppDbContext>();
-
+            /*
             services.AddHangfire(config =>
                     config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")))
                 .AddHangfireServer();
-
+            */
             services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
             services.AddSignalR();
             services.AddControllers();
@@ -61,7 +61,7 @@ namespace FreshersV2
 
             var app = builder.Build();
             app.UseCorsMiddleware();
-            app.UseHangfireDashboard();
+    //        app.UseHangfireDashboard();
 
             // Configure the HTTP request pipeline.
             app.UseRouting()
@@ -74,7 +74,7 @@ namespace FreshersV2
                     endpoints.MapHub<TreasureHuntHub>("/hubs/TreasureHunt");
                     endpoints.MapHub<VoteImageHub>("/hubs/VoteImage");
                     endpoints.MapControllers();
-                    endpoints.MapHangfireDashboard();
+              //      endpoints.MapHangfireDashboard();
                 });
 
             app.Run();
