@@ -49,15 +49,9 @@ namespace FreshersV2
                 .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddHangfire(configuration =>
-                configuration
-                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseRecommendedSerializerSettings()
-            .UseSqlServerStorage(
-                        builder.Configuration.GetConnectionString("HangfireConnection")
-                    )
-            ).AddHangfireServer();
+            services.AddHangfire(config =>
+                    config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")))
+                .AddHangfireServer();
 
             services.AddDbContext(builder.Configuration.GetConnectionString("DefaultConnection"));
             services.AddSignalR();
