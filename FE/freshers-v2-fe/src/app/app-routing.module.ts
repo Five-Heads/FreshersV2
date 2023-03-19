@@ -27,11 +27,11 @@ const routes: Routes = [
     component: EventsComponent,
   },
   {
-    path: 'events/treasure-hunt',
+    path: 'events/treasure-hunt/main/:id',
     component: TreasureHuntComponent,
   },
   {
-    path: 'events/treasure-hunt/:id',
+    path: 'events/treasure-hunt/all',
     component: TreasureHuntAllComponent,
   },
   {

@@ -31,11 +31,13 @@ export class TreasureHuntAllComponent implements OnInit,OnDestroy{
         this.subs.unsubscribe();
     }
 
+
   public userRole: string = "";
   ngOnInit(): void {
     this.subs.add(
       this.authService.user.subscribe(res => {
         this.userRole = res!.role;
+
         if(res?.role !== 'Admin') {
           this.subs.add(
             this.eventService.getMyTreasureHunts().subscribe(res => {
