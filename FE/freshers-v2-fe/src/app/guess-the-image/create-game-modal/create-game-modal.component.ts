@@ -31,8 +31,7 @@ export class CreateGameModalComponent implements OnInit{
               private guessTheImageService: GuessTheImageService) {
   }
 
-  ngOnInit() {
-    this.formGroup = 
+  ngOnInit() { 
   }
 
   closeModal() {
