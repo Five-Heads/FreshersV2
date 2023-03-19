@@ -1,9 +1,9 @@
 export class TreasureHuntAll {
   constructor(
-    public Id: number,
-    public Name: string,
-    public StartTime: string,
-    public EndTime: string,
+    public id: number,
+    public name: string,
+    public startTime: string,
+    public endTime: string,
   ) {
   }
 

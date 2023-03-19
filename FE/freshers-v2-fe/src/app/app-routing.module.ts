@@ -27,7 +27,7 @@ const routes: Routes = [
     component: EventsComponent,
   },
   {
-    path: 'events/treasure-hunt',
+    path: 'events/treasure-hunt/main/:id',
     component: TreasureHuntComponent,
   },
   {
